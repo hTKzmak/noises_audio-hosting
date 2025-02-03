@@ -1,0 +1,103 @@
+.menu {
+    width: 366px;
+    height: 100vh;
+    padding: 53px 48px;
+    background-color: #121212;
+    z-index: 1;
+
+    .browseMusic {
+        ul {
+            text-align: left;
+            list-style-type: none;
+
+            li {
+                text-align: left;
+                font-size: 16px;
+                padding: 0;
+
+                margin-top: 10px;
+                margin-bottom: 10px;
+
+                &:hover {
+                    a {
+                        background-color: #ffffff0d;
+                        color: #fff;
+                    }
+
+                    img {
+                        fill: #fff;
+                    }
+                }
+
+                a {
+                    display: flex;
+                    align-items: center;
+                    color: rgba(255, 255, 255, 0.5);
+                    border-radius: 8px;
+
+                    gap: 25px;
+                    margin: 0px;
+                    height: 100%;
+                    padding: 16px;
+
+                    span {
+                        @media screen and (max-width: 1150px) {
+                            display: none;
+                        }
+                    }
+
+                    @media screen and (max-width: 1150px) {
+                        width: min-content;
+                    }
+                }
+
+                @media screen and (max-width: 1150px) {
+                    display: flex;
+                    justify-content: center;
+                }
+            }
+
+            &:last-child {
+                margin-top: 50px;
+            }
+        }
+    }
+
+    .browseMusicMobile {
+        display: none;
+
+        @media screen and (max-width: 768px) {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+
+            img{
+                width: 34px;
+            }
+        }
+    }
+
+    .menuDesktop {
+        @media screen and (max-width: 768px) {
+            display: none;
+        }
+    }
+
+    @media screen and (max-width: 1150px) {
+        width: auto;
+        padding: 53px 15px;
+    }
+
+    @media screen and (max-width: 768px) {
+        position: absolute;
+        top: auto;
+        bottom: 0;
+        right: 0;
+        left: 0;
+
+        width: auto;
+        height: auto;
+
+        padding: 19px;
+    }
+}
