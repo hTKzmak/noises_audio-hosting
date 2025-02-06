@@ -5,7 +5,7 @@ export default function Header() {
     return (
         <header className={style.header}>
             <p>Search</p>
-            <p>You (◕‿◕)</p>
+            <p>You (◕_◕)</p>
         </header>
     )
 }
