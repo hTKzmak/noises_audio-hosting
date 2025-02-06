@@ -5,60 +5,88 @@
     background-color: #121212;
     z-index: 1;
 
-    .browseMusic {
-        ul {
-            text-align: left;
-            list-style-type: none;
+    .menuDesktop {
+        text-align: left;
 
-            li {
+        .logo {
+            width: 150px;
+
+            @media screen and (max-width: 1150px) {
+                display: none;
+            }
+        }
+
+        .miniLogo {
+            display: none;
+
+            @media screen and (max-width: 1150px) and (min-width: 768px) {
+                display: flex;
+                width: 50px;
+                margin: 0 auto;
+            }
+        }
+
+        .browseMusic {
+            margin-top: 43px;
+
+            ul {
                 text-align: left;
-                font-size: 16px;
-                padding: 0;
+                list-style-type: none;
 
-                margin-top: 10px;
-                margin-bottom: 10px;
+                li {
+                    text-align: left;
+                    font-size: 16px;
+                    padding: 0;
 
-                &:hover {
+                    margin-top: 10px;
+                    margin-bottom: 10px;
+
+                    &:hover {
+                        a {
+                            background-color: #ffffff0d;
+                            color: #fff;
+                        }
+
+                        img {
+                            fill: #fff;
+                        }
+                    }
+
                     a {
-                        background-color: #ffffff0d;
-                        color: #fff;
-                    }
+                        display: flex;
+                        align-items: center;
+                        color: rgba(255, 255, 255, 0.5);
+                        border-radius: 8px;
 
-                    img {
-                        fill: #fff;
-                    }
-                }
+                        gap: 25px;
+                        margin: 0px;
+                        height: 100%;
+                        padding: 16px;
 
-                a {
-                    display: flex;
-                    align-items: center;
-                    color: rgba(255, 255, 255, 0.5);
-                    border-radius: 8px;
+                        span {
+                            @media screen and (max-width: 1150px) {
+                                display: none;
+                            }
+                        }
 
-                    gap: 25px;
-                    margin: 0px;
-                    height: 100%;
-                    padding: 16px;
-
-                    span {
                         @media screen and (max-width: 1150px) {
-                            display: none;
+                            width: min-content;
                         }
                     }
 
                     @media screen and (max-width: 1150px) {
-                        width: min-content;
+                        display: flex;
+                        justify-content: center;
                     }
                 }
 
-                @media screen and (max-width: 1150px) {
-                    display: flex;
-                    justify-content: center;
+                &:last-child {
+                    margin-top: 50px;
                 }
             }
 
-            &:last-child {
-                margin-top: 50px;
+            @media screen and (max-width: 1150px) and (min-width: 768px) {
+                margin-top: 20px;
             }
         }
     }
@@ -71,7 +99,7 @@
             justify-content: space-around;
             align-items: center;
 
-            img{
+            img {
                 width: 34px;
             }
         }
@@ -85,6 +113,7 @@
 
     @media screen and (max-width: 1150px) {
         width: auto;
+        height: auto;
         padding: 53px 15px;
     }
 

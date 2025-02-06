@@ -8,11 +8,17 @@ import favoriteIcon from '../../assets/icons/navMenu/favorite.svg';
 import artistsIcon from '../../assets/icons/navMenu/artists.svg';
 import latestIcon from '../../assets/icons/navMenu/latest.svg';
 
+import noisesLogo from '../../assets/logo.svg';
+import miniLogo from '/noises.svg';
+
 export default function NavMenu() {
     return (
         <div className={style.menu}>
 
             <div className={style.menuDesktop}>
+
+                <img className={style.logo} src={noisesLogo} alt="Noises" />
+                <img className={style.miniLogo} src={miniLogo} alt="Noises" />
 
                 <div className={style.browseMusic}>
                     <ul>
