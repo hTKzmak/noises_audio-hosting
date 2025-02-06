@@ -1,6 +1,6 @@
 .menu {
     width: 366px;
-    height: 100vh;
+    height: auto;
     padding: 53px 48px;
     background-color: #121212;
     z-index: 1;
@@ -118,7 +118,7 @@
     }
 
     @media screen and (max-width: 768px) {
-        position: absolute;
+        position: fixed;
         top: auto;
         bottom: 0;
         right: 0;

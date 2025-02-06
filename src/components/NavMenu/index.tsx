@@ -40,6 +40,9 @@ export default function NavMenu() {
                         <li>
                             <Link to={'/latest'}><img src={latestIcon} alt="#" /> <span>Latest</span></Link>
                         </li>
+                        <li>
+                            <Link to={'/bebra'}><span>Error</span></Link>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -52,10 +55,10 @@ export default function NavMenu() {
                     <Link to={'/explore'}><img src={exploreIcon} alt="#" /></Link>
                 </li>
                 <li>
-                    <button>lol</button>
+                    <Link to={'/'}><img src={homeIcon} alt="#" /></Link>
                 </li>
                 <li>
-                    <button>lol</button>
+                    <Link to={'/explore'}><img src={exploreIcon} alt="#" /></Link>
                 </li>
             </ul>
         </div>
