@@ -1,15 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap");
 
+$dark-white-color: #ffffff80;
+$main-font-color: #ffffffde;
+$white-color: #fff;
 
 :root {
-  --font-color: rgba(255, 255, 255, 0.87);
-
   font-family: "Comfortaa", serif;
   font-optical-sizing: auto;
   font-style: normal;
 
   color-scheme: light dark;
-  color: var(--font-color);
+  color: $main-font-color;
   background-color: #090909;
 
   font-synthesis: none;
@@ -26,16 +27,18 @@ button {
 
 a {
   font-weight: 500;
-  color: var(--font-color);
+  color: $main-font-color;
   text-decoration: inherit;
 }
 
-a:hover {
-  color: var(--font-color);
-}
-
 ul,
-li {
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+p {
   margin: 0;
   padding: 0;
   list-style-type: none;

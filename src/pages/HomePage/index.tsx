@@ -1,7 +1,10 @@
+import PerformerList from "../../components/PerformersList";
+
 export default function HomePage() {
     return (
-        <div className="">
-            <h1>Home page</h1>
+        <div className="performers_content">
+            <h3>Popular artists</h3>
+            <PerformerList/>
         </div>
     )
 }

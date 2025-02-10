@@ -1,0 +1,35 @@
+$image-background-color: #212121;
+
+.performer_item {
+    color: #ffffff80;
+    text-align: left;
+    font-size: 18px;
+    width: fit-content;
+
+    cursor: pointer;
+
+    .performer_image {
+        width: 15vw;
+        height: 15vw;
+
+        max-width: 280px;
+        max-height: 280px;
+
+        border-radius: 8px;
+        background-color: $image-background-color;
+        margin-bottom: 15px;
+
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+
+        @media screen and (max-width: 1150px) {
+            width: 180px;
+            height: 180px;
+        }
+    }
+
+    @media screen and (max-width: 1150px) {
+        font-size: 16px;
+    }
+}
