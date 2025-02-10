@@ -2,6 +2,9 @@
     display: flex;
     gap: 20px;
     overflow-x: scroll;
-    padding-top: 18px;
-    padding-bottom: 18px;
+    margin-top: 18px;
+    justify-content: start;
+
+    -ms-overflow-style: none;
+    scrollbar-width: none;  
 }

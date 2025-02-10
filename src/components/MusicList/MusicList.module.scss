@@ -4,4 +4,8 @@
     grid-gap: 20px;
     margin-top: 18px;
     overflow-x: scroll;
+    justify-content: start;
+
+    -ms-overflow-style: none;
+    scrollbar-width: none;  
 }

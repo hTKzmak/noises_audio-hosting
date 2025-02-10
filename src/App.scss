@@ -13,7 +13,7 @@ $white-color: #fff;
 .app {
   display: flex;
   flex-direction: row;
-
+  
   .container {
     margin: 0 auto;
     // width: 60%;
@@ -61,7 +61,6 @@ $white-color: #fff;
 
     .performers_content,
     .music_content {
-      justify-content: start;
       text-align: left;
     }
 
