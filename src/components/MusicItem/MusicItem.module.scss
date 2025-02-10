@@ -1,0 +1,59 @@
+$music-item-color: #212121;
+$music-item-hover-color: #3c3c3c;
+$image-background-color: #212121;
+
+.music_item {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 20px;
+
+    padding: 15px;
+    border-radius: 8px;
+
+    background-color: $music-item-color;
+
+    cursor: pointer;
+
+    width: 350px;
+
+    .music_image {
+        width: 55px;
+        height: 55px;
+        background-color: $image-background-color;
+
+        border-radius: 8px;
+
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+    }
+
+    .music_info {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        text-align: left;
+
+        span {
+            &:first-child {
+                font-size: 20px;
+                font-weight: 400;
+            }
+
+            &:last-child {
+                color: #ffffff80;
+                font-size: 14px;
+                font-weight: 100;
+            }
+        }
+    }
+
+    &:hover {
+        background-color: $music-item-hover-color;
+    }
+
+    @media screen and (max-width: 1150px) {
+        padding: 10px;
+    }
+}

@@ -54,8 +54,19 @@ $white-color: #fff;
       }
     }
 
-    .performers_content{
+    .content {
+      margin-top: 64px;
+      margin-bottom: 64px;
+    }
+
+    .performers_content,
+    .music_content {
+      justify-content: start;
       text-align: left;
+    }
+
+    .performers_content{
+      margin-top: 65px;
     }
 
     @media screen and (max-width: 1150px) {
