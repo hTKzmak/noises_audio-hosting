@@ -6,7 +6,7 @@ import App from './App.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <BrowserRouter basename="/noises_audio-hosting">
+    <BrowserRouter basename="/noises">
       <App />
     </BrowserRouter>
   </StrictMode>,

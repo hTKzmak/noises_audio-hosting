@@ -3,7 +3,7 @@ import style from './PerformersList.module.scss'
 
 export default function PerformerList(){
     return(
-        <div className={style.performers_list}>
+        <div className={style.performersList}>
             <PerformerItem/>
             <PerformerItem/>
             <PerformerItem/>

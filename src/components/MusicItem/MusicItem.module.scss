@@ -2,7 +2,7 @@ $music-item-color: #212121;
 $music-item-hover-color: #3c3c3c;
 $image-background-color: #212121;
 
-.music_item {
+.musicItem {
     display: flex;
     align-items: center;
     justify-content: start;
@@ -15,9 +15,9 @@ $image-background-color: #212121;
 
     cursor: pointer;
 
-    width: 350px;
+    width: auto;
 
-    .music_image {
+    .musicImage {
         width: 55px;
         height: 55px;
         background-color: $image-background-color;
@@ -29,7 +29,7 @@ $image-background-color: #212121;
         background-size: contain;
     }
 
-    .music_info {
+    .musicInfo {
         display: flex;
         flex-direction: column;
         gap: 5px;
@@ -53,7 +53,17 @@ $image-background-color: #212121;
         background-color: $music-item-hover-color;
     }
 
+    
     @media screen and (max-width: 1150px) {
         padding: 10px;
+        width: 350px;
+    }
+}
+
+.onList{
+    width: 500px;
+
+    @media screen and (max-width: 1150px) {
+        width: 350px;
     }
 }
