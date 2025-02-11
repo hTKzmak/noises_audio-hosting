@@ -1,4 +1,4 @@
-import './ButtonElem.scss'
+import style from './ButtonElem.module.scss';
 
 interface ButtonElemProps {
     title: string;
@@ -6,6 +6,6 @@ interface ButtonElemProps {
 
 export default function ButtonElem({title}: ButtonElemProps){
     return(
-        <button>{title}</button>
+        <button className={style.buttonElem}>{title}</button>
     )
 }

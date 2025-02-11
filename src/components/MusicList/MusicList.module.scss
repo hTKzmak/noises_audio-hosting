@@ -6,6 +6,8 @@
     overflow-x: scroll;
     justify-content: start;
 
+    scroll-behavior: smooth;
+
     -ms-overflow-style: none;
     scrollbar-width: none;  
 }

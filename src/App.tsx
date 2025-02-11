@@ -11,12 +11,12 @@ import MusicListPage from './pages/MusicListPage'
 function App() {
   return (
     <div className="app">
-      <NavMenu/>
+      <NavMenu />
       <div className="container">
         <Header />
         <Routes>
-          <Route path='/' element={<ContentPage type={'homepage'}/>} />
-          <Route path='/explore' element={<ContentPage type={'explorepage'}/>} />
+          <Route path='/' element={<ContentPage type={'homepage'} />} />
+          <Route path='/explore' element={<ContentPage type={'explorepage'} />} />
           <Route path='/favorite' element={<MusicListPage />} />
           <Route path='/artists' element={<ArtistsListPage />} />
           <Route path='/latest' element={<MusicListPage />} />
