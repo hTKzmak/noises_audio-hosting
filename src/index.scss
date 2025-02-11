@@ -23,12 +23,14 @@ button {
   font-family: "Comfortaa", serif;
   font-optical-sizing: auto;
   font-weight: 700;
+  cursor: pointer;
 }
 
 a {
   font-weight: 500;
   color: $main-font-color;
   text-decoration: inherit;
+  cursor: pointer;
 }
 
 ul,

@@ -9,31 +9,40 @@ type PageType = {
 export default function ContentPage({ type }: PageType) {
 
     // находим нужный нам div элемент с указанием типизации (<HTMLDivElement>)
-    const scrollContainerRef = useRef<HTMLDivElement>(null);
+    const scrollMusicsRef = useRef<HTMLDivElement>(null);
+    const scrollArtistsRef = useRef<HTMLDivElement>(null);
 
-    const scrollLeftList = () => {
-        if (scrollContainerRef.current) {
-            scrollContainerRef.current.scrollLeft += 250;
-        }
-    }
+    // значение для прокрутки списка
+    const scrollValue = 300;
 
-    const scrollRightList = () => {
-        if (scrollContainerRef.current) {
-            scrollContainerRef.current.scrollLeft -= 250;
+    // для списка музыки и исполнителей
+    const handleScroll = (direction: 'left' | 'right', ref: React.RefObject<HTMLDivElement>) => {
+        if (ref.current) {
+            ref.current.scrollLeft += direction === 'left' ? scrollValue : -scrollValue;
         }
-    }
+    };
 
     return (
         <div className="content">
             <div className="musicContent">
-                <h3>{type === 'homepage' ? 'Recommended music' : 'Popular music'}</h3>
-                <button onClick={scrollRightList}>Right</button>
-                <button onClick={scrollLeftList}>Left</button>
-                <MusicList scrollContainerRef={scrollContainerRef} />
+                <div className="contentHeader">
+                    <h3>{type === 'homepage' ? 'Recommended music' : 'Popular music'}</h3>
+                    <div className="scrollsOption">
+                        <button onClick={() => handleScroll('right', scrollMusicsRef)}>Right</button>
+                        <button onClick={() => handleScroll('left', scrollMusicsRef)}>Left</button>
+                    </div>
+                </div>
+                <MusicList scrollMusicsRef={scrollMusicsRef} />
             </div>
             <div className="performersContent">
-                <h3>{type === 'homepage' ? 'Recommended artists' : 'Popular artists'}</h3>
-                <PerformerList />
+                <div className="contentHeader">
+                    <h3>{type === 'homepage' ? 'Recommended artists' : 'Popular artists'}</h3>
+                    <div className="scrollsOption">
+                        <button onClick={() => handleScroll('right', scrollArtistsRef)}>Right</button>
+                        <button onClick={() => handleScroll('left', scrollArtistsRef)}>Left</button>
+                    </div>
+                </div>
+                <PerformerList scrollArtistsRef={scrollArtistsRef} />
             </div>
         </div>
     )
