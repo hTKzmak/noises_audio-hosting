@@ -17,9 +17,12 @@ $white-color: #fff;
   
   .container {
     margin: 0 auto;
-    width: 60%;
-    // width: calc(65% - 5rem);
+    // width: 60%;
+    width: calc(65% - 5rem);
     padding: 5vh 10vw;
+
+    // ❤❤❤
+    flex-grow: 1;
 
     .ErrorContent {
       // height: 80vh;
