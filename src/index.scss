@@ -29,7 +29,7 @@ button {
 a {
   font-weight: 500;
   color: $main-font-color;
-  text-decoration: inherit;
+  text-decoration: none;
   cursor: pointer;
 }
 
@@ -51,6 +51,6 @@ body {
   padding: 0;
   display: flex;
   place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  // min-width: 320px;
+  // min-height: 100vh;
 }

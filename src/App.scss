@@ -13,15 +13,17 @@ $white-color: #fff;
 .app {
   display: flex;
   flex-direction: row;
+  min-height: 100vh;
   
   .container {
     margin: 0 auto;
-    // width: 60%;
-    width: calc(65% - 5rem);
+    width: 60%;
+    // width: calc(65% - 5rem);
     padding: 5vh 10vw;
 
     .ErrorContent {
-      height: 80vh;
+      // height: 80vh;
+      height: 95%;
       align-content: center;
 
       h1,
@@ -89,6 +91,7 @@ $white-color: #fff;
 
     @media screen and (max-width: 768px) {
       width: calc(100% - 5rem);
+      // width: 100%;
       padding: 30px 25px;
     }
   }
