@@ -43,7 +43,7 @@ export default function ContentPage({ data, type }: PageType) {
                         <button onClick={() => handleScroll('left', scrollArtistsRef)}>Left</button>
                     </div>
                 </div>
-                <PerformerList scrollArtistsRef={scrollArtistsRef} />
+                <PerformerList data={data} scrollArtistsRef={scrollArtistsRef} />
             </div>
         </div>
     )
