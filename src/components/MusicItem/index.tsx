@@ -3,13 +3,13 @@ import classNames from 'classnames';
 
 import defaultImage from '../../assets/images/default.png';
 
-export default function MusicItem(){
+export default function MusicItem({id, title, artist, artwork, url}: any){
     return(
-        <div className={classNames(style.musicItem, style.onList)}>
-            <div className={style.musicImage} style={{backgroundImage: `url(${defaultImage})`}}></div>
+        <div className={classNames(style.musicItem, style.onList)} id={id}>
+            <div className={style.musicImage} style={{backgroundImage: `url(${artwork})`}}></div>
             <div className={style.musicInfo}>
-                <span>Music name</span>
-                <span>Performer</span>
+                <span>{title}</span>
+                <span>{artist}</span>
             </div>
         </div>
     )

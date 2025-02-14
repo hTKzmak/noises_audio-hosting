@@ -3,10 +3,11 @@ import MusicList from "../../components/MusicList";
 import PerformerList from "../../components/PerformersList";
 
 type PageType = {
+    data: any,
     type: string
 }
 
-export default function ContentPage({ type }: PageType) {
+export default function ContentPage({ data, type }: PageType) {
 
     // находим нужный нам div элемент с указанием типизации (<HTMLDivElement>)
     const scrollMusicsRef = useRef<HTMLDivElement>(null);
@@ -32,7 +33,7 @@ export default function ContentPage({ type }: PageType) {
                         <button onClick={() => handleScroll('left', scrollMusicsRef)}>Left</button>
                     </div>
                 </div>
-                <MusicList scrollMusicsRef={scrollMusicsRef} />
+                <MusicList data={data} scrollMusicsRef={scrollMusicsRef} />
             </div>
             <div className="performersContent">
                 <div className="contentHeader">
