@@ -21,7 +21,7 @@ $image-background-color: #212121;
 
         background-repeat: no-repeat;
         background-position: center;
-        background-size: contain;
+        background-size: cover;
 
         @media screen and (max-width: 1150px) {
             width: 180px;
