@@ -17,7 +17,6 @@ $white-color: #fff;
   
   .container {
     margin: 0 auto;
-    // width: 60%;
     width: calc(65% - 5rem);
     padding: 5vh 10vw;
 
@@ -25,7 +24,6 @@ $white-color: #fff;
     flex-grow: 1;
 
     .ErrorContent {
-      // height: 80vh;
       height: 95%;
       align-content: center;
 
@@ -94,8 +92,7 @@ $white-color: #fff;
 
     @media screen and (max-width: 768px) {
       width: calc(100% - 5rem);
-      // width: 100%;
-      padding: 30px 25px;
+      padding: 30px 25px 100px 25px;
     }
   }
 }
