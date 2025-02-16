@@ -16,6 +16,7 @@ import MusicListPage from './pages/MusicListPage'
 // redux
 import { useSelector } from 'react-redux'
 import { RootState } from './app/store'
+import ProfilePage from './pages/ProfilePage'
 
 function App() {
 
@@ -30,6 +31,7 @@ function App() {
         <Routes>
           <Route path='/' element={<ContentPage data={data} type={'homepage'} />} />
           <Route path='/explore' element={<ContentPage data={data} type={'explorepage'} />} />
+          <Route path='/profile/:id' element={<ProfilePage />} />
           <Route path='/favorite' element={<MusicListPage />} />
           <Route path='/artists' element={<ArtistsListPage />} />
           <Route path='/latest' element={<MusicListPage />} />

@@ -1,0 +1,137 @@
+$dark-white-color: #ffffff80;
+$main-font-color: #ffffffde;
+$white-color: #fff;
+
+.profileContent {
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    gap: 84px;
+
+    .userBlock {
+        width: fit-content;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .exit {
+            align-self: start;
+            margin-bottom: 24px;
+
+            @media screen and (max-width: 768px) {
+                display: none;
+            }
+        }
+
+        img {
+            width: 20vw;
+            height: 20vw;
+            max-width: 300px;
+            max-height: 300px;
+
+            border-radius: 8px;
+
+            @media screen and (max-width: 1150px) {
+                width: 217px;
+                height: 217px;
+            }
+        }
+
+        p {
+            margin-top: 24px;
+            margin-bottom: 8px;
+            font-size: 18px;
+            color: $dark-white-color;
+
+            @media screen and (max-width: 1150px) {
+                margin-top: 25px;
+                margin-bottom: 5px;
+            }
+        }
+
+        h2 {
+            margin-top: 8px;
+            margin-bottom: 24px;
+            font-size: 28px;
+
+            @media screen and (max-width: 1150px) {
+                margin-top: unset;
+                margin-bottom: 23px;
+            }
+
+            @media screen and (max-width: 768px) {
+                font-size: 35px;
+            }
+        }
+
+        .options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 18px;
+            width: 100%;
+
+            button {
+                &:first-child {
+                    width: inherit;
+                    height: 46px;
+
+                    @media screen and (max-width: 1150px) {
+                        height: auto;
+                    }
+                }
+
+                &:last-child {
+                    border: 1px solid #d9d9d9;
+                    background: transparent;
+                    border-radius: 100px;
+                    padding: 12px 13.5px;
+
+                    svg {
+                        font-size: 22px;
+                        color: #d9d9d9;
+
+                        @media screen and (max-width: 1150px) {
+                            font-size: 20px;
+                        }
+                    }
+
+                    @media screen and (max-width: 1150px) {
+                        padding: 5px 7.5px;
+                    }
+                }
+            }
+
+            @media screen and (max-width: 768px) {
+                width: 80%;
+            }
+        }
+    }
+
+    .musicList {
+        margin-top: 45px;
+        display: flex;
+        flex-direction: column;
+        row-gap: 20px;
+        width: 100%;
+
+        .noMusicMessage{
+            font-size: 23px;
+            color: $main-font-color;
+            margin-top: 200px;
+
+            @media screen and (max-width: 768px) {
+                margin-top: unset;
+            }
+        }
+    }
+
+    @media screen and (max-width: 1150px) {
+        gap: 20px;
+    }
+
+    @media screen and (max-width: 768px) {
+        flex-direction: column;
+        align-items: center;
+    }
+}
