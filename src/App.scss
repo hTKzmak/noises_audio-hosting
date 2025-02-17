@@ -60,6 +60,15 @@ $white-color: #fff;
     .content {
       margin-top: 64px;
       margin-bottom: 64px;
+
+      .inProfilePage{
+        display: block;
+        margin-bottom: 24px;
+
+        @media screen and (max-width: 768px) {
+          display: none;
+        }
+      }
     }
 
     .performersContent,

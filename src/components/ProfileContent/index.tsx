@@ -1,16 +1,15 @@
-import classNames from 'classnames';
 import MusicItem from '../MusicItem';
 import ButtonElem from '../UI/ButtonElem'
 import style from './ProfileContent.module.scss'
 
 import { FaRegHeart } from "react-icons/fa";
-import { useNavigate, useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../app/store';
-import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { useContext, useEffect, useState } from 'react';
 
 import defaultImage from '../../assets/images/default.png';
+import { Context } from '../../context/Context';
 
+// типизация данных для artistData
 type ArtistData = {
     artist: string,
     image: string,
@@ -20,15 +19,18 @@ type ArtistData = {
 
 export default function ProfileContent() {
 
-    const navigate = useNavigate();
-    const data = useSelector((state: RootState) => state.musicdata.data)
+    // получение дпнных с app.tsx
+    const { data } = useContext(Context)
 
+    // данные пользователя, которые будут храниться в artistData
     const [artistData, setArtistData] = useState<ArtistData | undefined>();
-    // // находим с помощью useParams значение id
+
+    // находим с помощью useParams значение id
     const { id } = useParams()
 
+    // находим данные пользователя по id
     useEffect(() => {
-        const foundArtist = data.find((elem) => elem.id === Number(id));
+        const foundArtist = data.find((elem: any) => elem.id === Number(id));
         if (foundArtist) {
             setArtistData(foundArtist)
         }
@@ -36,9 +38,8 @@ export default function ProfileContent() {
 
 
     return (
-        <div className={classNames(style.profileContent, 'content')}>
+        <div className={style.profileContent}>
             <div className={style.userBlock}>
-                <button className={style.exit} onClick={() => navigate(-1)}>Exit</button>
                 <img src={artistData ? artistData.image : defaultImage} alt="#" />
                 <p>Performer</p>
                 <h2>{artistData ? artistData.artist : ''}</h2>

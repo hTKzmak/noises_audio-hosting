@@ -1,0 +1,20 @@
+.navigationButton{
+    border-radius: 100px;
+    border: 2px solid #848484;
+    padding: 5px 7px;
+    background: transparent;
+
+    svg{
+        font-size: 30px;
+        color: #adadad;
+    }
+    
+    &:hover{
+        border-color: #FFFFFF;
+
+        svg{
+            font-size: 30px;
+            color: #e2e2e2;
+        }
+    }
+}

@@ -82,6 +82,7 @@ export const productsSlice = createSlice({
     name: 'music',
     initialState,
     reducers: {
+        // отображение данных в консоле
         getData() {
             console.log(initialState.data)
         }

@@ -5,6 +5,7 @@ import style from './MusicList.module.scss'
 export default function MusicList({ data, scrollMusicsRef, onList }: any) {
     const [onlyMusic, setOnlyMusic] = useState([]);
 
+    // фильтрация данных, чтобы оставались только треки для их отображения
     useEffect(() => {
         if (data && data.length > 0) {
             const newData = data.flatMap((item: any) => item.music);

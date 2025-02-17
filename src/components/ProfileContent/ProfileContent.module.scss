@@ -14,7 +14,7 @@ $white-color: #fff;
         flex-direction: column;
         align-items: center;
 
-        .exit {
+        button {
             align-self: start;
             margin-bottom: 24px;
 
@@ -82,17 +82,25 @@ $white-color: #fff;
                 }
 
                 &:last-child {
-                    border: 1px solid #d9d9d9;
+                    border: 2px solid #848484;
                     background: transparent;
                     border-radius: 100px;
                     padding: 12px 13.5px;
 
                     svg {
                         font-size: 22px;
-                        color: #d9d9d9;
+                        color: #adadad;
 
                         @media screen and (max-width: 1150px) {
                             font-size: 20px;
+                        }
+                    }
+
+                    &:hover {
+                        border-color: #ffffff;
+
+                        svg {
+                            color: #e2e2e2;
                         }
                     }
 
@@ -109,13 +117,13 @@ $white-color: #fff;
     }
 
     .musicList {
-        margin-top: 45px;
+        // margin-top: 45px;
         display: flex;
         flex-direction: column;
         row-gap: 20px;
         width: 100%;
 
-        .noMusicMessage{
+        .noMusicMessage {
             font-size: 23px;
             color: $main-font-color;
             margin-top: 200px;

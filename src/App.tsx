@@ -17,6 +17,7 @@ import MusicListPage from './pages/MusicListPage'
 import { useSelector } from 'react-redux'
 import { RootState } from './app/store'
 import ProfilePage from './pages/ProfilePage'
+import { Context } from './context/Context'
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
   const data = useSelector((state: RootState) => state.musicdata.data)
 
   return (
+    <Context.Provider value={{data}}>
     <div className="app">
       <NavMenu />
       <div className="container">
@@ -40,6 +42,7 @@ function App() {
         <Footer />
       </div>
     </div>
+    </Context.Provider>
   )
 }
 

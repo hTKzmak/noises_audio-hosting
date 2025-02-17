@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import MusicList from "../../components/MusicList";
 import PerformerList from "../../components/PerformersList";
+import NavigationButton from "../../components/UI/NavigationButton";
 
 type PageType = {
     data: any,
@@ -29,18 +30,18 @@ export default function ContentPage({ data, type }: PageType) {
                 <div className="contentHeader">
                     <h3>{type === 'homepage' ? 'Recommended music' : 'Popular music'}</h3>
                     <div className="scrollsOption">
-                        <button onClick={() => handleScroll('right', scrollMusicsRef)}>Right</button>
-                        <button onClick={() => handleScroll('left', scrollMusicsRef)}>Left</button>
+                        <NavigationButton sign='back' func={() => handleScroll('right', scrollMusicsRef)} />
+                        <NavigationButton sign='forward' func={() => handleScroll('left', scrollMusicsRef)} />
                     </div>
                 </div>
-                <MusicList data={data} scrollMusicsRef={scrollMusicsRef} onList={true}/>
+                <MusicList data={data} scrollMusicsRef={scrollMusicsRef} onList={true} />
             </div>
             <div className="performersContent">
                 <div className="contentHeader">
                     <h3>{type === 'homepage' ? 'Recommended artists' : 'Popular artists'}</h3>
                     <div className="scrollsOption">
-                        <button onClick={() => handleScroll('right', scrollArtistsRef)}>Right</button>
-                        <button onClick={() => handleScroll('left', scrollArtistsRef)}>Left</button>
+                        <NavigationButton sign='back' func={() => handleScroll('right', scrollArtistsRef)} />
+                        <NavigationButton sign='forward' func={() => handleScroll('left', scrollArtistsRef)} />
                     </div>
                 </div>
                 <PerformerList data={data} scrollArtistsRef={scrollArtistsRef} />
