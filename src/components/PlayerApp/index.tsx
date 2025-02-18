@@ -45,14 +45,15 @@ export default function PlayerApp({ data }: any) {
 
 
     // Одна из опций плеера: перемешивание музыки (данные songsdata)
-    useEffect(() => {
+    const mixSongsFunc = () => {
         let arrayCopy = [...songs];
         for (let i = arrayCopy.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [arrayCopy[i], arrayCopy[j]] = [arrayCopy[j], arrayCopy[i]];
         }
         setMixSongsdata(arrayCopy);
-    }, []);
+        console.log(arrayCopy)
+    }
 
     // воспроизведение и остановка музыки
     useEffect(() => {
@@ -162,6 +163,7 @@ export default function PlayerApp({ data }: any) {
                 showPlayer={showPlayer}
                 setShowPlayer={setShowPlayer}
                 showMiniPlayer={showMiniPlayer}
+                mixSongsFunc={mixSongsFunc}
             />
         </div>
     )

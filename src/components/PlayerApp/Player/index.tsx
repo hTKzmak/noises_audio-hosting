@@ -29,9 +29,10 @@ interface PlayerProps {
     showPlayer: boolean;
     setShowPlayer: React.Dispatch<React.SetStateAction<boolean>>;
     showMiniPlayer: boolean;
+    mixSongsFunc: () => void;
 }
 
-export default function Player({ audioElem, isplaying, setIsPlaying, currentSong, setCurrentSong, mixMusic, setMixMusic, skipBack, skiptoNext, repeatValue, setRepeatValue, showPlayer, setShowPlayer, showMiniPlayer }: PlayerProps) {
+export default function Player({ audioElem, isplaying, setIsPlaying, currentSong, setCurrentSong, mixMusic, setMixMusic, skipBack, skiptoNext, repeatValue, setRepeatValue, showPlayer, setShowPlayer, showMiniPlayer, mixSongsFunc }: PlayerProps) {
     // место события на разметке (input range)
     const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -86,7 +87,11 @@ export default function Player({ audioElem, isplaying, setIsPlaying, currentSong
         a.remove();
     }
 
-    // функционал перемешивания музыки в App.js (MixMusicFunc)
+    // функционал перемешивания
+    const mixMusicList = () => {
+        mixSongsFunc()
+        setMixMusic(!mixMusic)
+    }
 
     // измение значения repeatValue для 3-х кликов, для повторения воспроизведения музыки
     const repeatChangerFunc = () => {
@@ -106,7 +111,7 @@ export default function Player({ audioElem, isplaying, setIsPlaying, currentSong
         }
     }
 
-    // Отслеживание отображение основного плеера
+    // Отслеживание отображения основного плеера
     useEffect(() => {
         const handleResize = () => {
             if (window.innerWidth > 768 && showMiniPlayer) {
@@ -217,7 +222,7 @@ export default function Player({ audioElem, isplaying, setIsPlaying, currentSong
                                     }
                                 })()}
                             </button>
-                            <button onClick={() => { setMixMusic(!mixMusic) }}>
+                            <button onClick={() => { mixMusicList() }}>
                                 {mixMusic === false ? <img src={mixOff} alt="mix off" /> : <img src={mixOn} alt="mix on" />}
                             </button>
                             <button onClick={downloadMusicFunc}>
