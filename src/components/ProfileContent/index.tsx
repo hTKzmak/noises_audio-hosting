@@ -40,7 +40,7 @@ export default function ProfileContent() {
     return (
         <div className={style.profileContent}>
             <div className={style.userBlock}>
-                <img src={artistData ? artistData.image : defaultImage} alt="#" />
+                <img src={artistData ? artistData.image : defaultImage} alt={artistData ? artistData.artist : 'performer_image'} />
                 <p>Performer</p>
                 <h2>{artistData ? artistData.artist : ''}</h2>
 
