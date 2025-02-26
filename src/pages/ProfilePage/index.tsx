@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import ProfileContent from "../../components/ProfileContent";
-import NavigationButton from "../../components/UI/NavigationButton";
+import MiniButton from "../../components/UI/MiniButton";
 
 export default function ProfilePage() {
 
@@ -8,7 +8,7 @@ export default function ProfilePage() {
 
     return (
         <div className="content">
-            <NavigationButton sign='back' inPorfilePage={true} func={() => navigate(-1)} />
+            <MiniButton sign='back' inPorfilePage={true} func={() => navigate(-1)} />
             <ProfileContent />
         </div>
     )

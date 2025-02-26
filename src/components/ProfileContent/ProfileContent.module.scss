@@ -7,6 +7,7 @@ $white-color: #fff;
     align-items: start;
     justify-content: space-between;
     gap: 84px;
+    margin-top: 24px;
 
     .userBlock {
         width: fit-content;
@@ -16,11 +17,6 @@ $white-color: #fff;
 
         button {
             align-self: start;
-            margin-bottom: 24px;
-
-            @media screen and (max-width: 768px) {
-                display: none;
-            }
         }
 
         img {
@@ -75,17 +71,14 @@ $white-color: #fff;
                 &:first-child {
                     width: inherit;
                     height: 46px;
-
-                    @media screen and (max-width: 1150px) {
-                        height: auto;
-                    }
+                    align-self: unset;
                 }
 
                 &:last-child {
                     border: 2px solid #848484;
                     background: transparent;
                     border-radius: 100px;
-                    padding: 12px 13.5px;
+                    padding: 9px 11px;
 
                     svg {
                         font-size: 22px;
@@ -103,15 +96,7 @@ $white-color: #fff;
                             color: #e2e2e2;
                         }
                     }
-
-                    @media screen and (max-width: 1150px) {
-                        padding: 5px 7.5px;
-                    }
                 }
-            }
-
-            @media screen and (max-width: 768px) {
-                width: 80%;
             }
         }
     }
@@ -141,5 +126,6 @@ $white-color: #fff;
     @media screen and (max-width: 768px) {
         flex-direction: column;
         align-items: center;
+        margin-top: none;
     }
 }

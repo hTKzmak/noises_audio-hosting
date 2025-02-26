@@ -2,4 +2,41 @@ header{
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    button{
+        display: none;
+
+        @media screen and (max-width: 768px) {
+            display: flex;
+        }
+    }
+
+    .logo{
+        display: none;
+
+        @media screen and (max-width: 768px) {
+            display: flex;
+        }
+    }
+
+    svg{
+        font-size: 30px;
+    }
+
+    .user{
+        display: flex;
+        align-items: center;
+        gap: 27px;
+
+        img{
+            width: 55px;
+            height: 55px;
+            outline: 2px solid #121212;
+            border-radius: 100px;
+        }
+        
+        @media screen and (max-width: 768px) {
+            display: none;
+        }
+    }
 }

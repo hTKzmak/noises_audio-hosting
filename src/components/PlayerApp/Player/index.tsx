@@ -11,8 +11,8 @@ import download from '../../../assets/icons/player/download.svg';
 import repeatOff from '../../../assets/icons/player/repeat_off.svg';
 import repeatList from '../../../assets/icons/player/repeat_list.svg';
 import repeatMusic from '../../../assets/icons/player/repeat_music.svg';
-import arrow from '../../../assets/icons/player/arrow.svg';
 import classNames from 'classnames';
+import MiniButton from '../../UI/MiniButton';
 
 interface PlayerProps {
     audioElem: any;
@@ -73,7 +73,7 @@ export default function Player({ audioElem, isplaying, setIsPlaying, currentSong
             inputRef.current.style.background = `linear-gradient(90deg, #f7f7f7 ${ratio}%, #626262 ${ratio}%)`;
         }
     }, [currentSong.progress, currentSong.length]);
-    
+
 
 
     // ОПЦИИ:
@@ -132,9 +132,9 @@ export default function Player({ audioElem, isplaying, setIsPlaying, currentSong
 
     return (
         <div className={style.player_container} style={{ display: showPlayer ? 'flex' : 'none' }}>
-            <button className={style.showingPlayer} onClick={() => setShowPlayer(false)}>
-                <img src={arrow} alt="close" />
-            </button>
+            <div className={style.showingPlayer}>
+                <MiniButton func={() => setShowPlayer(false)} />
+            </div>
             <div className={style.controls}>
                 <button onClick={skipBack}>
                     <BsFillSkipStartCircleFill className={style.btn_action} />
