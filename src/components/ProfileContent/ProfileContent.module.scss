@@ -27,7 +27,7 @@ $white-color: #fff;
 
             border-radius: 8px;
 
-            @media screen and (max-width: 1150px) {
+            @media screen and (max-width: 1280px) {
                 width: 217px;
                 height: 217px;
             }
@@ -39,7 +39,7 @@ $white-color: #fff;
             font-size: 18px;
             color: $dark-white-color;
 
-            @media screen and (max-width: 1150px) {
+            @media screen and (max-width: 1280px) {
                 margin-top: 25px;
                 margin-bottom: 5px;
             }
@@ -50,12 +50,12 @@ $white-color: #fff;
             margin-bottom: 24px;
             font-size: 28px;
 
-            @media screen and (max-width: 1150px) {
+            @media screen and (max-width: 1280px) {
                 margin-top: unset;
                 margin-bottom: 23px;
             }
 
-            @media screen and (max-width: 768px) {
+            @media screen and (max-width: 1024px) {
                 font-size: 35px;
             }
         }
@@ -84,7 +84,7 @@ $white-color: #fff;
                         font-size: 22px;
                         color: #adadad;
 
-                        @media screen and (max-width: 1150px) {
+                        @media screen and (max-width: 1280px) {
                             font-size: 20px;
                         }
                     }
@@ -113,17 +113,17 @@ $white-color: #fff;
             color: $main-font-color;
             margin-top: 200px;
 
-            @media screen and (max-width: 768px) {
+            @media screen and (max-width: 1024px) {
                 margin-top: unset;
             }
         }
     }
 
-    @media screen and (max-width: 1150px) {
+    @media screen and (max-width: 1280px) {
         gap: 20px;
     }
 
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 1024px) {
         flex-direction: column;
         align-items: center;
         margin-top: none;

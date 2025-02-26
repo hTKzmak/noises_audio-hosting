@@ -35,7 +35,7 @@ $white-color: #fff;
       h1 {
         font-size: 200px;
 
-        @media screen and (max-width: 1150px) {
+        @media screen and (max-width: 1280px) {
           font-size: 130px;
         }
       }
@@ -43,7 +43,7 @@ $white-color: #fff;
       p {
         font-size: 32px;
 
-        @media screen and (max-width: 1150px) {
+        @media screen and (max-width: 1280px) {
           font-size: 20px;
         }
       }
@@ -51,7 +51,7 @@ $white-color: #fff;
       button {
         margin-top: 61px;
 
-        @media screen and (max-width: 1150px) {
+        @media screen and (max-width: 1280px) {
           margin-top: 20px;
         }
       }
@@ -64,7 +64,7 @@ $white-color: #fff;
       .inProfilePage{
         display: block;
 
-        @media screen and (max-width: 768px) {
+        @media screen and (max-width: 1024px) {
           display: none;
         }
       }
@@ -83,7 +83,7 @@ $white-color: #fff;
           display: flex;
           gap: 15px;
 
-          @media screen and (max-width: 768px) {
+          @media screen and (max-width: 1024px) {
             display: none;
           }
         }
@@ -94,11 +94,11 @@ $white-color: #fff;
       margin-top: 65px;
     }
 
-    @media screen and (max-width: 1150px) {
+    @media screen and (max-width: 1280px) {
       width: calc(75% - 5rem);
     }
 
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 1024px) {
       width: calc(100% - 5rem);
       padding: 30px 25px 100px 25px;
     }

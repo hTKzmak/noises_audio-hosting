@@ -6,7 +6,7 @@ header{
     button{
         display: none;
 
-        @media screen and (max-width: 768px) {
+        @media screen and (max-width: 1024px) {
             display: flex;
         }
     }
@@ -14,7 +14,7 @@ header{
     .logo{
         display: none;
 
-        @media screen and (max-width: 768px) {
+        @media screen and (max-width: 1024px) {
             display: flex;
         }
     }
@@ -35,7 +35,7 @@ header{
             border-radius: 100px;
         }
         
-        @media screen and (max-width: 768px) {
+        @media screen and (max-width: 1024px) {
             display: none;
         }
     }
