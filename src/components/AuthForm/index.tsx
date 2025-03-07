@@ -10,7 +10,50 @@ export default function AuthForm() {
 
     const { pathname } = useLocation();
     const isLogin = pathname.includes('login');
+
+    // отображение сообщения ошибки
     const [error, setError] = useState(false)
+
+    const [values, setValues] = useState({
+        name: "",
+        email: "",
+        password: ""
+    });
+
+    // подтверждение формы заполнения
+    const handleSubmit = (evt: React.SyntheticEvent<HTMLFormElement>) => {
+        evt.preventDefault();
+
+        if (values.name && values.email && values.password) {
+            setError(true)
+        }
+        else {
+            setError(true)
+        }
+
+    }
+
+    // отслеживание и изменение input'ов
+    const handleInputChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+        evt.preventDefault();
+
+        const { name, value } = evt.target;
+        setValues((values) => ({
+            ...values,
+            [name]: value
+        }));
+    };
+
+    // очистка формы и сообщения об ошибке
+    const clearForm = () => {
+        setValues({
+            name: "",
+            email: "",
+            password: ""
+        })
+
+        setError(false)
+    }
 
     return (
         <div className={style.authForm}>
@@ -21,19 +64,19 @@ export default function AuthForm() {
             {isLogin ? (
                 <div>
                     <h3>Welcome back!</h3>
-                    <p>Fist time here? <Link to={'/registration'}>Sign up for free</Link></p>
+                    <p>Fist time here? <Link to={'/registration'} onClick={clearForm}>Sign up for free</Link></p>
                 </div>
             ) : (
                 <div>
                     <h3>Welcome!</h3>
-                    <p>You have an account? <Link to={'/login'}>Sign in</Link></p>
+                    <p>You have an account? <Link to={'/login'} onClick={clearForm}>Sign in</Link></p>
                 </div>
             )}
 
-            <form action="">
-                {!isLogin && (<input type="Name" name="" id="" placeholder="Name" />)}
-                <input type="email" name="" id="" placeholder="Email" />
-                <input type="password" name="" id="" placeholder="Password" />
+            <form onSubmit={handleSubmit}>
+                {!isLogin && (<input type="text" name="name" placeholder="Name" value={values.name} onChange={handleInputChange} />)}
+                <input type="email" name="email" placeholder="Email" value={values.email} onChange={handleInputChange} />
+                <input type="password" name="password" placeholder="Password" value={values.password} onChange={handleInputChange} />
 
                 <ButtonElem title={isLogin ? 'Sign in' : 'Sign up'} />
 
