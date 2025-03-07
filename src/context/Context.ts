@@ -1,5 +1,6 @@
 import { createContext } from "react";
 
+// ха-ха, типизация делает any 
 type contextData = {
     data: any;
     currentSong: any;
@@ -8,6 +9,8 @@ type contextData = {
     setShowPlayer: any; 
     showMiniPlayer: boolean; 
     setShowMiniPlayer: any;
+    songs: any;
+    setSongs: any;
 }
 
-export const Context = createContext<contextData>({ data: [], currentSong: {}, setCurrentSong: {}, showPlayer: false, setShowPlayer: {}, showMiniPlayer: false, setShowMiniPlayer: {} });
+export const Context = createContext<contextData>({ data: [], currentSong: {}, setCurrentSong: {}, showPlayer: false, setShowPlayer: {}, showMiniPlayer: false, setShowMiniPlayer: {}, songs: [], setSongs: {} });

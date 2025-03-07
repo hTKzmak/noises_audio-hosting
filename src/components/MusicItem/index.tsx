@@ -5,13 +5,15 @@ import defaultImage from '../../assets/images/default.png';
 import { useContext } from 'react';
 import { Context } from '../../context/Context';
 
-export default function MusicItem({ id, title, artist, artwork, onList }: any) {
+export default function MusicItem({ id, title, artist, artwork, onList, sortedData }: any) {
 
-    // получение дпнных с app.tsx
-    const { data, setCurrentSong, setShowMiniPlayer } = useContext(Context)
+    // получение данных с app.tsx
+    const { data, setCurrentSong, setShowMiniPlayer, setSongs } = useContext(Context)
 
     function startPlayMusic(id: number) {
         if (data && data.length > 0) {
+            setSongs(sortedData)
+
             const newData = data.flatMap((item: any) => item.music);
             newData.map((elem: any) => {
                 if (elem.id === id) {

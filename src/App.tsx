@@ -22,6 +22,13 @@ import PlayerApp from './components/PlayerApp'
 import { useState } from 'react'
 import AuthPage from './pages/AuthPage'
 
+interface Song {
+  title: string;
+  url: string;
+  progress?: number;
+  length?: number;
+}
+
 function App() {
 
   // получение данных с musicData с помощью useSelector и типизации RootState
@@ -29,6 +36,9 @@ function App() {
 
   // текущая музыка (стоит первая музыка по index)
   const [currentSong, setCurrentSong] = useState<any>({});
+
+  // список песниб которые будет воспроизводить плеер
+  const [songs, setSongs] = useState<Song[]>([]);
 
   // отображение плеера
   const [showPlayer, setShowPlayer] = useState<boolean>(false);
@@ -39,7 +49,7 @@ function App() {
   const isAuthPage = location.pathname === '/login' || location.pathname === '/registration';
 
   return (
-    <Context.Provider value={{ data, currentSong, setCurrentSong, showPlayer, setShowPlayer, showMiniPlayer, setShowMiniPlayer }}>
+    <Context.Provider value={{ data, currentSong, setCurrentSong, showPlayer, setShowPlayer, showMiniPlayer, setShowMiniPlayer, songs, setSongs }}>
       <div className="app">
         {!isAuthPage && <NavMenu />}
         <div className="container">

@@ -13,17 +13,14 @@ interface Song {
 export default function PlayerApp({ data }: any) {
 
     // получение дпнных с app.tsx
-    const { currentSong, setCurrentSong, showPlayer, setShowPlayer, showMiniPlayer, setShowMiniPlayer } = useContext(Context)
+    const { currentSong, setCurrentSong, showPlayer, setShowPlayer, showMiniPlayer, setShowMiniPlayer, songs, setSongs } = useContext(Context)
 
-    // песни (json)
-    const [songs, setSongs] = useState<Song[]>([]);
 
     // фильтрация данных, чтобы оставались только треки для их отображения
     useEffect(() => {
         if (data && data.length > 0) {
             const newData = data.flatMap((item: any) => item.music);
             setSongs(newData);
-            // setCurrentSong(newData[0]);
         }
     }, [data]);
 
@@ -75,7 +72,7 @@ export default function PlayerApp({ data }: any) {
     const skipBack = () => {
         const index = mixMusic
             ? mixSongsdata.findIndex((x) => x.title === currentSong.title)
-            : songs.findIndex((x) => x.title === currentSong.title);
+            : songs.findIndex((x: any) => x.title === currentSong.title);
 
         const newIndex = index === 0
             ? (mixMusic ? mixSongsdata.length - 1 : songs.length - 1)
@@ -90,7 +87,7 @@ export default function PlayerApp({ data }: any) {
     const skiptoNext = () => {
         const index = mixMusic
             ? mixSongsdata.findIndex((x) => x.title === currentSong.title)
-            : songs.findIndex((x) => x.title === currentSong.title);
+            : songs.findIndex((x: any) => x.title === currentSong.title);
 
         const newIndex = index === (mixMusic ? mixSongsdata.length - 1 : songs.length - 1)
             ? 0
@@ -103,7 +100,7 @@ export default function PlayerApp({ data }: any) {
 
     // функционал повторения музыки
     const repeatMusicFunc = () => {
-        const index = songs.findIndex((x) => x.title === currentSong.title);
+        const index = songs.findIndex((x: any) => x.title === currentSong.title);
         switch (repeatValue) {
             // первая опция: если индекс последней музыки равен длине всего списка музыки, то музыка останавливается
             case 1:

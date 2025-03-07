@@ -33,6 +33,9 @@ export default function ProfileContent() {
         const foundArtist = data.find((elem: any) => elem.id === Number(id));
         if (foundArtist) {
             setArtistData(foundArtist)
+
+            // ОТОБРАЖЕНИЕ СПИСКА МУЗЫКИ В КОНСОЛЕ
+            console.log(foundArtist.music)
         }
     }, [id, data]);
 
@@ -52,7 +55,7 @@ export default function ProfileContent() {
             <div className={style.musicList}>
                 {artistData ? (
                     artistData.music.map((elem: any) => (
-                        <MusicItem key={elem.id} id={elem.id} title={elem.title} artist={elem.artist} artwork={elem.artwork} url={elem.url} onList={false} />
+                        <MusicItem key={elem.id} id={elem.id} title={elem.title} artist={elem.artist} artwork={elem.artwork} url={elem.url} onList={false} sortedData={artistData.music}/>
                     ))
                 ) : (
                     <span className={style.noMusicMessage}>There is nothing</span>
