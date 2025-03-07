@@ -1,5 +1,5 @@
 // react
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useLocation } from 'react-router-dom'
 
 // стили
 import './App.scss'
@@ -20,6 +20,7 @@ import ProfilePage from './pages/ProfilePage'
 import { Context } from './context/Context'
 import PlayerApp from './components/PlayerApp'
 import { useState } from 'react'
+import AuthPage from './pages/AuthPage'
 
 function App() {
 
@@ -33,12 +34,16 @@ function App() {
   const [showPlayer, setShowPlayer] = useState<boolean>(false);
   const [showMiniPlayer, setShowMiniPlayer] = useState<boolean>(false);
 
+  // Получаем текущий путь
+  const location = useLocation();
+  const isAuthPage = location.pathname === '/login' || location.pathname === '/registration';
+
   return (
     <Context.Provider value={{ data, currentSong, setCurrentSong, showPlayer, setShowPlayer, showMiniPlayer, setShowMiniPlayer }}>
       <div className="app">
-        <NavMenu />
+        {!isAuthPage && <NavMenu />}
         <div className="container">
-          <Header />
+          {!isAuthPage && <Header />}
           <Routes>
             <Route path='/' element={<ContentPage data={data} type={'homepage'} />} />
             <Route path='/explore' element={<ContentPage data={data} type={'explorepage'} />} />
@@ -46,10 +51,12 @@ function App() {
             <Route path='/favorite' element={<MusicListPage />} />
             <Route path='/artists' element={<ArtistsListPage />} />
             <Route path='/latest' element={<MusicListPage />} />
+            <Route path='/login' element={<AuthPage />} />
+            <Route path='/registration' element={<AuthPage />} />
             <Route path='*' element={<ErrorPage />} />
           </Routes>
           <PlayerApp data={data} />
-          <Footer />
+          {!isAuthPage && <Footer />}
         </div>
       </div>
     </Context.Provider>

@@ -14,7 +14,7 @@ $white-color: #fff;
   display: flex;
   flex-direction: row;
   min-height: 100vh;
-  
+
   .container {
     margin: 0 auto;
     width: calc(65% - 5rem);
@@ -22,6 +22,14 @@ $white-color: #fff;
 
     // ❤❤❤
     flex-grow: 1;
+
+    .authPage {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      
+      height: 100%;
+    }
 
     .ErrorContent {
       height: 90%;
@@ -61,7 +69,7 @@ $white-color: #fff;
       margin-top: 64px;
       margin-bottom: 64px;
 
-      .inProfilePage{
+      .inProfilePage {
         display: block;
 
         @media screen and (max-width: 1024px) {
@@ -74,12 +82,12 @@ $white-color: #fff;
     .musicContent {
       text-align: left;
 
-      .contentHeader{
+      .contentHeader {
         display: flex;
         justify-content: space-between;
         align-items: center;
 
-        .scrollsOption{
+        .scrollsOption {
           display: flex;
           gap: 15px;
 
@@ -90,7 +98,7 @@ $white-color: #fff;
       }
     }
 
-    .performersContent{
+    .performersContent {
       margin-top: 65px;
     }
 
@@ -104,4 +112,3 @@ $white-color: #fff;
     }
   }
 }
-
