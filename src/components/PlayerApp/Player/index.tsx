@@ -81,7 +81,7 @@ export default function Player({ audioElem, isplaying, setIsPlaying, currentSong
     const downloadMusicFunc = async () => {
         const a = document.createElement('a');
         a.href = currentSong.url;
-        a.download = currentSong.title; // Укажите нужное имя файла
+        a.download = currentSong.title;
         document.body.appendChild(a);
         a.click();
         a.remove();

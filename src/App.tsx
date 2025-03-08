@@ -19,8 +19,9 @@ import { RootState } from './app/store'
 import ProfilePage from './pages/ProfilePage'
 import { Context } from './context/Context'
 import PlayerApp from './components/PlayerApp'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import AuthPage from './pages/AuthPage'
+import supabase from './config/supabaseClient'
 
 interface Song {
   title: string;
@@ -47,6 +48,33 @@ function App() {
   // Получаем текущий путь
   const location = useLocation();
   const isAuthPage = location.pathname === '/login' || location.pathname === '/registration';
+
+
+
+  // получение данных с базы данных smoothies в supabase
+  useEffect(() => {
+
+    const fetchSmoothies = async () => {
+      const { data, error } = await supabase
+        .from('n_usersDB')
+        .select()
+
+      // если база не была найдена, то выводим ошибку
+      if (error) {
+        console.error(error)
+      }
+
+      // если данные есть, то отображаем их
+      if (data) {
+        console.log(data)
+      }
+    }
+
+    fetchSmoothies()
+
+  }, [])
+
+
 
   return (
     <Context.Provider value={{ data, currentSong, setCurrentSong, showPlayer, setShowPlayer, showMiniPlayer, setShowMiniPlayer, songs, setSongs }}>

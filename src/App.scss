@@ -29,6 +29,10 @@ $white-color: #fff;
       align-items: center;
       
       height: 100%;
+
+      @media screen and (max-width: 1024px) {
+          height: 115%;
+      }
     }
 
     .ErrorContent {
