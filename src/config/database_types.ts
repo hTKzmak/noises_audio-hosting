@@ -34,36 +34,119 @@ export type Database = {
   }
   public: {
     Tables: {
-      n_usersDB: {
+      favorite_artists: {
         Row: {
-          email: string | null
-          favorite_artist: Json | null
-          favorite_music: Json | null
-          id: number
-          image: string | null
-          music_list: Json | null
-          name: string | null
-          password: string | null
+          artist_id: number
+          user_id: number
         }
         Insert: {
-          email?: string | null
-          favorite_artist?: Json | null
-          favorite_music?: Json | null
-          id?: number
-          image?: string | null
-          music_list?: Json | null
-          name?: string | null
-          password?: string | null
+          artist_id: number
+          user_id: number
         }
         Update: {
-          email?: string | null
-          favorite_artist?: Json | null
-          favorite_music?: Json | null
+          artist_id?: number
+          user_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "favorite_artists_artist_id_fkey"
+            columns: ["artist_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "favorite_artists_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      favorite_music: {
+        Row: {
+          music_id: number
+          user_id: number
+        }
+        Insert: {
+          music_id: number
+          user_id: number
+        }
+        Update: {
+          music_id?: number
+          user_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "favorite_music_music_id_fkey"
+            columns: ["music_id"]
+            isOneToOne: false
+            referencedRelation: "music_tracks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "favorite_music_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      music_tracks: {
+        Row: {
+          artwork_url: string
+          id: number
+          music_url: string
+          title: string
+          user_id: number | null
+        }
+        Insert: {
+          artwork_url: string
           id?: number
-          image?: string | null
-          music_list?: Json | null
-          name?: string | null
-          password?: string | null
+          music_url: string
+          title: string
+          user_id?: number | null
+        }
+        Update: {
+          artwork_url?: string
+          id?: number
+          music_url?: string
+          title?: string
+          user_id?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "music_tracks_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      users: {
+        Row: {
+          email: string
+          id: number
+          image_url: string
+          name: string
+          password_hash: string
+        }
+        Insert: {
+          email: string
+          id?: number
+          image_url: string
+          name: string
+          password_hash: string
+        }
+        Update: {
+          email?: string
+          id?: number
+          image_url?: string
+          name?: string
+          password_hash?: string
         }
         Relationships: []
       }
