@@ -8,15 +8,16 @@ export default function MusicList({ data, scrollMusicsRef, onList }: any) {
     // фильтрация данных, чтобы оставались только треки для их отображения
     useEffect(() => {
         if (data && data.length > 0) {
-            const newData = data.flatMap((item: any) => item.music);
+            const newData = data.flatMap((item: any) => item.music_tracks);
             setOnlyMusic(newData);
         }
+        console.log(onlyMusic)
     }, [data]);
 
     return (
         <div className={style.musicList} ref={scrollMusicsRef}>
             {onlyMusic.map((elem: any) => (
-                <MusicItem key={elem.id} id={elem.id} title={elem.title} artist={elem.artist} artwork={elem.artwork} url={elem.url} onList={onList} sortedData={onlyMusic}/>
+                <MusicItem key={elem.id} id={elem.id} title={elem.title} artist_name={elem.artist_name} artwork_url={elem.artwork_url} music_url={elem.music_url} onList={onList} sortedData={onlyMusic}/>
             ))}
         </div>
     )

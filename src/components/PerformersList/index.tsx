@@ -6,7 +6,7 @@ export default function PerformerList({ data, scrollArtistsRef }: any) {
     return (
         <div className={style.performersList} ref={scrollArtistsRef}>
             {data.map((elem: any) => (
-                <PerformerItem key={elem.id} id={elem.id} artist={elem.artist} image={elem.image}/>
+                <PerformerItem key={elem.id} id={elem.id} name={elem.name} image_url={elem.image_url}/>
             ))}
         </div>
     )

@@ -11,9 +11,9 @@ import { Context } from '../../context/Context';
 
 // типизация данных для artistData
 type ArtistData = {
-    artist: string,
-    image: string,
-    music: any[],
+    name: string,
+    image_url: string,
+    music_tracks: any[],
     id: number,
 }
 
@@ -31,11 +31,12 @@ export default function ProfileContent() {
     // находим данные пользователя по id
     useEffect(() => {
         const foundArtist = data.find((elem: any) => elem.id === Number(id));
+        console.log(foundArtist)
         if (foundArtist) {
             setArtistData(foundArtist)
 
             // ОТОБРАЖЕНИЕ СПИСКА МУЗЫКИ В КОНСОЛЕ
-            console.log(foundArtist.music)
+            console.log(foundArtist.music_tracks)
         }
     }, [id, data]);
 
@@ -43,9 +44,10 @@ export default function ProfileContent() {
     return (
         <div className={style.profileContent}>
             <div className={style.userBlock}>
-                <img src={artistData ? artistData.image : defaultImage} alt={artistData ? artistData.artist : 'performer_image'} />
+                <img src={artistData ? artistData.image_url : defaultImage} alt={artistData ? artistData.name : 'performer_image'} />
+                {/* нужно будет сделать проверку на самого пользователя. Если мы зашли на свою страницу, то должно быть написано "You" */}
                 <p>Performer</p>
-                <h2>{artistData ? artistData.artist : ''}</h2>
+                <h2>{artistData ? artistData.name : ''}</h2>
 
                 <div className={style.options}>
                     <ButtonElem title='Play' />
@@ -53,9 +55,9 @@ export default function ProfileContent() {
                 </div>
             </div>
             <div className={style.musicList}>
-                {artistData ? (
-                    artistData.music.map((elem: any) => (
-                        <MusicItem key={elem.id} id={elem.id} title={elem.title} artist={elem.artist} artwork={elem.artwork} url={elem.url} onList={false} sortedData={artistData.music}/>
+                {artistData && artistData.music_tracks.length > 0 ? (
+                    artistData.music_tracks.map((elem: any) => (
+                        <MusicItem key={elem.id} id={elem.id} title={elem.title} artist_name={elem.artist_name} artwork_url={elem.artwork_url} music_url={elem.music_url} onList={false} sortedData={artistData.music_tracks} />
                     ))
                 ) : (
                     <span className={style.noMusicMessage}>There is nothing</span>

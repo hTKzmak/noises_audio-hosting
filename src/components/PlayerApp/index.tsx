@@ -15,7 +15,6 @@ export default function PlayerApp({ data }: any) {
     // получение дпнных с app.tsx
     const { currentSong, setCurrentSong, showPlayer, setShowPlayer, showMiniPlayer, setShowMiniPlayer, songs, setSongs } = useContext(Context)
 
-
     // фильтрация данных, чтобы оставались только треки для их отображения
     useEffect(() => {
         if (data && data.length > 0) {
@@ -123,11 +122,10 @@ export default function PlayerApp({ data }: any) {
         }
     };
 
-
     return (
         <div>
             <audio
-                src={currentSong.url}
+                src={currentSong.music_url}
                 ref={audioElem}
                 onTimeUpdate={onPlaying}
                 onEnded={() => {

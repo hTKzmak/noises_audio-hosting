@@ -110,11 +110,12 @@ $white-color: #fff;
 
         .noMusicMessage {
             font-size: 23px;
-            color: $main-font-color;
+            color: $dark-white-color;
             margin-top: 200px;
 
             @media screen and (max-width: 1024px) {
-                margin-top: unset;
+                margin-top: 139px;
+                margin-bottom: 139px;
             }
         }
     }

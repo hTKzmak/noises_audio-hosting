@@ -15,7 +15,7 @@ import MusicListPage from './pages/MusicListPage'
 // import PrivateRoute from './components/PrivateRoute';
 
 // redux
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from './app/store'
 import ProfilePage from './pages/ProfilePage'
 import { Context } from './context/Context'
@@ -23,6 +23,7 @@ import PlayerApp from './components/PlayerApp'
 import { useEffect, useState } from 'react'
 import AuthPage from './pages/AuthPage'
 import supabase from './config/supabaseClient'
+import { addingData } from './features/musicdata'
 
 interface Song {
   title: string;
@@ -35,6 +36,8 @@ function App() {
 
   // получение данных с musicData с помощью useSelector и типизации RootState
   const data = useSelector((state: RootState) => state.musicdata.data)
+
+  const dispatch = useDispatch();
 
   // текущая музыка (стоит первая музыка по index)
   const [currentSong, setCurrentSong] = useState<any>({});
@@ -52,36 +55,70 @@ function App() {
 
 
 
-  // получение всех данных с таблиц базы данных
+  // Получение всех данных с таблиц базы данных Supabase
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // Запрос на все имеющиеся таблицы в Supabase
         const [usersRes, artistsRes, musicRes, tracksRes] = await Promise.all([
           supabase.from('users').select(),
           supabase.from('favorite_artists').select(),
           supabase.from('favorite_music').select(),
-          supabase.from('music_tracks').select()
+          supabase.from('music_tracks').select(),
         ]);
-
+  
+        // Проверка на ошибки
         if (usersRes.error || artistsRes.error || musicRes.error || tracksRes.error) {
           console.error(usersRes.error || artistsRes.error || musicRes.error || tracksRes.error);
           return;
         }
-
-        console.log({
-          users: usersRes.data,
-          favoriteArtists: artistsRes.data,
-          favoriteMusic: musicRes.data,
-          musicTracks: tracksRes.data
+  
+        const users = usersRes.data;
+        const favoriteArtists = artistsRes.data;
+        const favoriteMusic = musicRes.data;
+        const musicTracks = tracksRes.data;
+  
+        // Добавление имени исполнителя в каждый трек
+        const musicTracksWithArtistName = musicTracks.map(track => {
+          const artist = users.find(user => user.id === track.user_id);
+          return {
+            ...track,
+            artist_name: artist ? artist.name : "Unknown Artist", // Добавляем имя исполнителя
+          };
         });
+  
+        // Обработка структуры данных
+        const supabaseData = users.map(user => {
+          // Находим музыкальные треки пользователя
+          const userMusicTracks = musicTracksWithArtistName.filter(track => track.user_id === user.id);
+  
+          // Находим избранные треки пользователя
+          const userFavoriteMusic = favoriteMusic
+            .filter(fav => fav.user_id === user.id)
+            .map(fav => musicTracksWithArtistName.find(track => track.id === fav.music_id));
+  
+          // Находим избранных исполнителей пользователя
+          const userFavoriteArtists = favoriteArtists
+            .filter(fav => fav.user_id === user.id)
+            .map(fav => users.find(artist => artist.id === fav.artist_id));
+  
+          return {
+            ...user,
+            music_tracks: userMusicTracks,
+            favorite_music: userFavoriteMusic,
+            favorite_artists: userFavoriteArtists,
+          };
+        });
+  
+        // Добавление данных в musicData (Redux)
+        dispatch(addingData(supabaseData));
       } catch (error) {
         console.error(error);
       }
     };
-
+  
     fetchData();
   }, []);
-
 
 
   // получение данных с таблиц базы данных в supabase
@@ -147,6 +184,7 @@ function App() {
             <Route path='/registration' element={<AuthPage />} />
 
             {/* <Route element={<PrivateRoute />}> */}
+            {/* <Route path='/' element={<ContentPage data={data} type={'homepage'} />} /> */}
             <Route path='/' element={<ContentPage data={data} type={'homepage'} />} />
             <Route path='/explore' element={<ContentPage data={data} type={'explorepage'} />} />
             <Route path='/profile/:id' element={<ProfilePage />} />

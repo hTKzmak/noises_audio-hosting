@@ -80,7 +80,7 @@ export default function Player({ audioElem, isplaying, setIsPlaying, currentSong
     // скачивание файла
     const downloadMusicFunc = async () => {
         const a = document.createElement('a');
-        a.href = currentSong.url;
+        a.href = currentSong.music_url;
         a.download = currentSong.title;
         document.body.appendChild(a);
         a.click();
@@ -154,10 +154,10 @@ export default function Player({ audioElem, isplaying, setIsPlaying, currentSong
             </div>
             <div className={style.info_and_navigation}>
                 <div className={style.music_info}>
-                    <img src={currentSong.artwork} alt="#" />
+                    <img src={currentSong.artwork_url} alt={currentSong.title} />
                     <div className={style.music_info_text}>
                         <p className={style.title}>{currentSong.title}</p>
-                        <p className={style.artist}>{currentSong.artist}</p>
+                        <p className={style.artist}>{currentSong.artist_name}</p>
                     </div>
                 </div>
                 <input

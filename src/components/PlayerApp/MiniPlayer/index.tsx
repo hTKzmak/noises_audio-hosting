@@ -32,7 +32,7 @@ export default function MiniPlayer({ isplaying, setIsPlaying, currentSong, setSh
 
             <div className={style.music_info_text}>
                 <p className={style.title}>{currentSong.title}</p>
-                <p className={style.artist}>{currentSong.artist}</p>
+                <p className={style.artist}>{currentSong.artist_name}</p>
             </div>
 
             <button onClick={(e) => { e.stopPropagation(); removePlayer(); }}>
