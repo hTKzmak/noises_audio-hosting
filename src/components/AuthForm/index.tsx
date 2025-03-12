@@ -5,6 +5,7 @@ import ButtonElem from "../UI/ButtonElem";
 import miniLogo from '/noises.svg';
 import { useState } from "react";
 import classNames from "classnames";
+import supabase from "../../config/supabaseClient";
 
 export default function AuthForm() {
 
@@ -13,6 +14,7 @@ export default function AuthForm() {
 
     // отображение сообщения ошибки
     const [error, setError] = useState(false)
+    const [formError, setFormError] = useState('You have an error lmao')
 
     const [values, setValues] = useState({
         name: "",
@@ -21,13 +23,34 @@ export default function AuthForm() {
     });
 
     // подтверждение формы заполнения
-    const handleSubmit = (evt: React.SyntheticEvent<HTMLFormElement>) => {
+    const handleSubmit = async (evt: React.SyntheticEvent<HTMLFormElement>) => {
         evt.preventDefault();
 
         if (values.name && values.email && values.password) {
-            setError(true)
+
+            // // получение данных с таблицы
+            // const { data, error } = await supabase
+            //     .from('users')
+            //     .insert({ id: Date.now(), name: values.name, email: values.email, password_hash: values.password, image_url: '' })
+            //     .select()
+
+            // if (error) {
+            //     console.log(error)
+            //     setFormError('Please fill in all the fields correctly.')
+            //     setError(true)
+            // }
+            // if (data) {
+            //     console.log(data)
+            //     setFormError('')
+            //     setError(false)
+            // }
+
+            const data = { id: Date.now(), name: values.name, email: values.email, password_hash: values.password, image_url: 'https://evapkmvcgowyfwuogwbq.supabase.co/storage/v1/object/public/noises_bucket/artworks/default.png' }
+            localStorage.setItem('userData', JSON.stringify(data))
+            
         }
         else {
+            setFormError('Please fill all the fields')
             setError(true)
         }
 
@@ -80,7 +103,7 @@ export default function AuthForm() {
 
                 <ButtonElem title={isLogin ? 'Sign in' : 'Sign up'} />
 
-                <p className={classNames(error ? style.errorMessage : style.noneError)}>You have an error lmao</p>
+                <p className={classNames(error ? style.errorMessage : style.noneError)}>{formError}</p>
             </form>
 
         </div>

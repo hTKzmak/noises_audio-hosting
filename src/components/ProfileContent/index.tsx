@@ -6,7 +6,6 @@ import { FaRegHeart } from "react-icons/fa";
 import { useParams } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 
-import defaultImage from '../../assets/images/default.png';
 import { Context } from '../../context/Context';
 
 // типизация данных для artistData
@@ -44,7 +43,7 @@ export default function ProfileContent() {
     return (
         <div className={style.profileContent}>
             <div className={style.userBlock}>
-                <img src={artistData ? artistData.image_url : defaultImage} alt={artistData ? artistData.name : 'performer_image'} />
+                <img src={artistData ? artistData.image_url : 'https://evapkmvcgowyfwuogwbq.supabase.co/storage/v1/object/public/noises_bucket/user_profile_images/default.png'} alt={artistData ? artistData.name : 'performer_image'} />
                 {/* нужно будет сделать проверку на самого пользователя. Если мы зашли на свою страницу, то должно быть написано "You" */}
                 <p>Performer</p>
                 <h2>{artistData ? artistData.name : ''}</h2>

@@ -1,7 +1,6 @@
 import style from './MusicItem.module.scss'
 import classNames from 'classnames';
 
-import defaultImage from '../../assets/images/default.png';
 import { useContext } from 'react';
 import { Context } from '../../context/Context';
 
@@ -35,7 +34,7 @@ export default function MusicItem({ id, title, artist_name, artwork_url, onList,
 
     return (
         <div className={classNames(style.musicItem, onList ? style.onList : '')} id={id} onClick={() => startPlayMusic(id)}>
-            <div className={style.musicImage} style={{ backgroundImage: `url(${artwork_url ? artwork_url : defaultImage})` }}></div>
+            <div className={style.musicImage} style={{ backgroundImage: `url(${artwork_url ? artwork_url : 'https://evapkmvcgowyfwuogwbq.supabase.co/storage/v1/object/public/noises_bucket/artworks/default.png'})` }}></div>
             <div className={style.musicInfo}>
                 <span>{title}</span>
                 <span>{artist_name}</span>

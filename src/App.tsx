@@ -24,6 +24,8 @@ import { useEffect, useState } from 'react'
 import AuthPage from './pages/AuthPage'
 import supabase from './config/supabaseClient'
 import { addingData } from './features/musicdata'
+import Loading from './components/Loading'
+import PrivateRoute from './components/PrivateRoute'
 
 interface Song {
   title: string;
@@ -66,18 +68,18 @@ function App() {
           supabase.from('favorite_music').select(),
           supabase.from('music_tracks').select(),
         ]);
-  
+
         // Проверка на ошибки
         if (usersRes.error || artistsRes.error || musicRes.error || tracksRes.error) {
           console.error(usersRes.error || artistsRes.error || musicRes.error || tracksRes.error);
           return;
         }
-  
+
         const users = usersRes.data;
         const favoriteArtists = artistsRes.data;
         const favoriteMusic = musicRes.data;
         const musicTracks = tracksRes.data;
-  
+
         // Добавление имени исполнителя в каждый трек
         const musicTracksWithArtistName = musicTracks.map(track => {
           const artist = users.find(user => user.id === track.user_id);
@@ -86,22 +88,22 @@ function App() {
             artist_name: artist ? artist.name : "Unknown Artist", // Добавляем имя исполнителя
           };
         });
-  
+
         // Обработка структуры данных
         const supabaseData = users.map(user => {
           // Находим музыкальные треки пользователя
           const userMusicTracks = musicTracksWithArtistName.filter(track => track.user_id === user.id);
-  
+
           // Находим избранные треки пользователя
           const userFavoriteMusic = favoriteMusic
             .filter(fav => fav.user_id === user.id)
             .map(fav => musicTracksWithArtistName.find(track => track.id === fav.music_id));
-  
+
           // Находим избранных исполнителей пользователя
           const userFavoriteArtists = favoriteArtists
             .filter(fav => fav.user_id === user.id)
             .map(fav => users.find(artist => artist.id === fav.artist_id));
-  
+
           return {
             ...user,
             music_tracks: userMusicTracks,
@@ -109,14 +111,14 @@ function App() {
             favorite_artists: userFavoriteArtists,
           };
         });
-  
+
         // Добавление данных в musicData (Redux)
         dispatch(addingData(supabaseData));
       } catch (error) {
         console.error(error);
       }
     };
-  
+
     fetchData();
   }, []);
 
@@ -179,21 +181,22 @@ function App() {
         {!isAuthPage && <NavMenu />}
         <div className="container">
           {!isAuthPage && <Header />}
-          <Routes>
-            <Route path='/login' element={<AuthPage />} />
-            <Route path='/registration' element={<AuthPage />} />
+          {(!data || data.length <= 0) && !isAuthPage ? (<Loading />) : (
+            <Routes>
+              <Route path='/login' element={<AuthPage />} />
+              <Route path='/registration' element={<AuthPage />} />
 
-            {/* <Route element={<PrivateRoute />}> */}
-            {/* <Route path='/' element={<ContentPage data={data} type={'homepage'} />} /> */}
-            <Route path='/' element={<ContentPage data={data} type={'homepage'} />} />
-            <Route path='/explore' element={<ContentPage data={data} type={'explorepage'} />} />
-            <Route path='/profile/:id' element={<ProfilePage />} />
-            <Route path='/favorite' element={<MusicListPage />} />
-            <Route path='/artists' element={<ArtistsListPage />} />
-            <Route path='/latest' element={<MusicListPage />} />
-            <Route path='*' element={<ErrorPage />} />
-            {/* </Route> */}
-          </Routes>
+              <Route element={<PrivateRoute />}>
+                <Route path='/' element={<ContentPage data={data} type={'homepage'} />} />
+                <Route path='/explore' element={<ContentPage data={data} type={'explorepage'} />} />
+                <Route path='/profile/:id' element={<ProfilePage />} />
+                <Route path='/favorite' element={<MusicListPage />} />
+                <Route path='/artists' element={<ArtistsListPage />} />
+                <Route path='/latest' element={<MusicListPage />} />
+                <Route path='*' element={<ErrorPage />} />
+              </Route>
+            </Routes>
+          )}
           <PlayerApp data={data} />
           {!isAuthPage && <Footer />}
         </div>
