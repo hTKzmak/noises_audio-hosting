@@ -1,11 +1,16 @@
 import style from './Header.module.scss';
 import { IoSearchOutline } from "react-icons/io5";
 import logo from '../../assets/icons/noises_transparent.svg';
-import undefinedUser from '../../assets/images/undefined_user.png';
 import MiniButton from '../UI/MiniButton';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { Context } from '../../context/Context';
 
 export default function Header() {
+
+    // получение данных с app.tsx
+    const { localStorageData } = useContext(Context)
+
     const navigate = useNavigate();
     const { pathname } = useLocation();
     const isProfilePage = pathname.includes('profile');
@@ -15,9 +20,9 @@ export default function Header() {
             {isProfilePage && <MiniButton sign="back" func={() => navigate(-1)} />}
             {!isProfilePage && <img className={style.logo} src={logo} alt="NOISES" />}
             <IoSearchOutline />
-            <div className={style.user}>
-                <img src={undefinedUser} alt="its you ♡(>ᴗ•)" />
-            </div>
+            <Link to={`/profile/${localStorageData.id}`} className={style.user}>
+                <img src={localStorageData ? localStorageData.image_url : 'https://evapkmvcgowyfwuogwbq.supabase.co/storage/v1/object/public/noises_bucket/user_profile_images/default.png'} alt="it's you ♡(>ᴗ•)" />
+            </Link>
         </header>
     );
 }

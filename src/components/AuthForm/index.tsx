@@ -26,32 +26,68 @@ export default function AuthForm() {
     const handleSubmit = async (evt: React.SyntheticEvent<HTMLFormElement>) => {
         evt.preventDefault();
 
-        if (values.name && values.email && values.password) {
+        // Если у пользователя нет аккаунта
+        if (!isLogin) {
+            if (values.name && values.email && values.password) {
+                const newUser = {
+                    id: Date.now(),
+                    name: values.name,
+                    email: values.email,
+                    password_hash: values.password,
+                    image_url: 'https://evapkmvcgowyfwuogwbq.supabase.co/storage/v1/object/public/noises_bucket/user_profile_images/default.png',
+                };
 
-            // // получение данных с таблицы
-            // const { data, error } = await supabase
-            //     .from('users')
-            //     .insert({ id: Date.now(), name: values.name, email: values.email, password_hash: values.password, image_url: '' })
-            //     .select()
+                const { data, error } = await supabase.from('users')
+                    .insert(newUser)
+                    .select()
+                    .single();
 
-            // if (error) {
-            //     console.log(error)
-            //     setFormError('Please fill in all the fields correctly.')
-            //     setError(true)
-            // }
-            // if (data) {
-            //     console.log(data)
-            //     setFormError('')
-            //     setError(false)
-            // }
+                if (error || !data) {
+                    console.error(error || 'User creation failed');
+                    setFormError("Sorry, but we can't create this account");
+                    setError(true);
+                    return;
+                }
+                else{
+                    localStorage.setItem('userData', JSON.stringify(data));
+                    setFormError('');
+                    setError(false);
+                    location.href = '/'
+                }
 
-            const data = { id: Date.now(), name: values.name, email: values.email, password_hash: values.password, image_url: 'https://evapkmvcgowyfwuogwbq.supabase.co/storage/v1/object/public/noises_bucket/artworks/default.png' }
-            localStorage.setItem('userData', JSON.stringify(data))
-            
+            } else {
+                setFormError('Please fill all the fields');
+                setError(true);
+            }
+
         }
+        // Если у пользователя есть аккаунт
         else {
-            setFormError('Please fill all the fields')
-            setError(true)
+            if (values.email && values.password) {
+                const { data, error } = await supabase
+                    .from('users')
+                    .select('id, name, email, password_hash, image_url')
+                    .eq('email', values.email)
+                    .eq('password_hash', values.password)
+                    .single();
+
+                if (error || !data) {
+                    console.error(error || 'User not found (╥﹏╥)');
+                    setFormError('Invalid email or password.');
+                    setError(true);
+                    return;
+                }
+                else {
+                    console.log('User is found ＼(≧▽≦)／');
+                    localStorage.setItem('userData', JSON.stringify(data));
+                    setFormError('');
+                    setError(false);
+                    location.href = '/'
+                }
+            } else {
+                setFormError('Please fill all the fields');
+                setError(true);
+            }
         }
 
     }

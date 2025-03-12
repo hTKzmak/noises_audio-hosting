@@ -3,6 +3,7 @@ import { createContext } from "react";
 // ха-ха, типизация делает any 
 type contextData = {
     data: any;
+    localStorageData: any;
     currentSong: any;
     setCurrentSong: any;
     showPlayer: boolean; 
@@ -13,4 +14,4 @@ type contextData = {
     setSongs: any;
 }
 
-export const Context = createContext<contextData>({ data: [], currentSong: {}, setCurrentSong: {}, showPlayer: false, setShowPlayer: {}, showMiniPlayer: false, setShowMiniPlayer: {}, songs: [], setSongs: {} });
+export const Context = createContext<contextData>({ data: [], localStorageData: {}, currentSong: {}, setCurrentSong: {}, showPlayer: false, setShowPlayer: {}, showMiniPlayer: false, setShowMiniPlayer: {}, songs: [], setSongs: {} });

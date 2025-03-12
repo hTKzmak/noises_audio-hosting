@@ -3,7 +3,9 @@ import ButtonElem from '../UI/ButtonElem'
 import style from './ProfileContent.module.scss'
 
 import { FaRegHeart } from "react-icons/fa";
-import { useParams } from 'react-router-dom';
+import { IoSettingsOutline } from "react-icons/io5";
+
+import { Link, useParams } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 
 import { Context } from '../../context/Context';
@@ -19,7 +21,7 @@ type ArtistData = {
 export default function ProfileContent() {
 
     // получение дпнных с app.tsx
-    const { data } = useContext(Context)
+    const { data, localStorageData } = useContext(Context)
 
     // данные пользователя, которые будут храниться в artistData
     const [artistData, setArtistData] = useState<ArtistData | undefined>();
@@ -45,12 +47,12 @@ export default function ProfileContent() {
             <div className={style.userBlock}>
                 <img src={artistData ? artistData.image_url : 'https://evapkmvcgowyfwuogwbq.supabase.co/storage/v1/object/public/noises_bucket/user_profile_images/default.png'} alt={artistData ? artistData.name : 'performer_image'} />
                 {/* нужно будет сделать проверку на самого пользователя. Если мы зашли на свою страницу, то должно быть написано "You" */}
-                <p>Performer</p>
+                <p>{localStorageData.id == id ? 'You' : 'Performer'}</p>
                 <h2>{artistData ? artistData.name : ''}</h2>
 
                 <div className={style.options}>
                     <ButtonElem title='Play' />
-                    <button><FaRegHeart /></button>
+                    {localStorageData.id == id ? (<Link to={'/settings'}><IoSettingsOutline/></Link>) : (<button><FaRegHeart /></button>)}
                 </div>
             </div>
             <div className={style.musicList}>

@@ -10,8 +10,14 @@ import latestIcon from '../../assets/icons/navMenu/latest.svg';
 
 import noisesLogo from '../../assets/logo.svg';
 import miniLogo from '/noises.svg';
+import { useContext } from "react";
+import { Context } from "../../context/Context";
 
 export default function NavMenu() {
+
+    // получение данных с app.tsx
+    const { localStorageData } = useContext(Context)
+
     return (
         <div className={style.menu}>
 
@@ -51,12 +57,11 @@ export default function NavMenu() {
                 <li>
                     <Link to={'/explore'}><img src={exploreIcon} alt="#" /></Link>
                 </li>
-                {/* <li>
-                    <Link to={'/'}><img src={homeIcon} alt="#" /></Link>
-                </li>
                 <li>
-                    <Link to={'/explore'}><img src={exploreIcon} alt="#" /></Link>
-                </li> */}
+                    <Link to={`/profile/${localStorageData.id}`} className={style.user}>
+                        <img src={localStorageData ? localStorageData.image_url : 'https://evapkmvcgowyfwuogwbq.supabase.co/storage/v1/object/public/noises_bucket/user_profile_images/default.png'} alt="#" />
+                    </Link>
+                </li>
             </ul>
         </div>
     )

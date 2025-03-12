@@ -95,6 +95,19 @@
     .browseMusicMobile {
         display: none;
 
+        .user {
+            display: flex;
+            align-items: center;
+            gap: 27px;
+
+            img {
+                width: 40px;
+                height: 40px;
+                outline: 2px solid #121212;
+                border-radius: 100px;
+            }
+        }
+
         @media screen and (max-width: 1024px) {
             display: flex;
             justify-content: space-around;

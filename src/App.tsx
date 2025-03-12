@@ -34,6 +34,14 @@ interface Song {
   length?: number;
 }
 
+interface userType {
+  id: number,
+  name: string,
+  email: string,
+  password_hash: string,
+  image_url: string
+}
+
 function App() {
 
   // получение данных с musicData с помощью useSelector и типизации RootState
@@ -55,7 +63,8 @@ function App() {
   const location = useLocation();
   const isAuthPage = location.pathname === '/login' || location.pathname === '/registration';
 
-
+  // получаем данные о пользователе с локального хранилища
+  const localStorageData: userType | [] = JSON.parse(localStorage.getItem('userData') || '[]');
 
   // Получение всех данных с таблиц базы данных Supabase
   useEffect(() => {
@@ -176,7 +185,7 @@ function App() {
 
 
   return (
-    <Context.Provider value={{ data, currentSong, setCurrentSong, showPlayer, setShowPlayer, showMiniPlayer, setShowMiniPlayer, songs, setSongs }}>
+    <Context.Provider value={{ data, localStorageData, currentSong, setCurrentSong, showPlayer, setShowPlayer, showMiniPlayer, setShowMiniPlayer, songs, setSongs }}>
       <div className="app">
         {!isAuthPage && <NavMenu />}
         <div className="container">
