@@ -52,7 +52,7 @@ export default function AuthForm() {
                     localStorage.setItem('userData', JSON.stringify(data));
                     setFormError('');
                     setError(false);
-                    location.href = '/'
+                    location.href = '/noises_audio-hosting'
                 }
 
             } else {
@@ -82,7 +82,7 @@ export default function AuthForm() {
                     localStorage.setItem('userData', JSON.stringify(data));
                     setFormError('');
                     setError(false);
-                    location.href = '/'
+                    location.href = '/noises_audio-hosting'
                 }
             } else {
                 setFormError('Please fill all the fields');
