@@ -8,7 +8,7 @@ import favoriteIcon from '../../assets/icons/navMenu/favorite.svg';
 import artistsIcon from '../../assets/icons/navMenu/artists.svg';
 import latestIcon from '../../assets/icons/navMenu/latest.svg';
 import uploadIcon from '../../assets/icons/navMenu/upload.svg';
-import otherIcon from '../../assets/icons/navMenu/other.svg';
+import libraryIcon from '../../assets/icons/navMenu/library.svg';
 
 import noisesLogo from '../../assets/logo.svg';
 import miniLogo from '/noises.svg';
@@ -66,7 +66,7 @@ export default function NavMenu() {
                     <Link to={'/'}><img src={uploadIcon} alt="#" /></Link>
                 </li>
                 <li>
-                    <Link to={'/'}><img src={otherIcon} alt="#" /></Link>
+                    <Link to={'/'}><img src={libraryIcon} alt="#" /></Link>
                 </li>
                 <li>
                     <Link to={`/profile/${localStorageData.id}`} className={style.user}>
