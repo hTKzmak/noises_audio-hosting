@@ -2,7 +2,7 @@ import MusicItem from '../MusicItem';
 import ButtonElem from '../UI/ButtonElem'
 import style from './ProfileContent.module.scss'
 
-import { FaRegHeart } from "react-icons/fa";
+import { FiHeart } from "react-icons/fi";
 import { IoSettingsOutline } from "react-icons/io5";
 
 import { Link, useParams } from 'react-router-dom';
@@ -21,7 +21,7 @@ type ArtistData = {
 export default function ProfileContent() {
 
     // получение дпнных с app.tsx
-    const { data, localStorageData } = useContext(Context)
+    const { data, localStorageData, setCurrentSong, setShowMiniPlayer, setSongs } = useContext(Context)
 
     // данные пользователя, которые будут храниться в artistData
     const [artistData, setArtistData] = useState<ArtistData | undefined>();
@@ -42,6 +42,17 @@ export default function ProfileContent() {
     }, [id, data]);
 
 
+    function startPlayMusic() {
+        if (artistData && artistData?.music_tracks.length > 0) {
+            setSongs(artistData?.music_tracks)
+
+            setCurrentSong(artistData?.music_tracks[0])
+            // будет отображаться еще основной плеер, только если экран будет больше 768px, иначе бкдет отображаться мини-плеер для мобильных устройств
+            setShowMiniPlayer(true)
+        }
+    }
+
+
     return (
         <div className={style.profileContent}>
             <div className={style.userBlock}>
@@ -51,8 +62,8 @@ export default function ProfileContent() {
                 <h2>{artistData ? artistData.name : ''}</h2>
 
                 <div className={style.options}>
-                    <ButtonElem title='Play' />
-                    {localStorageData.id == id ? (<Link to={'/settings'}><IoSettingsOutline/></Link>) : (<button><FaRegHeart /></button>)}
+                    <ButtonElem title='Play' func={() => startPlayMusic()}/>
+                    {localStorageData.id == id ? (<Link to={'/settings'}><IoSettingsOutline/></Link>) : (<button><FiHeart /></button>)}
                 </div>
             </div>
             <div className={style.musicList}>

@@ -75,26 +75,23 @@ $white-color: #fff;
                 }
 
                 &:last-child {
-                    border: 2px solid #848484;
                     background: transparent;
-                    border-radius: 100px;
-                    padding: 9px 11px;
-
-                    svg {
-                        font-size: 22px;
-                        color: #adadad;
-
-                        @media screen and (max-width: 1280px) {
-                            font-size: 20px;
-                        }
-                    }
-
-                    &:hover {
-                        border-color: #ffffff;
-
-                        svg {
+                    border: none;
+                
+                    &:hover{
+                        svg{
+                            border-color: #FFFFFF;
                             color: #e2e2e2;
                         }
+                    }
+                
+                    svg{
+                        border-radius: 100px;
+                        border: 2px solid #848484;
+                        padding: 10px;
+                
+                        font-size: 25px;
+                        color: #adadad;
                     }
                 }
             }
