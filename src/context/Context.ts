@@ -12,6 +12,8 @@ type contextData = {
     setShowMiniPlayer: any;
     songs: any;
     setSongs: any;
+    showContextMenu: any;
+    setShowContextMenu: any
 }
 
-export const Context = createContext<contextData>({ data: [], localStorageData: {}, currentSong: {}, setCurrentSong: {}, showPlayer: false, setShowPlayer: {}, showMiniPlayer: false, setShowMiniPlayer: {}, songs: [], setSongs: {} });
+export const Context = createContext<contextData>({ data: [], localStorageData: {}, currentSong: {}, setCurrentSong: {}, showPlayer: false, setShowPlayer: {}, showMiniPlayer: false, setShowMiniPlayer: {}, songs: [], setSongs: {}, showContextMenu: false, setShowContextMenu: {} });

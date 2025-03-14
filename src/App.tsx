@@ -26,6 +26,7 @@ import supabase from './config/supabaseClient'
 import { addingData } from './features/musicdata'
 import Loading from './components/Loading'
 import PrivateRoute from './components/PrivateRoute'
+import ContextMenu from './components/ContextMenu'
 
 interface Song {
   title: string;
@@ -65,6 +66,8 @@ function App() {
 
   // получаем данные о пользователе с локального хранилища
   const localStorageData: userType | [] = JSON.parse(localStorage.getItem('userData') || '[]');
+
+  const [showContextMenu, setShowContextMenu] = useState(true)
 
   // Получение всех данных с таблиц базы данных Supabase
   useEffect(() => {
@@ -131,62 +134,24 @@ function App() {
     fetchData();
   }, []);
 
+  // Эффект для управления overflow: hidden (нужен для того, чтобы пользователь не мог листать страницу с отображаемым окном)
+  useEffect(() => {
+    if (showContextMenu) {
+      document.body.style.overflow = 'hidden'; // Блокируем прокрутку
+    } else {
+      document.body.style.overflow = ''; // Возвращаем прокрутку
+    }
 
-  // получение данных с таблиц базы данных в supabase
-  // useEffect(() => {
-
-  //   const fetchSmoothies = async () => {
-  //     const { data, error } = await supabase
-  //       .from('users')
-  //       .select()
-
-  //     // если база не была найдена, то выводим ошибку
-  //     if (error) {
-  //       console.error(error)
-  //     }
-
-  //     // если данные есть, то отображаем их
-  //     if (data) {
-  //       console.log(data)
-  //     }
-  //   }
-
-  //   fetchSmoothies()
-
-  // }, [])
-
-
-  // // получение файлов с supabase storage
-  // useEffect(() => {
-
-  //   const fetchSmoothies = async () => {
-  //     // получение файлов (с помощью правил приавтности для анонимных пользователей)
-  //     const { data, error } = await supabase.storage.from('noises_bucket').list('')
-
-  //     // получение ссылки на файл (нужно указать название файла для его воспроизведения)
-  //     // const { data } = await supabase.storage.from('noises_bucket').getPublicUrl('on_little_cat_feet.mp3')
-
-  //     if (error) {
-  //       console.error('Ошибка при получении файлов:', error)
-  //       return
-  //     }
-
-  //     // console.log('Файлы в бакете:', data)
-  //     if(data){
-  //       data.map(elem => {
-  //         console.log(elem.id)
-  //       })
-  //     }
-  //   }
-
-  //   fetchSmoothies()
-
-  // }, [])
-
+    // Очистка при размонтировании
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [showContextMenu]); // Зависимость от showContextMenu
 
   return (
-    <Context.Provider value={{ data, localStorageData, currentSong, setCurrentSong, showPlayer, setShowPlayer, showMiniPlayer, setShowMiniPlayer, songs, setSongs }}>
+    <Context.Provider value={{ data, localStorageData, currentSong, setCurrentSong, showPlayer, setShowPlayer, showMiniPlayer, setShowMiniPlayer, songs, setSongs, showContextMenu, setShowContextMenu }}>
       <div className="app">
+        <ContextMenu />
         {!isAuthPage && <NavMenu />}
         <div className="container">
           {!isAuthPage && <Header />}
