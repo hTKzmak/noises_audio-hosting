@@ -67,7 +67,7 @@ function App() {
   // получаем данные о пользователе с локального хранилища
   const localStorageData: userType | [] = JSON.parse(localStorage.getItem('userData') || '[]');
 
-  const [showContextMenu, setShowContextMenu] = useState(true)
+  const [showContextMenu, setShowContextMenu] = useState(false)
 
   // Получение всех данных с таблиц базы данных Supabase
   useEffect(() => {

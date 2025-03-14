@@ -22,7 +22,7 @@ type ArtistData = {
 export default function ProfileContent() {
 
     // получение дпнных с app.tsx
-    const { data, localStorageData, setCurrentSong, setShowMiniPlayer, setSongs, setShowContextMenu } = useContext(Context)
+    const { data, localStorageData, setCurrentSong, setShowMiniPlayer, setSongs, showContextMenu, setShowContextMenu } = useContext(Context)
 
     // данные пользователя, которые будут храниться в artistData
     const [artistData, setArtistData] = useState<ArtistData | undefined>();
@@ -63,7 +63,7 @@ export default function ProfileContent() {
 
                 <div className={style.options}>
                     <ButtonElem title='Play' func={() => startPlayMusic()}/>
-                    {localStorageData.id == id && (<button onClick={() => setShowContextMenu(true)}><FiUpload/></button>)}
+                    {localStorageData.id == id && (<button onClick={() => setShowContextMenu(!showContextMenu)}><FiUpload/></button>)}
                     {localStorageData.id == id ? (<Link to={'/settings'}><IoSettingsOutline/></Link>) : (<button><FiHeart /></button>)}
                 </div>
             </div>
