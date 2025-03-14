@@ -64,7 +64,7 @@ $white-color: #fff;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 18px;
+            gap: 10px;
             width: 100%;
 
             button, a {
@@ -74,7 +74,7 @@ $white-color: #fff;
                     align-self: unset;
                 }
 
-                &:last-child {
+                &:nth-child(2), &:last-child {
                     background: transparent;
                     border: none;
                 

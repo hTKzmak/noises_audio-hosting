@@ -7,7 +7,6 @@ import exploreIcon from '../../assets/icons/navMenu/explore.svg';
 import favoriteIcon from '../../assets/icons/navMenu/favorite.svg';
 import artistsIcon from '../../assets/icons/navMenu/artists.svg';
 import latestIcon from '../../assets/icons/navMenu/latest.svg';
-import uploadIcon from '../../assets/icons/navMenu/upload.svg';
 import libraryIcon from '../../assets/icons/navMenu/library.svg';
 
 import noisesLogo from '../../assets/logo.svg';
@@ -36,9 +35,6 @@ export default function NavMenu() {
                         <li>
                             <Link to={'/explore'}><img src={exploreIcon} alt="#" /> <span>Explore</span></Link>
                         </li>
-                        <li>
-                            <Link to={'/'}><img src={uploadIcon} alt="#" /> <span>Upload</span></Link>
-                        </li>
                     </ul>
                     <ul>
                         <h3>Library</h3>
@@ -61,9 +57,6 @@ export default function NavMenu() {
                 </li>
                 <li>
                     <Link to={'/explore'}><img src={exploreIcon} alt="#" /></Link>
-                </li>
-                <li>
-                    <button onClick={() => alert('upload music')}><img src={uploadIcon} alt="#" /></button>
                 </li>
                 <li>
                     <button onClick={() => alert('library options list')}><img src={libraryIcon} alt="#" /></button>
