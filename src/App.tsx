@@ -67,7 +67,9 @@ function App() {
   // получаем данные о пользователе с локального хранилища
   const localStorageData: userType | [] = JSON.parse(localStorage.getItem('userData') || '[]');
 
+  // отображение контекстного меню
   const [showContextMenu, setShowContextMenu] = useState(false)
+  const [uploadMusic, setUploadMusic] = useState(false)
 
   // Получение всех данных с таблиц базы данных Supabase
   useEffect(() => {
@@ -149,7 +151,7 @@ function App() {
   }, [showContextMenu]); // Зависимость от showContextMenu
 
   return (
-    <Context.Provider value={{ data, localStorageData, currentSong, setCurrentSong, showPlayer, setShowPlayer, showMiniPlayer, setShowMiniPlayer, songs, setSongs, showContextMenu, setShowContextMenu }}>
+    <Context.Provider value={{ data, localStorageData, currentSong, setCurrentSong, showPlayer, setShowPlayer, showMiniPlayer, setShowMiniPlayer, songs, setSongs, showContextMenu, setShowContextMenu, uploadMusic, setUploadMusic }}>
       <div className="app">
         <ContextMenu />
         {!isAuthPage && <NavMenu />}

@@ -21,8 +21,6 @@ export default function MusicItem({ id, title, artist_name, artwork_url, onList,
 
                 // находим выбранную нами музыку по id
                 if (elem.id === id) {
-                    console.log(elem)
-
                     setCurrentSong(elem)
 
                     // будет отображаться еще основной плеер, только если экран будет больше 768px, иначе бкдет отображаться мини-плеер для мобильных устройств

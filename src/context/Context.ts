@@ -13,7 +13,9 @@ type contextData = {
     songs: any;
     setSongs: any;
     showContextMenu: any;
-    setShowContextMenu: any
+    setShowContextMenu: any;
+    uploadMusic: boolean;
+    setUploadMusic: any;
 }
 
-export const Context = createContext<contextData>({ data: [], localStorageData: {}, currentSong: {}, setCurrentSong: {}, showPlayer: false, setShowPlayer: {}, showMiniPlayer: false, setShowMiniPlayer: {}, songs: [], setSongs: {}, showContextMenu: false, setShowContextMenu: {} });
+export const Context = createContext<contextData>({ data: [], localStorageData: {}, currentSong: {}, setCurrentSong: {}, showPlayer: false, setShowPlayer: {}, showMiniPlayer: false, setShowMiniPlayer: {}, songs: [], setSongs: {}, showContextMenu: false, setShowContextMenu: {}, uploadMusic: false, setUploadMusic: {}});

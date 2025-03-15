@@ -13,12 +13,12 @@ export default function Header() {
 
     const navigate = useNavigate();
     const { pathname } = useLocation();
-    const isProfilePage = pathname.includes('profile');
+    const showBackButton = pathname.includes('profile') || pathname.includes('settings') || pathname.includes('search');
 
     return (
         <header className={style.header}>
-            {isProfilePage && <MiniButton sign="back" func={() => navigate(-1)} />}
-            {!isProfilePage && <img className={style.logo} src={logo} alt="NOISES" />}
+            {showBackButton && <MiniButton sign="back" func={() => navigate(-1)} />}
+            {!showBackButton && <img className={style.logo} src={logo} alt="NOISES" />}
             <IoSearchOutline />
             <Link to={`/profile/${localStorageData.id}`} className={style.user}>
                 <img src={localStorageData ? localStorageData.image_url : 'https://evapkmvcgowyfwuogwbq.supabase.co/storage/v1/object/public/noises_bucket/user_profile_images/default.png'} alt="it's you ♡(>ᴗ•)" />

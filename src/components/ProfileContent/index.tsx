@@ -22,7 +22,7 @@ type ArtistData = {
 export default function ProfileContent() {
 
     // получение дпнных с app.tsx
-    const { data, localStorageData, setCurrentSong, setShowMiniPlayer, setSongs, showContextMenu, setShowContextMenu } = useContext(Context)
+    const { data, localStorageData, setCurrentSong, setShowMiniPlayer, setSongs, showContextMenu, setShowContextMenu, setUploadMusic } = useContext(Context)
 
     // данные пользователя, которые будут храниться в artistData
     const [artistData, setArtistData] = useState<ArtistData | undefined>();
@@ -33,12 +33,8 @@ export default function ProfileContent() {
     // находим данные пользователя по id
     useEffect(() => {
         const foundArtist = data.find((elem: any) => elem.id === Number(id));
-        console.log(foundArtist)
         if (foundArtist) {
             setArtistData(foundArtist)
-
-            // ОТОБРАЖЕНИЕ СПИСКА МУЗЫКИ В КОНСОЛЕ
-            console.log(foundArtist.music_tracks)
         }
     }, [id, data]);
 
@@ -53,6 +49,11 @@ export default function ProfileContent() {
         }
     }
 
+    const showUploadMusic = () => {
+        setUploadMusic(true)
+        setShowContextMenu(!showContextMenu)
+    }
+
 
     return (
         <div className={style.profileContent}>
@@ -63,7 +64,7 @@ export default function ProfileContent() {
 
                 <div className={style.options}>
                     <ButtonElem title='Play' func={() => startPlayMusic()}/>
-                    {localStorageData.id == id && (<button onClick={() => setShowContextMenu(!showContextMenu)}><FiUpload/></button>)}
+                    {localStorageData.id == id && (<button onClick={showUploadMusic}><FiUpload/></button>)}
                     {localStorageData.id == id ? (<Link to={'/settings'}><IoSettingsOutline/></Link>) : (<button><FiHeart /></button>)}
                 </div>
             </div>

@@ -17,7 +17,12 @@ import { Context } from "../../context/Context";
 export default function NavMenu() {
 
     // получение данных с app.tsx
-    const { localStorageData, showContextMenu, setShowContextMenu } = useContext(Context)
+    const { localStorageData, showContextMenu, setShowContextMenu, setUploadMusic } = useContext(Context)
+
+    const showLibrary = () => {
+        setUploadMusic(false)
+        setShowContextMenu(!showContextMenu)
+    }
 
     return (
         <div className={style.menu}>
@@ -59,7 +64,7 @@ export default function NavMenu() {
                     <Link to={'/explore'}><img src={exploreIcon} alt="#" /></Link>
                 </li>
                 <li>
-                    <button onClick={() => setShowContextMenu(!showContextMenu)}><img src={libraryIcon} alt="#" /></button>
+                    <button onClick={showLibrary}><img src={libraryIcon} alt="#" /></button>
                 </li>
                 <li>
                     <Link to={`/profile/${localStorageData.id}`} className={style.user}>

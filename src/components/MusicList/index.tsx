@@ -11,7 +11,6 @@ export default function MusicList({ data, scrollMusicsRef, onList }: any) {
             const newData = data.flatMap((item: any) => item.music_tracks);
             setOnlyMusic(newData);
         }
-        console.log(onlyMusic)
     }, [data]);
 
     return (
