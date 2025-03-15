@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
 import style from './ContextMenu.module.scss'
 
 import { IoCloseOutline } from "react-icons/io5";
