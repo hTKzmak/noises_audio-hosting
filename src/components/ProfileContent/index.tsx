@@ -22,7 +22,7 @@ type ArtistData = {
 export default function ProfileContent() {
 
     // получение дпнных с app.tsx
-    const { data, localStorageData, setCurrentSong, setShowMiniPlayer, setSongs, showContextMenu, setShowContextMenu, setUploadMusic } = useContext(Context)
+    const { data, localStorageData, setCurrentSong, setShowMiniPlayer, setSongs, showMenuWindow, setShowMenuWindow, setUploadMusic } = useContext(Context)
 
     // данные пользователя, которые будут храниться в artistData
     const [artistData, setArtistData] = useState<ArtistData | undefined>();
@@ -51,7 +51,7 @@ export default function ProfileContent() {
 
     const showUploadMusic = () => {
         setUploadMusic(true)
-        setShowContextMenu(!showContextMenu)
+        setShowMenuWindow(!showMenuWindow)
     }
 
 

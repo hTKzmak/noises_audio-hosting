@@ -26,7 +26,7 @@ import supabase from './config/supabaseClient'
 import { addingData } from './features/musicdata'
 import Loading from './components/Loading'
 import PrivateRoute from './components/PrivateRoute'
-import ContextMenu from './components/ContextMenu'
+import MenuWindow from './components/MenuWindow'
 
 interface Song {
   title: string;
@@ -68,7 +68,7 @@ function App() {
   const localStorageData: userType | [] = JSON.parse(localStorage.getItem('userData') || '[]');
 
   // отображение контекстного меню
-  const [showContextMenu, setShowContextMenu] = useState(false)
+  const [showMenuWindow, setShowMenuWindow] = useState(false)
   const [uploadMusic, setUploadMusic] = useState(false)
 
   // Получение всех данных с таблиц базы данных Supabase
@@ -138,7 +138,7 @@ function App() {
 
   // Эффект для управления overflow: hidden (нужен для того, чтобы пользователь не мог листать страницу с отображаемым окном)
   useEffect(() => {
-    if (showContextMenu) {
+    if (showMenuWindow) {
       document.body.style.overflow = 'hidden'; // Блокируем прокрутку
     } else {
       document.body.style.overflow = ''; // Возвращаем прокрутку
@@ -148,12 +148,12 @@ function App() {
     return () => {
       document.body.style.overflow = '';
     };
-  }, [showContextMenu]); // Зависимость от showContextMenu
+  }, [showMenuWindow]); // Зависимость от showMenuWindow
 
   return (
-    <Context.Provider value={{ data, localStorageData, currentSong, setCurrentSong, showPlayer, setShowPlayer, showMiniPlayer, setShowMiniPlayer, songs, setSongs, showContextMenu, setShowContextMenu, uploadMusic, setUploadMusic }}>
+    <Context.Provider value={{ data, localStorageData, currentSong, setCurrentSong, showPlayer, setShowPlayer, showMiniPlayer, setShowMiniPlayer, songs, setSongs, showMenuWindow, setShowMenuWindow, uploadMusic, setUploadMusic }}>
       <div className="app">
-        <ContextMenu />
+        <MenuWindow/>
         {!isAuthPage && <NavMenu />}
         <div className="container">
           {!isAuthPage && <Header />}

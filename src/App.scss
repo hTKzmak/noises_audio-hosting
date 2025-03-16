@@ -1,6 +1,7 @@
 $dark-white-color: #ffffff80;
 $main-font-color: #ffffffde;
 $white-color: #fff;
+$error-color: #f62828;
 
 #root {
   width: 100%;
@@ -27,11 +28,11 @@ $white-color: #fff;
       display: flex;
       justify-content: center;
       align-items: center;
-      
+
       height: 100%;
 
       @media screen and (max-width: 1024px) {
-          height: 115%;
+        height: 115%;
       }
     }
 
@@ -104,6 +105,19 @@ $white-color: #fff;
 
     .performersContent {
       margin-top: 65px;
+    }
+
+    .errorMessage {
+      color: $error-color;
+    }
+
+    .noneError {
+      opacity: 0;
+
+      -moz-user-select: none;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
     }
 
     @media screen and (max-width: 1280px) {

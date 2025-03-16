@@ -1,6 +1,5 @@
 $dark-white-color: #ffffff80;
 $white-color: #fff;
-$error-color: #f62828;
 
 .authForm {
     display: flex;
@@ -21,19 +20,6 @@ $error-color: #f62828;
         font-size: 16px;
         color: $dark-white-color;
         margin-top: 10px;
-    }
-
-    .errorMessage {
-        color: $error-color;
-    }
-
-    .noneError {
-        opacity: 0;
-
-        -moz-user-select: none;
-        -webkit-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
     }
 
     form {

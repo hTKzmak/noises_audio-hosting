@@ -13,7 +13,7 @@ export default function AuthForm() {
     const isLogin = pathname.includes('login');
 
     // отображение сообщения ошибки
-    const [error, setError] = useState(false)
+    const [error, setError] = useState(true)
     const [formError, setFormError] = useState('You have an error lmao')
 
     const [values, setValues] = useState({
@@ -139,7 +139,7 @@ export default function AuthForm() {
 
                 <ButtonElem title={isLogin ? 'Sign in' : 'Sign up'} />
 
-                <p className={classNames(error ? style.errorMessage : style.noneError)}>{formError}</p>
+                <p className={classNames(error ? "errorMessage" : "noneError")}>{formError}</p>
             </form>
 
         </div>
