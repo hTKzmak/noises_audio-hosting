@@ -107,19 +107,6 @@ $error-color: #f62828;
       margin-top: 65px;
     }
 
-    .errorMessage {
-      color: $error-color;
-    }
-
-    .noneError {
-      opacity: 0;
-
-      -moz-user-select: none;
-      -webkit-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-    }
-
     @media screen and (max-width: 1280px) {
       width: calc(75% - 5rem);
     }

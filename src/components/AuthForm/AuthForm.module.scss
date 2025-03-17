@@ -1,11 +1,24 @@
 $dark-white-color: #ffffff80;
 $white-color: #fff;
+$error-color: #f62828;
 
 .authForm {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    .errorMessage {
+        color: $error-color;
+    }
+
+    .noneError {
+        opacity: 0;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
 
     img {
         margin-bottom: 14px;

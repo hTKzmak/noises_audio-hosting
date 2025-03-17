@@ -1,5 +1,6 @@
 $dark-white-color: #ffffff80;
 $white-color: #fff;
+$error-color: #f62828;
 
 .uploadMenu {
     position: fixed;
@@ -55,12 +56,21 @@ $white-color: #fff;
         }
 
         .uploadFormContent {
-            img {
-                width: 280px;
+            .musicImage {
+                margin: 0 auto;
+
+                width: 283px;
+                height: 283px;
+
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: cover;
+
                 border-radius: 10px;
 
                 @media screen and (max-width: 1240px) {
-                    width: 210px;
+                    width: 217px;
+                    height: 217px;
                 }
             }
 
@@ -107,12 +117,25 @@ $white-color: #fff;
                 button {
                     margin: 0;
                 }
+
+                .errorMessage {
+                    color: $error-color;
+                }
+
+                .noneError {
+                    opacity: 0;
+
+                    -moz-user-select: none;
+                    -webkit-user-select: none;
+                    -ms-user-select: none;
+                    user-select: none;
+                }
             }
         }
     }
 
-    .uploadResult{
-        img{
+    .uploadResult {
+        img {
             margin-bottom: 30p;
         }
     }
