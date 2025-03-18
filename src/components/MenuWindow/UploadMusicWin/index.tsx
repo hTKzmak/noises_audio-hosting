@@ -9,13 +9,9 @@ import failIcon from '../../../assets/icons/contextMenu/fail.svg';
 import Loading from "../../Loading";
 import supabase from "../../../config/supabaseClient";
 import classNames from "classnames";
-import { useDispatch } from "react-redux";
-import { addMusicToLibrary } from "../../../features/musicdata";
 
 export default function UploadMusicWin() {
     const { setShowMenuWindow, localStorageData } = useContext(Context);
-
-    const dispatch = useDispatch();
 
     // useRef input'ов (для выбора файлов)
     const fileElem = useRef<HTMLInputElement | null>(null);
