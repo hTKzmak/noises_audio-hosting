@@ -5,7 +5,6 @@ export interface ProductsState {
 }
 
 const initialState: ProductsState = {
-    // обычные данные с API (но сейчас с заготовленных данных musicData)
     data: [],
 }
 
@@ -23,10 +22,24 @@ export const productsSlice = createSlice({
 
             // console.log(state.data)
         },
+        // добавление своей загруженной музыки в библиотеку
+        addMusicToLibrary(state, action) {
+            const musicData = action.payload;
+            const userIndex = state.data.findIndex(user => user.id === musicData.user_id);
+
+            console.log(musicData)
+            console.log(state.data)
+            console.log(userIndex)
+
+            if (userIndex !== -1) {
+                // Если пользователь уже существует, добавляем музыку в его библиотеку
+                state.data[userIndex].musicLibrary.push(musicData);
+            }
+        }
     },
 })
 
 // Action creators are generated for each case reducer function
-export const { getData, addingData } = productsSlice.actions
+export const { getData, addingData, addMusicToLibrary } = productsSlice.actions
 
 export default productsSlice.reducer

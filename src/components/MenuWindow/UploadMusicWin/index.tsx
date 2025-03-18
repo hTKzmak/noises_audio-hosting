@@ -9,12 +9,13 @@ import failIcon from '../../../assets/icons/contextMenu/fail.svg';
 import Loading from "../../Loading";
 import supabase from "../../../config/supabaseClient";
 import classNames from "classnames";
+import { useDispatch } from "react-redux";
+import { addMusicToLibrary } from "../../../features/musicdata";
 
 export default function UploadMusicWin() {
-
-    // название изображения нужно изменить на строчные буквы с _ вместо пробела
-
     const { setShowMenuWindow, localStorageData } = useContext(Context);
+
+    const dispatch = useDispatch();
 
     // useRef input'ов (для выбора файлов)
     const fileElem = useRef<HTMLInputElement | null>(null);
@@ -28,7 +29,7 @@ export default function UploadMusicWin() {
     const [isUploading, setIsUploading] = useState(false);
     const [isUploaded, setIsUploaded] = useState(false);
     const [error, setError] = useState(false);
-    
+
     // отображение сообщения об ошибке
     const [showError, setShowError] = useState(false);
     const [formError, setFormError] = useState('');
@@ -79,49 +80,65 @@ export default function UploadMusicWin() {
             setFormError('Please fill all the fields');
             return; // Прекращаем выполнение функции, если поле пустое
         }
-        else{
+        else {
             setIsUploading(true);
             setShowError(false);
             setFormError('');
-    
+
             try {
-                let artworkUrl = 'https://evapkmvcgowyfwuogwbq.supabase.co/storage/v1/object/public/noises_bucket/artworks/default.png';
-                let musicUrl = '';
-    
-                if (choosenArtwork) {
-                    const { error } = await supabase.storage.from('noises_bucket').upload(`artworks/${values.title}.png`, choosenArtwork);
-                    if (error) throw error;
-                    artworkUrl = `https://evapkmvcgowyfwuogwbq.supabase.co/storage/v1/object/public/noises_bucket/artworks/${values.title.toLowerCase().replace(/\s+/g, '_')}.png`;
-                }
-    
-                if (choosenFile) {
-                    const { error } = await supabase.storage.from('noises_bucket').upload(`musics/${values.title}.mp3`, choosenFile);
-                    if (error) throw error;
-                    musicUrl = `https://evapkmvcgowyfwuogwbq.supabase.co/storage/v1/object/public/noises_bucket/musics/${values.title}.mp3`;
-                }
-    
+
                 const musicData = {
                     id: Date.now(),
                     title: values.title,
                     genre: values.genre,
                     user_id: localStorageData.id,
-                    artwork_url: artworkUrl,
-                    music_url: musicUrl
+                    artwork_url: 'https://evapkmvcgowyfwuogwbq.supabase.co/storage/v1/object/public/noises_bucket/artworks/default.png',
+                    music_url: ''
                 };
-    
+                
+                if (choosenArtwork) {
+                    const fileExtension = choosenArtwork?.name.split('.').pop(); // Получаем расширение файла
+                    const fileName = `artwork_${musicData.id}.${fileExtension}`; // Добавляем префикс "music_"
+
+                    const { error } = await supabase.storage.from('noises_bucket').upload(`artworks/${fileName}`, choosenArtwork);
+                    if (error) throw error;
+                    musicData.artwork_url = `https://evapkmvcgowyfwuogwbq.supabase.co/storage/v1/object/public/noises_bucket/artworks/${fileName}`;
+                    console.log(musicData.artwork_url)
+                }
+                
+                if (choosenFile) {
+                    const fileExtension = choosenFile?.name.split('.').pop(); // Получаем расширение файла
+                    const fileName = `music_${musicData.id}.${fileExtension}`; // Добавляем префикс "music_"
+                    
+                    const { error } = await supabase.storage.from('noises_bucket').upload(`musics/${fileName}`, choosenFile);
+                    if (error) throw error;
+                    musicData.music_url = `https://evapkmvcgowyfwuogwbq.supabase.co/storage/v1/object/public/noises_bucket/musics/${fileName}`;
+                    console.log(musicData.music_url)
+                }
+
                 const { error } = await supabase.from('music_tracks').insert(musicData);
                 if (error) throw error;
-    
+
                 setIsUploaded(true);
+
+                console.log(musicData)
             } catch (err) {
-                setShowError(true);
-                setFormError('Upload failed. Please try again.');
+                // можно оставить как замену 
+                // setShowError(true);
+                // setFormError('Upload failed. Please try again.');
+
+                setError(true)
             } finally {
                 setIsUploading(false);
             }
         }
 
     };
+
+    const retryToUpload = () => {
+        setError(false)
+        setIsUploading(false)
+    }
 
     return (
         <div className={style.uploadMenu}>
@@ -144,7 +161,7 @@ export default function UploadMusicWin() {
                     <div className={style.uploadResult}>
                         <img src={failIcon} alt="Failure" />
                         <p>Music hasn’t been uploaded</p>
-                        <ButtonElem title={'Retry'} func={uploadData} />
+                        <ButtonElem title={'Retry'} func={retryToUpload} />
                     </div>
                 ) : !choosenFile ? (
                     <div>
