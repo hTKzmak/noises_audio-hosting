@@ -39,9 +39,13 @@ $image-background-color: #212121;
         width: 65%;
 
         span {
-            white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            white-space: normal;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            line-clamp: 1;
+            -webkit-box-orient: vertical;
 
             &:first-child {
                 font-size: 20px;

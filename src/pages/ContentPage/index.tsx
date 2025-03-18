@@ -28,7 +28,7 @@ export default function ContentPage({ data, type }: PageType) {
         <div className="content">
             <div className="musicContent">
                 <div className="contentHeader">
-                    <h3>{type === 'homepage' ? 'Recommended music' : 'Popular music'}</h3>
+                    <h3 className="headerText">{type === 'homepage' ? 'Recommended music' : 'Popular music'}</h3>
                     <div className="scrollsOption">
                         <MiniButton sign='back' func={() => handleScroll('right', scrollMusicsRef)} />
                         <MiniButton sign='forward' func={() => handleScroll('left', scrollMusicsRef)} />
@@ -38,7 +38,7 @@ export default function ContentPage({ data, type }: PageType) {
             </div>
             <div className="performersContent">
                 <div className="contentHeader">
-                    <h3>{type === 'homepage' ? 'Recommended artists' : 'Popular artists'}</h3>
+                    <h3 className="headerText">{type === 'homepage' ? 'Recommended artists' : 'Popular artists'}</h3>
                     <div className="scrollsOption">
                         <MiniButton sign='back' func={() => handleScroll('right', scrollArtistsRef)} />
                         <MiniButton sign='forward' func={() => handleScroll('left', scrollArtistsRef)} />

@@ -36,6 +36,33 @@ $error-color: #f62828;
       }
     }
 
+    .headerText {
+      font-size: 23px;
+      text-align: start;
+      font-weight: 500;
+
+      @media screen and (max-width: 1024px) {
+        font-size: 18px;
+      }
+    }
+
+    .musicListContent {
+      margin-top: 18px;
+      display: flex;
+      flex-direction: column;
+      row-gap: 20px;
+    }
+
+    .noContent {
+      height: 90%;
+      align-content: center;
+
+      span {
+        font-size: 23px;
+        color: $dark-white-color;
+      }
+    }
+
     .ErrorContent {
       height: 90%;
       align-content: center;

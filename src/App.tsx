@@ -12,9 +12,8 @@ import ErrorPage from './pages/ErrorPage'
 import NavMenu from './components/NavMenu'
 import ArtistsListPage from './pages/ArtistsListPage'
 import MusicListPage from './pages/MusicListPage'
-// import PrivateRoute from './components/PrivateRoute';
 
-// redux
+// redux 
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from './app/store'
 import ProfilePage from './pages/ProfilePage'
@@ -128,6 +127,7 @@ function App() {
 
         // Добавление данных в musicData (Redux)
         dispatch(addingData(supabaseData));
+        console.log(data)
       } catch (error) {
         console.error(error);
       }
@@ -166,9 +166,9 @@ function App() {
                 <Route path='/' element={<ContentPage data={data} type={'homepage'} />} />
                 <Route path='/explore' element={<ContentPage data={data} type={'explorepage'} />} />
                 <Route path='/profile/:id' element={<ProfilePage />} />
-                <Route path='/favorite' element={<MusicListPage />} />
+                <Route path='/favorite' element={<MusicListPage showContent={'favorite'}/>} />
                 <Route path='/artists' element={<ArtistsListPage />} />
-                <Route path='/latest' element={<MusicListPage />} />
+                <Route path='/latest' element={<MusicListPage showContent={'latest'}/>} />
                 <Route path='*' element={<ErrorPage />} />
               </Route>
             </Routes>

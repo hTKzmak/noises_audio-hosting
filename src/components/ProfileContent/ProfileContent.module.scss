@@ -67,29 +67,31 @@ $white-color: #fff;
             gap: 10px;
             width: 100%;
 
-            button, a {
+            button,
+            a {
                 &:first-child {
                     width: inherit;
                     height: 46px;
                     align-self: unset;
                 }
 
-                &:nth-child(2), &:last-child {
+                &:nth-child(2),
+                &:last-child {
                     background: transparent;
                     border: none;
-                
-                    &:hover{
-                        svg{
-                            border-color: #FFFFFF;
+
+                    &:hover {
+                        svg {
+                            border-color: #ffffff;
                             color: #e2e2e2;
                         }
                     }
-                
-                    svg{
+
+                    svg {
                         border-radius: 100px;
                         border: 2px solid #848484;
                         padding: 10px;
-                
+
                         font-size: 25px;
                         color: #adadad;
                     }
@@ -99,7 +101,6 @@ $white-color: #fff;
     }
 
     .musicList {
-        // margin-top: 45px;
         display: flex;
         flex-direction: column;
         row-gap: 20px;
