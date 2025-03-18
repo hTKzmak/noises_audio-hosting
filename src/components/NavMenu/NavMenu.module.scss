@@ -95,7 +95,7 @@
     .browseMusicMobile {
         display: none;
 
-        button{
+        button {
             background: none;
             border: none;
         }
@@ -105,11 +105,15 @@
             align-items: center;
             gap: 27px;
 
-            img {
+            .userImage {
                 width: 40px;
                 height: 40px;
                 outline: 2px solid #121212;
                 border-radius: 100px;
+
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: cover;
             }
         }
 

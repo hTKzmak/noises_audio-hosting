@@ -1,9 +1,9 @@
-header{
+header {
     display: flex;
     justify-content: space-between;
     align-items: center;
 
-    button{
+    button {
         display: none;
 
         @media screen and (max-width: 1024px) {
@@ -11,7 +11,7 @@ header{
         }
     }
 
-    .logo{
+    .logo {
         display: none;
 
         @media screen and (max-width: 1024px) {
@@ -19,22 +19,26 @@ header{
         }
     }
 
-    svg{
+    svg {
         font-size: 30px;
     }
 
-    .user{
+    .user {
         display: flex;
         align-items: center;
         gap: 27px;
 
-        img{
+        .userImage {
             width: 55px;
             height: 55px;
             outline: 2px solid #121212;
             border-radius: 100px;
+
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
         }
-        
+
         @media screen and (max-width: 1024px) {
             display: none;
         }

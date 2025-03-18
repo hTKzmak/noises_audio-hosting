@@ -68,7 +68,7 @@ export default function NavMenu() {
                 </li>
                 <li>
                     <Link to={`/profile/${localStorageData.id}`} className={style.user}>
-                        <img src={localStorageData ? localStorageData.image_url : 'https://evapkmvcgowyfwuogwbq.supabase.co/storage/v1/object/public/noises_bucket/user_profile_images/default.png'} alt="#" />
+                        <div className={style.userImage} style={{ backgroundImage: `url(${localStorageData ? localStorageData.image_url : 'https://evapkmvcgowyfwuogwbq.supabase.co/storage/v1/object/public/noises_bucket/user_profile_images/default.png'})` }}></div>
                     </Link>
                 </li>
             </ul>

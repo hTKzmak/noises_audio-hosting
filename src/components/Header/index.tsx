@@ -21,7 +21,7 @@ export default function Header() {
             {!showBackButton && <img className={style.logo} src={logo} alt="NOISES" />}
             <IoSearchOutline />
             <Link to={`/profile/${localStorageData.id}`} className={style.user}>
-                <img src={localStorageData ? localStorageData.image_url : 'https://evapkmvcgowyfwuogwbq.supabase.co/storage/v1/object/public/noises_bucket/user_profile_images/default.png'} alt="it's you ♡(>ᴗ•)" />
+                <div className={style.userImage} style={{ backgroundImage: `url(${localStorageData ? localStorageData.image_url : 'https://evapkmvcgowyfwuogwbq.supabase.co/storage/v1/object/public/noises_bucket/user_profile_images/default.png'})` }}></div>
             </Link>
         </header>
     );

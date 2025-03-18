@@ -12,6 +12,8 @@ import classNames from "classnames";
 
 export default function UploadMusicWin() {
 
+    // название изображения нужно изменить на строчные буквы с _ вместо пробела
+
     const { setShowMenuWindow, localStorageData } = useContext(Context);
 
     // useRef input'ов (для выбора файлов)
@@ -25,12 +27,13 @@ export default function UploadMusicWin() {
     // состояния по загрузки файлов
     const [isUploading, setIsUploading] = useState(false);
     const [isUploaded, setIsUploaded] = useState(false);
-
-    // отображение ошибки
     const [error, setError] = useState(false);
+    
+    // отображение сообщения об ошибке
+    const [showError, setShowError] = useState(false);
     const [formError, setFormError] = useState('');
 
-    const [values, setValues] = useState({ title: "", genre: "" });
+    const [values, setValues] = useState({ title: "", genre: "soundtrack" });
 
     //  функции выбора файлов
     const chooseFile = () => fileElem.current?.click();
@@ -70,45 +73,54 @@ export default function UploadMusicWin() {
 
     // фунция по загрузки файлов (музыка и обложка) и добавление музыки в БД
     const uploadData = async () => {
-        setIsUploading(true);
-        setError(false);
-        setFormError('');
-
-        try {
-            let artworkUrl = 'https://evapkmvcgowyfwuogwbq.supabase.co/storage/v1/object/public/noises_bucket/artworks/default.png';
-            let musicUrl = '';
-
-            if (choosenArtwork) {
-                const { error } = await supabase.storage.from('noises_bucket').upload(`artworks/${values.title}.png`, choosenArtwork);
-                if (error) throw error;
-                artworkUrl = `https://evapkmvcgowyfwuogwbq.supabase.co/storage/v1/object/public/noises_bucket/artworks/${values.title}.png`;
-            }
-
-            if (choosenFile) {
-                const { error } = await supabase.storage.from('noises_bucket').upload(`musics/${values.title}.mp3`, choosenFile);
-                if (error) throw error;
-                musicUrl = `https://evapkmvcgowyfwuogwbq.supabase.co/storage/v1/object/public/noises_bucket/musics/${values.title}.mp3`;
-            }
-
-            const musicData = {
-                id: Date.now(),
-                title: values.title,
-                genre: values.genre,
-                user_id: localStorageData.id,
-                artwork_url: artworkUrl,
-                music_url: musicUrl
-            };
-
-            const { error } = await supabase.from('music_tracks').insert(musicData);
-            if (error) throw error;
-
-            setIsUploaded(true);
-        } catch (err) {
-            setError(true);
-            setFormError('Upload failed. Please try again.');
-        } finally {
-            setIsUploading(false);
+        // Проверяем, заполнено ли поле title
+        if (!values.title) {
+            setShowError(true);
+            setFormError('Please fill all the fields');
+            return; // Прекращаем выполнение функции, если поле пустое
         }
+        else{
+            setIsUploading(true);
+            setShowError(false);
+            setFormError('');
+    
+            try {
+                let artworkUrl = 'https://evapkmvcgowyfwuogwbq.supabase.co/storage/v1/object/public/noises_bucket/artworks/default.png';
+                let musicUrl = '';
+    
+                if (choosenArtwork) {
+                    const { error } = await supabase.storage.from('noises_bucket').upload(`artworks/${values.title}.png`, choosenArtwork);
+                    if (error) throw error;
+                    artworkUrl = `https://evapkmvcgowyfwuogwbq.supabase.co/storage/v1/object/public/noises_bucket/artworks/${values.title.toLowerCase().replace(/\s+/g, '_')}.png`;
+                }
+    
+                if (choosenFile) {
+                    const { error } = await supabase.storage.from('noises_bucket').upload(`musics/${values.title}.mp3`, choosenFile);
+                    if (error) throw error;
+                    musicUrl = `https://evapkmvcgowyfwuogwbq.supabase.co/storage/v1/object/public/noises_bucket/musics/${values.title}.mp3`;
+                }
+    
+                const musicData = {
+                    id: Date.now(),
+                    title: values.title,
+                    genre: values.genre,
+                    user_id: localStorageData.id,
+                    artwork_url: artworkUrl,
+                    music_url: musicUrl
+                };
+    
+                const { error } = await supabase.from('music_tracks').insert(musicData);
+                if (error) throw error;
+    
+                setIsUploaded(true);
+            } catch (err) {
+                setShowError(true);
+                setFormError('Upload failed. Please try again.');
+            } finally {
+                setIsUploading(false);
+            }
+        }
+
     };
 
     return (
@@ -157,7 +169,7 @@ export default function UploadMusicWin() {
                                 <option value="cinematic">Cinematic</option>
                             </select>
                             <ButtonElem title={'Upload music'} func={uploadData} />
-                            <p className={classNames(error ? style.errorMessage : style.noneError)}>{formError}</p>
+                            <p className={classNames(showError ? style.errorMessage : style.noneError)}>{formError}</p>
                         </form>
                     </div>
                 )}
