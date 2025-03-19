@@ -132,7 +132,6 @@ function App() {
 
         // Добавление данных в musicData (Redux)
         dispatch(addingData(supabaseData));
-        console.log(data)
       } catch (error) {
         console.error(error);
       }

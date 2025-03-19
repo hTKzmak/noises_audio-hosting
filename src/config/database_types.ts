@@ -97,6 +97,7 @@ export type Database = {
       music_tracks: {
         Row: {
           artwork_url: string
+          genre: string | null
           id: number
           music_url: string
           title: string
@@ -104,13 +105,15 @@ export type Database = {
         }
         Insert: {
           artwork_url: string
-          id?: number
+          genre?: string | null
+          id: number
           music_url: string
           title: string
           user_id?: number | null
         }
         Update: {
           artwork_url?: string
+          genre?: string | null
           id?: number
           music_url?: string
           title?: string
@@ -133,13 +136,15 @@ export type Database = {
           image_url: string
           name: string
           password_hash: string
+          status: string | null
         }
         Insert: {
           email: string
-          id?: number
+          id: number
           image_url: string
           name: string
           password_hash: string
+          status?: string | null
         }
         Update: {
           email?: string
@@ -147,6 +152,7 @@ export type Database = {
           image_url?: string
           name?: string
           password_hash?: string
+          status?: string | null
         }
         Relationships: []
       }

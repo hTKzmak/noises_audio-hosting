@@ -17,6 +17,7 @@ type ArtistData = {
     image_url: string,
     music_tracks: any[],
     id: number,
+    status: string
 }
 
 export default function ProfileContent() {
@@ -35,6 +36,7 @@ export default function ProfileContent() {
         const foundArtist = data.find((elem: any) => elem.id === Number(id));
         if (foundArtist) {
             setArtistData(foundArtist)
+            console.log(foundArtist)
         }
     }, [id, data]);
 
@@ -59,7 +61,11 @@ export default function ProfileContent() {
         <div className={style.profileContent}>
             <div className={style.userBlock}>
                 <img src={artistData ? artistData.image_url : 'https://evapkmvcgowyfwuogwbq.supabase.co/storage/v1/object/public/noises_bucket/user_profile_images/default.png'} alt={artistData ? artistData.name : 'performer_image'} />
-                <p>{localStorageData.id == id ? 'You' : 'Performer'}</p>
+                {localStorageData.id == id ? (
+                    <p>You</p>
+                ) : (
+                    <p>{artistData?.status}</p>
+                )}
                 <h2>{artistData ? artistData.name : ''}</h2>
 
                 <div className={style.options}>
