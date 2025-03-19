@@ -1,4 +1,3 @@
-import MusicItem from '../MusicItem';
 import ButtonElem from '../UI/ButtonElem'
 import style from './ProfileContent.module.scss'
 
@@ -10,6 +9,7 @@ import { Link, useParams } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 
 import { Context } from '../../context/Context';
+import MusicList from '../MusicList';
 
 // типизация данных для artistData
 type ArtistData = {
@@ -70,9 +70,7 @@ export default function ProfileContent() {
             </div>
             <div className={style.musicList}>
                 {artistData && artistData.music_tracks.length > 0 ? (
-                    artistData.music_tracks.map((elem: any) => (
-                        <MusicItem key={elem.id} id={elem.id} title={elem.title} artist_name={elem.artist_name} artwork_url={elem.artwork_url} music_url={elem.music_url} onList={false} sortedData={artistData.music_tracks} />
-                    ))
+                    <MusicList onList={false} sortedData={artistData.music_tracks} />
                 ) : (
                     <span className={style.noMusicMessage}>There is nothing</span>
                 )}

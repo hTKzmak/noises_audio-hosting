@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { Context } from "../../context/Context";
-import MusicItem from "../../components/MusicItem";
+import MusicList from "../../components/MusicList";
 
 interface MusicListPageProps {
     showContent: string;
@@ -9,28 +9,36 @@ interface MusicListPageProps {
 export default function MusicListPage({ showContent }: MusicListPageProps) {
 
     // получение данных с app.tsx
-    const { data, localStorageData } = useContext(Context)
+    const { data, localStorageData, sessionStorageData } = useContext(Context)
 
     // данные пользователя, которые будут храниться в artistData
-    const [userFavList, useUserFavList] = useState<any | undefined>();
+    const [userFavList, setUserFavList] = useState<any[]>([]);
 
     // находим данные пользователя по id
     useEffect(() => {
-        const foundUser = data.find((elem: any) => elem.id === Number(localStorageData.id));
-        if (foundUser) {
-            useUserFavList(foundUser.favorite_music)
+        if (data?.length > 0) {
+            const foundUser = data.find((elem: any) => elem.id === Number(localStorageData.id));
+            setUserFavList(foundUser?.favorite_music || []);
         }
-        console.log(showContent)
     }, [localStorageData.id, data]);
 
+    const hasFavMusic = userFavList.length > 0;
+    const hasLatestMusic = sessionStorageData?.length > 0;
+    const hasData = (showContent == 'favorite' && hasFavMusic) || (showContent == 'latest' && hasLatestMusic)
+
     return (
-        <div className={userFavList && userFavList.length > 0 ? 'content' : 'noContent'}>
-            <h3 className="headerText">{userFavList && userFavList.length > 0 ? 'Favorite music' : ''}</h3>
-            <div className="musicListContent">
-                {userFavList && userFavList.length > 0 ? (
-                    userFavList.map((elem: any) => (
-                        <MusicItem key={elem.id} id={elem.id} title={elem.title} artist_name={elem.artist_name} artwork_url={elem.artwork_url} music_url={elem.music_url} onList={false} sortedData={userFavList} />
-                    ))
+        <div className={hasData ? "content" : "noContent"}>
+            {hasData && (
+                <h3 className="headerText">
+                    {showContent === "favorite" ? (hasFavMusic ? "Favorite music" : "") :
+                        showContent === "latest" ? (hasLatestMusic ? "Latest music" : "") : ""}
+                </h3>
+            )}
+            <div className="listContent">
+                {showContent === "favorite" && hasFavMusic ? (
+                    <MusicList onList={false} sortedData={userFavList}/>
+                ) : showContent === "latest" && hasLatestMusic ? (
+                    <MusicList onList={false} sortedData={sessionStorageData}/>
                 ) : (
                     <span>There is nothing</span>
                 )}

@@ -1,13 +1,19 @@
-.performersList{
+.scrolledPerformersList {
     display: flex;
     gap: 20px;
     overflow-x: scroll;
-    margin-top: 18px;
     justify-content: start;
 
     scroll-behavior: smooth;
     scroll-snap-align: center;
 
     -ms-overflow-style: none;
-    scrollbar-width: none;  
+    scrollbar-width: none;
+}
+
+.performersList {
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 25px;
+    column-gap: 20px;
 }

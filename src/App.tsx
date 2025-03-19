@@ -66,6 +66,11 @@ function App() {
   // получаем данные о пользователе с локального хранилища
   const localStorageData: userType | [] = JSON.parse(localStorage.getItem('userData') || '[]');
 
+  // создаём и получаем список недавно прослушааных треков
+  const [latestMusic, setLatestMusic] = useState([])
+  sessionStorage.setItem('latestMusic', JSON.stringify(latestMusic))
+  const sessionStorageData: any | [] = JSON.parse(sessionStorage.getItem('latestMusic') || '[]');
+
   // отображение контекстного меню
   const [showMenuWindow, setShowMenuWindow] = useState(false)
   const [uploadMusic, setUploadMusic] = useState(false)
@@ -151,9 +156,9 @@ function App() {
   }, [showMenuWindow]); // Зависимость от showMenuWindow
 
   return (
-    <Context.Provider value={{ data, localStorageData, currentSong, setCurrentSong, showPlayer, setShowPlayer, showMiniPlayer, setShowMiniPlayer, songs, setSongs, showMenuWindow, setShowMenuWindow, uploadMusic, setUploadMusic }}>
+    <Context.Provider value={{ data, localStorageData, currentSong, setCurrentSong, showPlayer, setShowPlayer, showMiniPlayer, setShowMiniPlayer, songs, setSongs, showMenuWindow, setShowMenuWindow, uploadMusic, setUploadMusic, latestMusic, setLatestMusic, sessionStorageData }}>
       <div className="app">
-        <MenuWindow/>
+        <MenuWindow />
         {!isAuthPage && <NavMenu />}
         <div className="container">
           {!isAuthPage && <Header />}
@@ -166,9 +171,9 @@ function App() {
                 <Route path='/' element={<ContentPage data={data} type={'homepage'} />} />
                 <Route path='/explore' element={<ContentPage data={data} type={'explorepage'} />} />
                 <Route path='/profile/:id' element={<ProfilePage />} />
-                <Route path='/favorite' element={<MusicListPage showContent={'favorite'}/>} />
+                <Route path='/favorite' element={<MusicListPage showContent={'favorite'} />} />
                 <Route path='/artists' element={<ArtistsListPage />} />
-                <Route path='/latest' element={<MusicListPage showContent={'latest'}/>} />
+                <Route path='/latest' element={<MusicListPage showContent={'latest'} />} />
                 <Route path='*' element={<ErrorPage />} />
               </Route>
             </Routes>

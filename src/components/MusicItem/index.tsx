@@ -7,8 +7,8 @@ import { Context } from '../../context/Context';
 export default function MusicItem({ id, title, artist_name, artwork_url, onList, sortedData }: any) {
 
     // получение данных с app.tsx
-    const { data, setCurrentSong, setShowMiniPlayer, setSongs } = useContext(Context)
-   
+    const { data, setCurrentSong, setShowMiniPlayer, setSongs, latestMusic, setLatestMusic } = useContext(Context)
+
     function startPlayMusic(id: number) {
         if (data && data.length > 0) {
             setSongs(sortedData)
@@ -21,6 +21,11 @@ export default function MusicItem({ id, title, artist_name, artwork_url, onList,
 
                 // находим выбранную нами музыку по id
                 if (elem.id === id) {
+                    // если выбранной музыки нет в списке недавно прослушанных, то добавляем его в список
+                    if (!latestMusic.find((music: any) => music.id === elem.id)) {
+                        setLatestMusic((prev : any) => [...prev, elem]);
+                    }
+
                     setCurrentSong(elem)
 
                     // будет отображаться еще основной плеер, только если экран будет больше 768px, иначе бкдет отображаться мини-плеер для мобильных устройств

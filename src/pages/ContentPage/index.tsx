@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import MusicList from "../../components/MusicList";
 import PerformerList from "../../components/PerformersList";
 import MiniButton from "../../components/UI/MiniButton";
@@ -9,6 +9,8 @@ type PageType = {
 }
 
 export default function ContentPage({ data, type }: PageType) {
+    
+    const [onlyMusic, setOnlyMusic] = useState([]);
 
     // находим нужный нам div элемент с указанием типизации (<HTMLDivElement>)
     const scrollMusicsRef = useRef<HTMLDivElement>(null);
@@ -24,6 +26,14 @@ export default function ContentPage({ data, type }: PageType) {
         }
     };
 
+    // фильтрация данных, чтобы оставались только треки для их отображения
+    useEffect(() => {
+        if (data && data.length > 0) {
+            const newData = data.flatMap((item: any) => item.music_tracks);
+            setOnlyMusic(newData);
+        }
+    }, [data]);
+
     return (
         <div className="content">
             <div className="musicContent">
@@ -34,7 +44,7 @@ export default function ContentPage({ data, type }: PageType) {
                         <MiniButton sign='forward' func={() => handleScroll('left', scrollMusicsRef)} />
                     </div>
                 </div>
-                <MusicList data={data} scrollMusicsRef={scrollMusicsRef} onList={true} />
+                <MusicList scrollMusicsRef={scrollMusicsRef} onList={true} sortedData={onlyMusic}/>
             </div>
             <div className="performersContent">
                 <div className="contentHeader">
@@ -44,7 +54,7 @@ export default function ContentPage({ data, type }: PageType) {
                         <MiniButton sign='forward' func={() => handleScroll('left', scrollArtistsRef)} />
                     </div>
                 </div>
-                <PerformerList data={data} scrollArtistsRef={scrollArtistsRef} />
+                <PerformerList sortedData={data} onList={true} scrollArtistsRef={scrollArtistsRef} />
             </div>
         </div>
     )

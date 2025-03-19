@@ -1,11 +1,17 @@
 import PerformerItem from '../PerformerItem'
 import style from './PerformersList.module.scss'
 
-export default function PerformerList({ data, scrollArtistsRef }: any) {
+interface ArtistsListInter{
+    sortedData: any;
+    onList: boolean;
+    scrollArtistsRef?: any;
+}  
+
+export default function PerformerList({ sortedData, onList, scrollArtistsRef }: ArtistsListInter) {
 
     return (
-        <div className={style.performersList} ref={scrollArtistsRef}>
-            {data.map((elem: any) => (
+        <div className={onList ? style.scrolledPerformersList : style.performersList} ref={scrollArtistsRef}>
+            {sortedData.map((elem: any) => (
                 <PerformerItem key={elem.id} id={elem.id} name={elem.name} image_url={elem.image_url}/>
             ))}
         </div>

@@ -40,14 +40,15 @@ $error-color: #f62828;
       font-size: 23px;
       text-align: start;
       font-weight: 500;
+      margin-bottom: 18px;
 
       @media screen and (max-width: 1024px) {
         font-size: 18px;
       }
     }
 
-    .musicListContent {
-      margin-top: 18px;
+    .listContent {
+      // margin-top: 18px;
       display: flex;
       flex-direction: column;
       row-gap: 20px;
@@ -118,6 +119,11 @@ $error-color: #f62828;
         display: flex;
         justify-content: space-between;
         align-items: center;
+        margin-bottom: 18px;
+
+        .headerText{
+          margin-bottom: 0;
+        }
 
         .scrollsOption {
           display: flex;
