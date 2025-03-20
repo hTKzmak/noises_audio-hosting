@@ -67,6 +67,7 @@ $image-background-color: #212121;
         align-items: center;
         right: 15px;
         gap: 10px;
+        pointer-events: all;
 
         button{
             border: none;
@@ -81,6 +82,10 @@ $image-background-color: #212121;
 
     &:hover {
         background-color: $music-item-hover-color;
+    }
+
+    &:has(.options:hover) {
+        background-color: $music-item-color; // Отключаем hover, если курсор над .options
     }
 
     @media screen and (max-width: 1280px) {

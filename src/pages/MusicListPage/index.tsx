@@ -9,7 +9,7 @@ interface MusicListPageProps {
 export default function MusicListPage({ showContent }: MusicListPageProps) {
 
     // получение данных с app.tsx
-    const { data, localStorageData, sessionStorageData } = useContext(Context)
+    const { data, localStorageData, sessionStorageData, searchResults } = useContext(Context);
 
     // данные пользователя, которые будут храниться в artistData
     const [userFavList, setUserFavList] = useState<any[]>([]);
@@ -24,25 +24,32 @@ export default function MusicListPage({ showContent }: MusicListPageProps) {
 
     const hasFavMusic = userFavList.length > 0;
     const hasLatestMusic = sessionStorageData?.length > 0;
-    const hasData = (showContent == 'favorite' && hasFavMusic) || (showContent == 'latest' && hasLatestMusic)
+    const hasSearchResults = searchResults.length > 0;
+
+    const hasData = (showContent === 'favorite' && hasFavMusic) ||
+        (showContent === 'latest' && hasLatestMusic) ||
+        (showContent === 'search' && hasSearchResults);
 
     return (
         <div className={hasData ? "content" : "noContent"}>
             {hasData && (
                 <h3 className="headerText">
-                    {showContent === "favorite" ? (hasFavMusic ? "Favorite music" : "") :
-                        showContent === "latest" ? (hasLatestMusic ? "Latest music" : "") : ""}
+                    {showContent === "favorite" ? "Favorite music" :
+                        showContent === "latest" ? "Latest music" :
+                            showContent === "search" ? "Search results" : ""}
                 </h3>
             )}
             <div className="listContent">
                 {showContent === "favorite" && hasFavMusic ? (
-                    <MusicList onList={false} sortedData={userFavList}/>
+                    <MusicList onList={false} sortedData={userFavList} />
                 ) : showContent === "latest" && hasLatestMusic ? (
-                    <MusicList onList={false} sortedData={sessionStorageData}/>
+                    <MusicList onList={false} sortedData={sessionStorageData} />
+                ) : showContent === "search" && hasSearchResults ? (
+                    <MusicList onList={false} sortedData={searchResults} />
                 ) : (
                     <span>There is nothing</span>
                 )}
             </div>
         </div>
-    )
+    );
 }

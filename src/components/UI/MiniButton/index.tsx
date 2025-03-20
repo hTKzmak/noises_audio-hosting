@@ -5,15 +5,15 @@ import { IoIosArrowBack, IoIosArrowForward, IoIosArrowDown } from "react-icons/i
 
 interface ButtonElemProps {
     sign?: string,
-    inPorfilePage?: boolean;
+    inProfilePage?: boolean;
     func?: any;
 }
 
-export default function MiniButton({ sign, inPorfilePage, func }: ButtonElemProps) {
+export default function MiniButton({ sign, inProfilePage, func }: ButtonElemProps) {
     const icon = sign === 'back' ? <IoIosArrowBack /> : sign === 'forward' ? <IoIosArrowForward /> : <IoIosArrowDown />;
 
     return (
-        <button className={classNames(style.miniButton, inPorfilePage ? "inProfilePage" : '')} onClick={func}>
+        <button className={classNames(style.miniButton, inProfilePage ? "inProfilePage" : '')} onClick={func}>
             {icon}
         </button>
     );

@@ -59,6 +59,8 @@ function App() {
   const [showPlayer, setShowPlayer] = useState<boolean>(false);
   const [showMiniPlayer, setShowMiniPlayer] = useState<boolean>(false);
 
+  const [searchResults, setSearchResults] = useState([]); // Состояние для поиска
+
   // Получаем текущий путь
   const location = useLocation();
   const isAuthPage = location.pathname === '/login' || location.pathname === '/registration';
@@ -155,7 +157,7 @@ function App() {
   }, [showMenuWindow]); // Зависимость от showMenuWindow
 
   return (
-    <Context.Provider value={{ data, localStorageData, currentSong, setCurrentSong, showPlayer, setShowPlayer, showMiniPlayer, setShowMiniPlayer, songs, setSongs, showMenuWindow, setShowMenuWindow, uploadMusic, setUploadMusic, latestMusic, setLatestMusic, sessionStorageData }}>
+    <Context.Provider value={{ data, localStorageData, currentSong, setCurrentSong, showPlayer, setShowPlayer, showMiniPlayer, setShowMiniPlayer, songs, setSongs, showMenuWindow, setShowMenuWindow, uploadMusic, setUploadMusic, latestMusic, setLatestMusic, sessionStorageData, searchResults, setSearchResults }}>
       <div className="app">
         <MenuWindow />
         {!isAuthPage && <NavMenu />}
@@ -173,6 +175,7 @@ function App() {
                 <Route path='/favorite' element={<MusicListPage showContent={'favorite'} />} />
                 <Route path='/artists' element={<ArtistsListPage />} />
                 <Route path='/latest' element={<MusicListPage showContent={'latest'} />} />
+                <Route path='/search' element={<MusicListPage showContent={'search'} />} />
                 <Route path='*' element={<ErrorPage />} />
               </Route>
             </Routes>

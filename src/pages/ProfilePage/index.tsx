@@ -8,7 +8,7 @@ export default function ProfilePage() {
 
     return (
         <div className="content">
-            <MiniButton sign='back' inPorfilePage={true} func={() => navigate(-1)} />
+            <MiniButton sign='back' inProfilePage={true} func={() => navigate(-1)} />
             <ProfileContent />
         </div>
     )
