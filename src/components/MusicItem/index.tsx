@@ -10,7 +10,7 @@ import { FaTrash } from "react-icons/fa6";
 import { useLocation } from 'react-router-dom';
 import supabase from '../../config/supabaseClient';
 import { useDispatch } from 'react-redux';
-import { deleteMusic, getData } from '../../features/musicdata';
+import { deleteMusic } from '../../features/musicdata';
 
 export default function MusicItem({ id, title, artist_name, artwork_url, onList, sortedData }: any) {
 
