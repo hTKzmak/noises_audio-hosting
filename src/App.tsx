@@ -46,6 +46,7 @@ function App() {
 
   // получение данных с musicData с помощью useSelector и типизации RootState
   const data = useSelector((state: RootState) => state.musicdata.data)
+  console.log("Данные в useSelector:", data);
 
   const dispatch = useDispatch();
 

@@ -1,12 +1,16 @@
 import style from './MusicItem.module.scss'
 import classNames from 'classnames';
 
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { Context } from '../../context/Context';
 
-import { FiHeart } from "react-icons/fi";
+import { FaHeart } from "react-icons/fa";
+import { FaRegHeart } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa6";
 import { useLocation } from 'react-router-dom';
+import supabase from '../../config/supabaseClient';
+import { useDispatch } from 'react-redux';
+import { deleteMusic, getData } from '../../features/musicdata';
 
 export default function MusicItem({ id, title, artist_name, artwork_url, onList, sortedData }: any) {
 
@@ -15,6 +19,11 @@ export default function MusicItem({ id, title, artist_name, artwork_url, onList,
 
     const { pathname } = useLocation();
     const myProfile = pathname.includes('profile') && pathname.includes(localStorageData.id);
+
+    const dispatch = useDispatch();
+
+    // Храним id любимых треков
+    const [isFavorite, setIsFavorite] = useState(true)
 
     function startPlayMusic(id: number) {
         if (data && data.length > 0) {
@@ -42,20 +51,65 @@ export default function MusicItem({ id, title, artist_name, artwork_url, onList,
         }
     }
 
-    const clickButton = (e: any) => {
+    // функционал удаления музыки
+    const deleteFunc = async (e: any) => {
         e.stopPropagation();
+    
+        const userId = localStorageData.id;
+        const musicId = id;
+    
+        // также удаляем музыку с разметки
+        dispatch(deleteMusic({ userId, musicId }));
+    
+        try {
+            // Удаление музыки из БД
+            const { error: dbError } = await supabase
+                .from('music_tracks')
+                .delete()
+                .eq('id', musicId);
+    
+            if (dbError) throw dbError;
+    
+            // Удаление файлов (аудиофайл и обложка)
+            await deleteFileFromStorage('musics', `music_${musicId}`);
+            await deleteFileFromStorage('artworks', `artwork_${musicId}`);
+        } catch (error) {
+            console.error('Ошибка при удалении:', error);
+        }
+    };
+    
+    // удаление файлов со storage
+    const deleteFileFromStorage = async (bucket: string, prefix: string) => {
+        try {
+            const { data, error } = await supabase.storage.from('noises_bucket').list(bucket);
+            if (error) throw error;
+    
+            const file = data.find(elem => elem.name.includes(prefix));
+            if (file) {
+                await supabase.storage.from('noises_bucket').remove([`${bucket}/${file.name}`]);
+                console.log(`Файл ${file.name} удалён`);
+            }
+        } catch (error) {
+            console.error(`Ошибка при удалении файла из ${bucket}:`, error);
+        }
+    };
+    
+
+    const favoriteFunc = (e: any) => {
+        e.stopPropagation();
+        setIsFavorite(!isFavorite)
     }
 
     return (
-        <div className={classNames(style.musicItem, onList ? style.onList : '')} id={id} onClick={() => startPlayMusic(id)}>
+        <div className={classNames(style.musicItem, onList ? style.onList : '')} onClick={() => startPlayMusic(id)} id={id}>
             <div className={style.musicImage} style={{ backgroundImage: `url(${artwork_url ? artwork_url : 'https://evapkmvcgowyfwuogwbq.supabase.co/storage/v1/object/public/noises_bucket/artworks/default.png'})` }}></div>
             <div className={style.musicInfo}>
                 <span>{title}</span>
                 <span>{artist_name}</span>
             </div>
             <div className={style.options}>
-                <button onClick={clickButton}><FiHeart /></button>
-                {myProfile && <button onClick={clickButton}><FaTrash /></button>}
+                <button onClick={favoriteFunc}>{isFavorite ? <FaHeart /> : <FaRegHeart />}</button>
+                {myProfile && <button onClick={deleteFunc}><FaTrash /></button>}
             </div>
         </div>
     )

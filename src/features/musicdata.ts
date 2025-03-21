@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface ProductsState {
     data: any[],
@@ -13,33 +13,36 @@ export const productsSlice = createSlice({
     initialState,
     reducers: {
         // отображение данных в консоле
-        getData() {
-            console.log(initialState.data)
+        getData(state) {
+            console.log(state.data)
         },
         // добавление данных
         addingData(state, action) {
             state.data = action.payload
 
-            // console.log(state.data)
-        },
-        // добавление своей загруженной музыки в библиотеку
-        addMusicToLibrary(state, action) {
-            const musicData = action.payload;
-            const userIndex = state.data.findIndex(user => user.id === musicData.user_id);
-
-            console.log(musicData)
+            console.log('данные:')
             console.log(state.data)
-            console.log(userIndex)
+        },
+        // Удаление музыки пользователя по id, чтобы не отображался на разметке
+        deleteMusic(state, action: PayloadAction<{ userId: number, musicId: number }>) {
+            const { userId, musicId } = action.payload;
 
-            if (userIndex !== -1) {
-                // Если пользователь уже существует, добавляем музыку в его библиотеку
-                state.data[userIndex].musicLibrary.push(musicData);
-            }
+            state.data = state.data.map(user => {
+                if (user.id === userId) {
+                    return {
+                        ...user,
+                        music_tracks: user.music_tracks.filter((track: any) => track.id !== musicId)
+                    };
+                }
+                return user;
+            });
+
+            console.log("Музыка удалена:", state.data);
         }
     },
 })
 
 // Action creators are generated for each case reducer function
-export const { getData, addingData, addMusicToLibrary } = productsSlice.actions
+export const { getData, addingData, deleteMusic } = productsSlice.actions
 
 export default productsSlice.reducer

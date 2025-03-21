@@ -101,6 +101,8 @@ $error-color: #f62828;
     .content {
       margin-top: 64px;
       margin-bottom: 64px;
+      // min-height: 75%;
+      min-height: 85vh;
 
       .inProfilePage {
         display: block;
