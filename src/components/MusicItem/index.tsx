@@ -4,8 +4,8 @@ import classNames from 'classnames';
 import { useContext, useState } from 'react';
 import { Context } from '../../context/Context';
 
-import { FaHeart } from "react-icons/fa";
-import { FaRegHeart } from "react-icons/fa";
+import { RiHeartFill } from "react-icons/ri";
+import { RiHeartLine } from "react-icons/ri";
 import { FaTrash } from "react-icons/fa6";
 import { useLocation } from 'react-router-dom';
 import supabase from '../../config/supabaseClient';
@@ -22,8 +22,7 @@ export default function MusicItem({ id, title, artist_name, artwork_url, onList,
 
     const dispatch = useDispatch();
 
-    // Храним id любимых треков
-    const [isFavorite, setIsFavorite] = useState(true)
+    const [isFavorite, setIsFavorite] = useState(false)
 
     function startPlayMusic(id: number) {
         if (data && data.length > 0) {
@@ -108,7 +107,7 @@ export default function MusicItem({ id, title, artist_name, artwork_url, onList,
                 <span>{artist_name}</span>
             </div>
             <div className={style.options}>
-                <button onClick={favoriteFunc}>{isFavorite ? <FaHeart /> : <FaRegHeart />}</button>
+                <button onClick={favoriteFunc}>{isFavorite ? <RiHeartFill /> : <RiHeartLine />}</button>
                 {myProfile && <button onClick={deleteFunc}><FaTrash /></button>}
             </div>
         </div>

@@ -55,7 +55,9 @@ $error-color: #f62828;
     }
 
     .noContent {
-      height: 90%;
+      margin-top: 64px;
+      margin-bottom: 64px;
+      min-height: 85vh;
       align-content: center;
 
       span {
@@ -65,7 +67,7 @@ $error-color: #f62828;
     }
 
     .ErrorContent {
-      height: 90%;
+      min-height: 85vh;
       align-content: center;
 
       h1,
@@ -123,7 +125,7 @@ $error-color: #f62828;
         align-items: center;
         margin-bottom: 18px;
 
-        .headerText{
+        .headerText {
           margin-bottom: 0;
         }
 

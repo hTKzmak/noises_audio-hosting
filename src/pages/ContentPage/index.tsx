@@ -9,8 +9,10 @@ type PageType = {
 }
 
 export default function ContentPage({ data, type }: PageType) {
-    
-    const [onlyMusic, setOnlyMusic] = useState([]);
+
+    // список музыки и исполнителей
+    const [musicList, setMusicList] = useState([]);
+    const [artistsList, setArtistsList] = useState([]);
 
     // находим нужный нам div элемент с указанием типизации (<HTMLDivElement>)
     const scrollMusicsRef = useRef<HTMLDivElement>(null);
@@ -21,40 +23,45 @@ export default function ContentPage({ data, type }: PageType) {
 
     // для списка музыки и исполнителей
     const handleScroll = (direction: 'left' | 'right', ref: React.RefObject<HTMLDivElement>) => {
-        if (ref.current) {
-            ref.current.scrollLeft += direction === 'left' ? scrollValue : -scrollValue;
-        }
+        ref.current?.scrollBy({ left: direction === 'left' ? scrollValue : -scrollValue, behavior: 'smooth' });
     };
 
-    // фильтрация данных, чтобы оставались только треки для их отображения
+    // фильтрация данных в зависимости от страницы
     useEffect(() => {
-        if (data && data.length > 0) {
-            const newData = data.flatMap((item: any) => item.music_tracks);
-            setOnlyMusic(newData);
+        if (data?.length > 0) {
+            const latestMusic = data.flatMap((item: any) => item.music_tracks);
+            const sortedMusic = latestMusic.sort((a: any, b: any) => b.favorite_count - a.favorite_count);
+            const sortedArtists = data
+                .filter((user: any) => user.favorite_count > 0)
+                .sort((a: any, b: any) => b.favorite_count - a.favorite_count);
+
+            setMusicList(type === 'explore' && sortedMusic.length > 0 ? sortedMusic : latestMusic);
+            setArtistsList(type === 'explore' && sortedArtists.length > 0 ? sortedArtists : data);
         }
-    }, [data]);
+    }, [data, type]);
+
 
     return (
         <div className="content">
             <div className="musicContent">
                 <div className="contentHeader">
-                    <h3 className="headerText">{type === 'homepage' ? 'Recommended music' : 'Popular music'}</h3>
+                    <h3 className="headerText">{type === 'home' ? 'Latest music' : 'Popular music'}</h3>
                     <div className="scrollsOption">
                         <MiniButton sign='back' func={() => handleScroll('right', scrollMusicsRef)} />
                         <MiniButton sign='forward' func={() => handleScroll('left', scrollMusicsRef)} />
                     </div>
                 </div>
-                <MusicList scrollMusicsRef={scrollMusicsRef} onList={true} sortedData={onlyMusic}/>
+                <MusicList scrollMusicsRef={scrollMusicsRef} onList={true} sortedData={musicList} />
             </div>
             <div className="performersContent">
                 <div className="contentHeader">
-                    <h3 className="headerText">{type === 'homepage' ? 'Recommended artists' : 'Popular artists'}</h3>
+                    <h3 className="headerText">{type === 'home' ? 'Latest artists' : 'Popular artists'}</h3>
                     <div className="scrollsOption">
                         <MiniButton sign='back' func={() => handleScroll('right', scrollArtistsRef)} />
                         <MiniButton sign='forward' func={() => handleScroll('left', scrollArtistsRef)} />
                     </div>
                 </div>
-                <PerformerList sortedData={data} onList={true} scrollArtistsRef={scrollArtistsRef} />
+                <PerformerList sortedData={artistsList} onList={true} scrollArtistsRef={scrollArtistsRef} />
             </div>
         </div>
     )

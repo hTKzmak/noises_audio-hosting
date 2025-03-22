@@ -20,6 +20,7 @@ export default function UploadMusicWin() {
     // выбранные файлы
     const [choosenFile, setChoosenFile] = useState<File | null>(null);
     const [choosenArtwork, setChoosenArtwork] = useState<File | null>(null);
+    const [artworkPreview, setArtworkPreview] = useState<string | null>(null);
 
     // состояния по загрузки файлов
     const [isUploading, setIsUploading] = useState(false);
@@ -41,8 +42,13 @@ export default function UploadMusicWin() {
         setShowMenuWindow(false);
         setChoosenFile(null);
         setChoosenArtwork(null);
+        setArtworkPreview(null);
         setIsUploaded(false);
         setError(false);
+
+        if (artworkPreview) {
+            URL.revokeObjectURL(artworkPreview);
+        }
     };
 
     // закрытие модального окна с обновлением страницы (нужен для отображения новых данных на странице после загрузки музыки)
@@ -59,8 +65,19 @@ export default function UploadMusicWin() {
 
     const handleArtworkChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const files = event.target.files;
-        if (files && (files[0]?.type === "image/png" || files[0]?.type === "image/jpeg")) setChoosenArtwork(files[0]);
+        if (files && (files[0]?.type === "image/png" || files[0]?.type === "image/jpeg")) {
+            setChoosenArtwork(files[0]);
+
+            // Удаляем старый объект URL, если он был
+            if (artworkPreview) {
+                URL.revokeObjectURL(artworkPreview);
+            }
+
+            // Создаём новый
+            setArtworkPreview(URL.createObjectURL(files[0]));
+        }
     };
+
 
     // изменение значения input и select
     const handleInputChange = (evt: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -91,7 +108,7 @@ export default function UploadMusicWin() {
                     artwork_url: 'https://evapkmvcgowyfwuogwbq.supabase.co/storage/v1/object/public/noises_bucket/artworks/default.png',
                     music_url: ''
                 };
-                
+
                 if (choosenArtwork) {
                     const fileExtension = choosenArtwork?.name.split('.').pop(); // Получаем расширение файла
                     const fileName = `artwork_${musicData.id}.${fileExtension}`; // Добавляем префикс "music_"
@@ -101,11 +118,11 @@ export default function UploadMusicWin() {
                     musicData.artwork_url = `https://evapkmvcgowyfwuogwbq.supabase.co/storage/v1/object/public/noises_bucket/artworks/${fileName}`;
                     console.log(musicData.artwork_url)
                 }
-                
+
                 if (choosenFile) {
                     const fileExtension = choosenFile?.name.split('.').pop(); // Получаем расширение файла
                     const fileName = `music_${musicData.id}.${fileExtension}`; // Добавляем префикс "music_"
-                    
+
                     const { error } = await supabase.storage.from('noises_bucket').upload(`musics/${fileName}`, choosenFile);
                     if (error) throw error;
                     musicData.music_url = `https://evapkmvcgowyfwuogwbq.supabase.co/storage/v1/object/public/noises_bucket/musics/${fileName}`;
@@ -168,19 +185,32 @@ export default function UploadMusicWin() {
                     </div>
                 ) : (
                     <div className={style.uploadFormContent}>
-                        <div className={style.musicImage} style={{ backgroundImage: `url(${choosenArtwork ? URL.createObjectURL(choosenArtwork) : "https://evapkmvcgowyfwuogwbq.supabase.co/storage/v1/object/public/noises_bucket/artworks/default.png"})` }}></div>
+                        <div
+                            className={style.musicImage}
+                            style={{ backgroundImage: `url(${artworkPreview || "https://evapkmvcgowyfwuogwbq.supabase.co/storage/v1/object/public/noises_bucket/artworks/default.png"})` }}
+                        ></div>
                         <input ref={artworkElem} type="file" accept="image/png, image/jpeg" hidden onChange={handleArtworkChange} />
                         <p><span onClick={chooseArtwork}>Click here</span> to change image</p>
                         <form onSubmit={(e) => { e.preventDefault() }}>
                             <label>Options</label>
                             <input type="text" name="title" placeholder='Music name' value={values.title} onChange={handleInputChange} />
                             <select name="genre" value={values.genre} onChange={handleInputChange}>
-                                <option value="soundtrack">Soundtrack</option>
-                                <option value="classic">Classic</option>
-                                <option value="rap">Rap</option>
+                                <option value="pop">Pop</option>
+                                <option value="rock">Rock</option>
+                                <option value="hip-hop">Hip-Hop</option>
+                                <option value="electronic">Electronic</option>
                                 <option value="electro">Electro</option>
+                                <option value="jazz">Jazz</option>
+                                <option value="classical">Classical</option>
+                                <option value="metal">Metal</option>
+                                <option value="reggae">Reggae</option>
+                                <option value="indie">Indie</option>
+                                <option value="folk">Folk</option>
+                                <option value="blues">Blues</option>
                                 <option value="cinematic">Cinematic</option>
+                                <option value="soundtrack">Soundtrack</option>
                             </select>
+
                             <ButtonElem title={'Upload music'} func={uploadData} />
                             <p className={classNames(showError ? style.errorMessage : style.noneError)}>{formError}</p>
                         </form>

@@ -46,7 +46,6 @@ function App() {
 
   // получение данных с musicData с помощью useSelector и типизации RootState
   const data = useSelector((state: RootState) => state.musicdata.data)
-  console.log("Данные в useSelector:", data);
 
   const dispatch = useDispatch();
 
@@ -82,49 +81,61 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Запрос на все имеющиеся таблицы в Supabase
         const [usersRes, artistsRes, musicRes, tracksRes] = await Promise.all([
           supabase.from('users').select(),
           supabase.from('favorite_artists').select(),
           supabase.from('favorite_music').select(),
           supabase.from('music_tracks').select(),
         ]);
-
-        // Проверка на ошибки
+  
         if (usersRes.error || artistsRes.error || musicRes.error || tracksRes.error) {
           console.error(usersRes.error || artistsRes.error || musicRes.error || tracksRes.error);
           return;
         }
-
+  
         const users = usersRes.data;
         const favoriteArtists = artistsRes.data;
         const favoriteMusic = musicRes.data;
         const musicTracks = tracksRes.data;
-
-        // Добавление имени исполнителя в каждый трек
+  
+        // Подсчет количества отслеживаний для музыки
+        const musicTrackCounts = favoriteMusic.reduce((acc: any, fav: any) => {
+          acc[fav.music_id] = (acc[fav.music_id] || 0) + 1;
+          return acc;
+        }, {});
+  
+        // Подсчет количества отслеживаний для исполнителей
+        const artistCounts = favoriteArtists.reduce((acc: any, fav: any) => {
+          acc[fav.artist_id] = (acc[fav.artist_id] || 0) + 1;
+          return acc;
+        }, {});
+  
+        // Добавление количества отслеживаний в каждый трек
         const musicTracksWithArtistName = musicTracks.map(track => {
           const artist = users.find(user => user.id === track.user_id);
           return {
             ...track,
-            artist_name: artist ? artist.name : "Unknown Artist", // Добавляем имя исполнителя
+            artist_name: artist ? artist.name : "Unknown Artist",
+            favorite_count: musicTrackCounts[track.id] || 0,
           };
         });
-
+  
+        // Добавление количества отслеживаний в каждого исполнителя
+        const usersWithFavoriteCount = users.map(user => ({
+          ...user,
+          favorite_count: artistCounts[user.id] || 0,
+        }));
+  
         // Обработка структуры данных
-        const supabaseData = users.map(user => {
-          // Находим музыкальные треки пользователя
+        const supabaseData = usersWithFavoriteCount.map(user => {
           const userMusicTracks = musicTracksWithArtistName.filter(track => track.user_id === user.id);
-
-          // Находим избранные треки пользователя
           const userFavoriteMusic = favoriteMusic
             .filter(fav => fav.user_id === user.id)
             .map(fav => musicTracksWithArtistName.find(track => track.id === fav.music_id));
-
-          // Находим избранных исполнителей пользователя
           const userFavoriteArtists = favoriteArtists
             .filter(fav => fav.user_id === user.id)
-            .map(fav => users.find(artist => artist.id === fav.artist_id));
-
+            .map(fav => usersWithFavoriteCount.find(artist => artist.id === fav.artist_id));
+  
           return {
             ...user,
             music_tracks: userMusicTracks,
@@ -132,14 +143,13 @@ function App() {
             favorite_artists: userFavoriteArtists,
           };
         });
-
-        // Добавление данных в musicData (Redux)
+  
         dispatch(addingData(supabaseData));
       } catch (error) {
         console.error(error);
       }
     };
-
+  
     fetchData();
   }, []);
 
@@ -170,8 +180,8 @@ function App() {
               <Route path='/registration' element={<AuthPage />} />
 
               <Route element={<PrivateRoute />}>
-                <Route path='/' element={<ContentPage data={data} type={'homepage'} />} />
-                <Route path='/explore' element={<ContentPage data={data} type={'explorepage'} />} />
+                <Route path='/' element={<ContentPage data={data} type={'home'} />} />
+                <Route path='/explore' element={<ContentPage data={data} type={'explore'} />} />
                 <Route path='/profile/:id' element={<ProfilePage />} />
                 <Route path='/favorite' element={<MusicListPage showContent={'favorite'} />} />
                 <Route path='/artists' element={<ArtistsListPage />} />

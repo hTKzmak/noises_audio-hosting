@@ -1,7 +1,8 @@
 import ButtonElem from '../UI/ButtonElem'
 import style from './ProfileContent.module.scss'
 
-import { FiHeart } from "react-icons/fi";
+import { RiHeartFill } from "react-icons/ri";
+import { RiHeartLine } from "react-icons/ri";
 import { IoSettingsOutline } from "react-icons/io5";
 import { FiUpload } from "react-icons/fi";
 
@@ -10,6 +11,7 @@ import { useContext, useEffect, useState } from 'react';
 
 import { Context } from '../../context/Context';
 import MusicList from '../MusicList';
+import supabase from '../../config/supabaseClient';
 
 // типизация данных для artistData
 type ArtistData = {
@@ -27,6 +29,9 @@ export default function ProfileContent() {
 
     // данные пользователя, которые будут храниться в artistData
     const [artistData, setArtistData] = useState<ArtistData | undefined>();
+
+    // Храним id любимых треков
+    const [isFavorite, setIsFavorite] = useState(false)
 
     // находим с помощью useParams значение id
     const { id } = useParams()
@@ -56,6 +61,22 @@ export default function ProfileContent() {
         setShowMenuWindow(!showMenuWindow)
     }
 
+    const favoriteFunc = async () => {
+        if (id !== localStorageData.id) {
+            setIsFavorite(!isFavorite)
+
+            const { data, error } = await supabase
+                .from('favorite_artists')
+                .insert({ user_id: localStorageData.id, artist_id: Number(id) });
+
+            if (error) {
+                console.error('Ошибка при добавлении в избранное:', error);
+            } else {
+                console.log('Добавлено в избранное:', data);
+            }
+        }
+    }
+
 
     return (
         <div className={style.profileContent}>
@@ -69,9 +90,9 @@ export default function ProfileContent() {
                 <h2>{artistData ? artistData.name : ''}</h2>
 
                 <div className={style.options}>
-                    <ButtonElem title='Play' func={() => startPlayMusic()}/>
-                    {localStorageData.id == id && (<button onClick={showUploadMusic}><FiUpload/></button>)}
-                    {localStorageData.id == id ? (<Link to={'/settings'}><IoSettingsOutline/></Link>) : (<button><FiHeart /></button>)}
+                    <ButtonElem title='Play' func={() => startPlayMusic()} />
+                    {localStorageData.id == id && (<button onClick={showUploadMusic}><FiUpload /></button>)}
+                    {localStorageData.id == id ? (<Link to={'/settings'}><IoSettingsOutline /></Link>) : (<button onClick={favoriteFunc}>{isFavorite ? <RiHeartFill /> : <RiHeartLine />}</button>)}
                 </div>
             </div>
             <div className={style.musicList}>
