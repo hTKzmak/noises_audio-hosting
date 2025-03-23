@@ -9,6 +9,18 @@ import failIcon from '../../../assets/icons/contextMenu/fail.svg';
 import Loading from "../../Loading";
 import supabase from "../../../config/supabaseClient";
 import classNames from "classnames";
+import { useDispatch } from "react-redux";
+import { uploadMusic } from "../../../features/musicdata";
+
+interface musicData {
+    id: number,
+    title: string,
+    genre: string,
+    user_id: number,
+    artwork_url: string,
+    music_url: string,
+    artist_name?: string
+}
 
 export default function UploadMusicWin() {
     const { setShowMenuWindow, localStorageData } = useContext(Context);
@@ -16,6 +28,8 @@ export default function UploadMusicWin() {
     // useRef input'ов (для выбора файлов)
     const fileElem = useRef<HTMLInputElement | null>(null);
     const artworkElem = useRef<HTMLInputElement | null>(null);
+
+    const dispatch = useDispatch();
 
     // выбранные файлы
     const [choosenFile, setChoosenFile] = useState<File | null>(null);
@@ -50,12 +64,6 @@ export default function UploadMusicWin() {
             URL.revokeObjectURL(artworkPreview);
         }
     };
-
-    // закрытие модального окна с обновлением страницы (нужен для отображения новых данных на странице после загрузки музыки)
-    const refreshApp = () => {
-        location.reload()
-        closeContextMenu()
-    }
 
     // сохдранение данных о файлах в состояния
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -100,13 +108,13 @@ export default function UploadMusicWin() {
 
             try {
 
-                const musicData = {
+                const musicData: musicData = {
                     id: Date.now(),
                     title: values.title,
                     genre: values.genre,
                     user_id: localStorageData.id,
                     artwork_url: 'https://evapkmvcgowyfwuogwbq.supabase.co/storage/v1/object/public/noises_bucket/artworks/default.png',
-                    music_url: ''
+                    music_url: '',
                 };
 
                 if (choosenArtwork) {
@@ -134,12 +142,14 @@ export default function UploadMusicWin() {
 
                 setIsUploaded(true);
 
-                console.log(musicData)
-            } catch (err) {
-                // можно оставить как замену 
-                // setShowError(true);
-                // setFormError('Upload failed. Please try again.');
+                // добавление музыки на странице (но с добавлением нового ключа и значения с именем пользователя)
+                let musicDataWithArtistName = musicData
+                musicDataWithArtistName.artist_name = `${localStorageData.name}`
 
+                console.log('загруженные данные:')
+                console.log(musicData)
+                dispatch(uploadMusic(musicDataWithArtistName))
+            } catch (err) {
                 setError(true)
             } finally {
                 setIsUploading(false);
@@ -168,7 +178,7 @@ export default function UploadMusicWin() {
                     <div className={style.uploadResult}>
                         <img src={successIcon} alt="Success" />
                         <p>Music has been uploaded</p>
-                        <ButtonElem title={'Close window'} func={refreshApp} />
+                        <ButtonElem title={'Close window'} func={closeContextMenu} />
                     </div>
                 ) : error ? (
                     <div className={style.uploadResult}>
@@ -203,10 +213,8 @@ export default function UploadMusicWin() {
                                 <option value="jazz">Jazz</option>
                                 <option value="classical">Classical</option>
                                 <option value="metal">Metal</option>
-                                <option value="reggae">Reggae</option>
                                 <option value="indie">Indie</option>
                                 <option value="folk">Folk</option>
-                                <option value="blues">Blues</option>
                                 <option value="cinematic">Cinematic</option>
                                 <option value="soundtrack">Soundtrack</option>
                             </select>

@@ -2,10 +2,20 @@ import { useEffect, useRef, useState } from "react";
 import MusicList from "../../components/MusicList";
 import PerformerList from "../../components/PerformersList";
 import MiniButton from "../../components/UI/MiniButton";
+import supabase from "../../config/supabaseClient";
 
 type PageType = {
     data: any,
     type: string
+}
+
+interface User {
+    email: string;
+    id: number;
+    image_url: string;
+    name: string;
+    password_hash: string;
+    status: string | null;
 }
 
 export default function ContentPage({ data, type }: PageType) {
@@ -13,6 +23,7 @@ export default function ContentPage({ data, type }: PageType) {
     // список музыки и исполнителей
     const [musicList, setMusicList] = useState([]);
     const [artistsList, setArtistsList] = useState([]);
+    const [latestArtists, setLatestArtists] = useState<User[]>([]);
 
     // находим нужный нам div элемент с указанием типизации (<HTMLDivElement>)
     const scrollMusicsRef = useRef<HTMLDivElement>(null);
@@ -28,6 +39,21 @@ export default function ContentPage({ data, type }: PageType) {
 
     // фильтрация данных в зависимости от страницы
     useEffect(() => {
+        const getUsers = async () => {
+            const { data, error } = await supabase  
+                .from('users')  
+                .select()
+
+            if(error){
+                console.error(error)
+            }
+            if(data){
+                setLatestArtists(data.reverse())
+            }
+        }
+
+        getUsers()
+
         if (data?.length > 0) {
             const latestMusic = data.flatMap((item: any) => item.music_tracks);
             const sortedMusic = latestMusic.sort((a: any, b: any) => b.favorite_count - a.favorite_count);
@@ -35,10 +61,10 @@ export default function ContentPage({ data, type }: PageType) {
                 .filter((user: any) => user.favorite_count > 0)
                 .sort((a: any, b: any) => b.favorite_count - a.favorite_count);
 
-            setMusicList(type === 'explore' && sortedMusic.length > 0 ? sortedMusic : latestMusic);
-            setArtistsList(type === 'explore' && sortedArtists.length > 0 ? sortedArtists : data);
+            setMusicList(type === 'explore' && sortedMusic.length > 0 ? sortedMusic : latestMusic.reverse());
+            setArtistsList(type === 'explore' && sortedArtists.length > 0 ? sortedArtists : latestArtists);
         }
-    }, [data, type]);
+    }, [data, type, latestArtists]);
 
 
     return (

@@ -19,9 +19,16 @@ export const productsSlice = createSlice({
         // добавление данных
         addingData(state, action) {
             state.data = action.payload
-
-            console.log('данные:')
-            console.log(state.data)
+        },
+        // загрузка своей музыки
+        uploadMusic(state, action) {
+            const userIndex = state.data.findIndex((user: any) => user.id === action.payload.user_id);
+        
+            if (userIndex !== -1) {
+                state.data[userIndex].music_tracks.push(action.payload);
+            }
+        
+            console.log('Данные после добавления музыки:', state.data);
         },
         // Удаление музыки пользователя по id, чтобы не отображался на разметке
         deleteMusic(state, action: PayloadAction<{ userId: number, musicId: number }>) {
@@ -43,6 +50,6 @@ export const productsSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { getData, addingData, deleteMusic } = productsSlice.actions
+export const { getData, addingData, uploadMusic, deleteMusic } = productsSlice.actions
 
 export default productsSlice.reducer
