@@ -26,6 +26,7 @@ import { addingData } from './features/musicdata'
 import Loading from './components/Loading'
 import PrivateRoute from './components/PrivateRoute'
 import MenuWindow from './components/MenuWindow'
+import SettingsPage from './pages/SettingsPage'
 
 interface Song {
   title: string;
@@ -187,6 +188,7 @@ function App() {
                 <Route path='/artists' element={<ArtistsListPage />} />
                 <Route path='/latest' element={<MusicListPage showContent={'latest'} />} />
                 <Route path='/search' element={<MusicListPage showContent={'search'} />} />
+                <Route path='/settings' element={<SettingsPage />} />
                 <Route path='*' element={<ErrorPage />} />
               </Route>
             </Routes>

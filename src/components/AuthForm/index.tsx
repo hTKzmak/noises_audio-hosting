@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import style from './AuthForm.module.scss';
 import ButtonElem from "../UI/ButtonElem";
 
@@ -11,6 +11,8 @@ export default function AuthForm() {
 
     const { pathname } = useLocation();
     const isLogin = pathname.includes('login');
+
+    const navigate = useNavigate();
 
     // отображение сообщения ошибки
     const [error, setError] = useState(false)
@@ -82,7 +84,7 @@ export default function AuthForm() {
                     localStorage.setItem('userData', JSON.stringify(data));
                     setFormError('');
                     setError(false);
-                    location.href = '/noises_audio-hosting'
+                    navigate('/')
                 }
             } else {
                 setFormError('Please fill all the fields');

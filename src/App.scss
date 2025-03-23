@@ -47,6 +47,46 @@ $error-color: #f62828;
       }
     }
 
+    .settingsHeader {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 60px;
+
+      h3 {
+        margin: 0;
+      }
+    }
+
+    .settings {
+      text-align: start;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+
+      li {
+        a,
+        button {
+          font-size: 28px;
+
+          @media screen and (max-width: 1024px) {
+            font-size: 23px;
+          }
+        }
+
+        a{
+          color: $main-font-color;
+        }
+
+        button{
+          background: transparent;
+          border: none;
+          padding: 0;
+          color: $error-color;
+        }
+      }
+    }
+
     .listContent {
       // margin-top: 18px;
       display: flex;
