@@ -5,9 +5,9 @@ import { Link } from "react-router-dom";
 import { Context } from "../../../context/Context";
 import { IoCloseOutline } from "react-icons/io5";
 
-import favoriteIcon from '../../../assets/icons/navMenu/favorite.svg';
-import artistsIcon from '../../../assets/icons/navMenu/artists.svg';
-import latestIcon from '../../../assets/icons/navMenu/latest.svg';
+import { FaUser } from "react-icons/fa6";
+import { FaArrowRotateLeft } from "react-icons/fa6";
+import { RiHeartFill } from "react-icons/ri";
 
 // отдельное окно, предназначенное для навигации по разделу library в мобильной версии
 export default function LibraryNavWin() {
@@ -39,9 +39,9 @@ export default function LibraryNavWin() {
                 <button onClick={() => setShowMenuWindow(!showMenuWindow)}><IoCloseOutline /></button>
             </div>
             <div className={style.libraryNavigation}>
-                <Link onClick={() => setShowMenuWindow(!showMenuWindow)} to={'/favorite'}><img src={favoriteIcon} alt="#" /> <span>Favorite</span></Link>
-                <Link onClick={() => setShowMenuWindow(!showMenuWindow)} to={'/artists'}><img src={artistsIcon} alt="#" /> <span>Artists</span></Link>
-                <Link onClick={() => setShowMenuWindow(!showMenuWindow)} to={'/latest'}><img src={latestIcon} alt="#" /> <span>Latest</span></Link>
+                <Link onClick={() => setShowMenuWindow(!showMenuWindow)} to={'/favorite'}><RiHeartFill/> <span>Favorite</span></Link>
+                <Link onClick={() => setShowMenuWindow(!showMenuWindow)} to={'/artists'}><FaUser/> <span>Artists</span></Link>
+                <Link onClick={() => setShowMenuWindow(!showMenuWindow)} to={'/latest'}><FaArrowRotateLeft/> <span>Latest</span></Link>
             </div>
         </div>
     )

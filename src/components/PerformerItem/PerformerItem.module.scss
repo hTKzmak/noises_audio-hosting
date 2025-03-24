@@ -1,35 +1,39 @@
 $image-background-color: #212121;
 
-.performerItem {
-    color: #ffffff80;
-    text-align: left;
-    font-size: 18px;
+.performerItem_container{
     width: fit-content;
 
-    cursor: pointer;
-
-    .performerImage {
-        width: 15vw;
-        height: 15vw;
-
-        max-width: 280px;
-        max-height: 280px;
-
-        border-radius: 8px;
-        background-color: $image-background-color;
-        margin-bottom: 15px;
-
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: cover;
-
-        @media screen and (max-width: 1280px) {
-            width: 180px;
-            height: 180px;
+    .performerItem {
+        color: #ffffff80;
+        text-align: left;
+        font-size: 18px;
+        width: fit-content;
+    
+        cursor: pointer;
+    
+        .performerImage {
+            width: 15vw;
+            height: 15vw;
+    
+            max-width: 280px;
+            max-height: 280px;
+    
+            border-radius: 8px;
+            background-color: $image-background-color;
+            margin-bottom: 15px;
+    
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+    
+            @media screen and (max-width: 1280px) {
+                width: 180px;
+                height: 180px;
+            }
         }
-    }
-
-    @media screen and (max-width: 1280px) {
-        font-size: 16px;
+    
+        @media screen and (max-width: 1280px) {
+            font-size: 16px;
+        }
     }
 }

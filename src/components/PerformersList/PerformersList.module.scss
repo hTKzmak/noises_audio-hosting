@@ -12,9 +12,8 @@
 }
 
 .performersList {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    column-gap: 20px;
     row-gap: 25px;
-    column-gap: 5px;
 }

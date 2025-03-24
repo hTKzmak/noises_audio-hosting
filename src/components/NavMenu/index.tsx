@@ -2,12 +2,12 @@ import { Link } from "react-router-dom";
 import style from './NavMenu.module.scss';
 
 // icons
-import homeIcon from '../../assets/icons/navMenu/home.svg';
-import exploreIcon from '../../assets/icons/navMenu/explore.svg';
-import favoriteIcon from '../../assets/icons/navMenu/favorite.svg';
-import artistsIcon from '../../assets/icons/navMenu/artists.svg';
-import latestIcon from '../../assets/icons/navMenu/latest.svg';
-import libraryIcon from '../../assets/icons/navMenu/library.svg';
+import { AiFillHome } from "react-icons/ai";
+import { FaCompass } from "react-icons/fa6";
+import { FaUser } from "react-icons/fa6";
+import { FaArrowRotateLeft } from "react-icons/fa6";
+import { MdLibraryMusic } from "react-icons/md";
+import { RiHeartFill } from "react-icons/ri";
 
 import noisesLogo from '../../assets/logo.svg';
 import miniLogo from '/noises.svg';
@@ -35,22 +35,22 @@ export default function NavMenu() {
                 <div className={style.browseMusic}>
                     <ul>
                         <li>
-                            <Link to={'/'}><img src={homeIcon} alt="#" /> <span>Home</span></Link>
+                            <Link to={'/'}><AiFillHome/> <span>Home</span></Link>
                         </li>
                         <li>
-                            <Link to={'/explore'}><img src={exploreIcon} alt="#" /> <span>Explore</span></Link>
+                            <Link to={'/explore'}><FaCompass/> <span>Explore</span></Link>
                         </li>
                     </ul>
                     <ul>
                         <h3>Library</h3>
                         <li>
-                            <Link to={'/favorite'}><img src={favoriteIcon} alt="#" /> <span>Favorite</span></Link>
+                            <Link to={'/favorite'}><RiHeartFill/> <span>Favorite</span></Link>
                         </li>
                         <li>
-                            <Link to={'/artists'}><img src={artistsIcon} alt="#" /> <span>Artists</span></Link>
+                            <Link to={'/artists'}><FaUser/> <span>Artists</span></Link>
                         </li>
                         <li>
-                            <Link to={'/latest'}><img src={latestIcon} alt="#" /> <span>Latest</span></Link>
+                            <Link to={'/latest'}><FaArrowRotateLeft/> <span>Latest</span></Link>
                         </li>
                     </ul>
                 </div>
@@ -58,13 +58,13 @@ export default function NavMenu() {
 
             <ul className={style.browseMusicMobile}>
                 <li>
-                    <Link to={'/'}><img src={homeIcon} alt="#" /></Link>
+                    <Link to={'/'}><AiFillHome/></Link>
                 </li>
                 <li>
-                    <Link to={'/explore'}><img src={exploreIcon} alt="#" /></Link>
+                    <Link to={'/explore'}><FaCompass/></Link>
                 </li>
                 <li>
-                    <button onClick={showLibrary}><img src={libraryIcon} alt="#" /></button>
+                    <button onClick={showLibrary}><MdLibraryMusic/></button>
                 </li>
                 <li>
                     <Link to={`/profile/${localStorageData.id}`} className={style.user}>
