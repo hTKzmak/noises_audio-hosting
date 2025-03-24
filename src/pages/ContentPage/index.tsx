@@ -52,6 +52,7 @@ export default function ContentPage({ data, type }: PageType) {
             }
         }
 
+        // анонимная ошибка
         getUsers()
 
         if (data?.length > 0) {

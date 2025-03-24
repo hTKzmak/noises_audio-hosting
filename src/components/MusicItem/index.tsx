@@ -1,7 +1,7 @@
 import style from './MusicItem.module.scss'
 import classNames from 'classnames';
 
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Context } from '../../context/Context';
 
 import { RiHeartFill } from "react-icons/ri";
@@ -10,9 +10,9 @@ import { FaTrash } from "react-icons/fa6";
 import { useLocation } from 'react-router-dom';
 import supabase from '../../config/supabaseClient';
 import { useDispatch } from 'react-redux';
-import { deleteMusic } from '../../features/musicdata';
+import { musicToFavorControl, deleteMusic } from '../../features/musicdata';
 
-export default function MusicItem({ id, title, artist_name, artwork_url, onList, sortedData }: any) {
+export default function MusicItem({ id, title, user_id, artist_name, artwork_url, music_url, genre, favorite_count, onList, sortedData }: any) {
 
     // получение данных с app.tsx
     const { data, setCurrentSong, setShowMiniPlayer, setSongs, latestMusic, localStorageData, setLatestMusic } = useContext(Context)
@@ -23,6 +23,15 @@ export default function MusicItem({ id, title, artist_name, artwork_url, onList,
     const dispatch = useDispatch();
 
     const [isFavorite, setIsFavorite] = useState(false)
+
+    // Упрощенный useEffect для отслеживания избранного
+    useEffect(() => {
+        const user = data.find((elem: any) => elem.id === localStorageData.id);
+        if (user) {
+            setIsFavorite(user.favorite_music.some((music: any) => music.id === id));
+        }
+    }, [data, localStorageData.id, id]); // Зависимость от data, а не от isFavorite
+
 
     function startPlayMusic(id: number) {
         if (data && data.length > 0) {
@@ -53,22 +62,22 @@ export default function MusicItem({ id, title, artist_name, artwork_url, onList,
     // функционал удаления музыки
     const deleteFunc = async (e: any) => {
         e.stopPropagation();
-    
+
         const userId = localStorageData.id;
         const musicId = id;
-    
+
         // также удаляем музыку с разметки
         dispatch(deleteMusic({ userId, musicId }));
-    
+
         try {
             // Удаление музыки из БД
             const { error: dbError } = await supabase
                 .from('music_tracks')
                 .delete()
                 .eq('id', musicId);
-    
+
             if (dbError) throw dbError;
-    
+
             // Удаление файлов (аудиофайл и обложка)
             await deleteFileFromStorage('musics', `music_${musicId}`);
             await deleteFileFromStorage('artworks', `artwork_${musicId}`);
@@ -76,13 +85,13 @@ export default function MusicItem({ id, title, artist_name, artwork_url, onList,
             console.error('Ошибка при удалении:', error);
         }
     };
-    
+
     // удаление файлов со storage
     const deleteFileFromStorage = async (bucket: string, prefix: string) => {
         try {
             const { data, error } = await supabase.storage.from('noises_bucket').list(bucket);
             if (error) throw error;
-    
+
             const file = data.find(elem => elem.name.includes(prefix));
             if (file) {
                 await supabase.storage.from('noises_bucket').remove([`${bucket}/${file.name}`]);
@@ -92,12 +101,54 @@ export default function MusicItem({ id, title, artist_name, artwork_url, onList,
             console.error(`Ошибка при удалении файла из ${bucket}:`, error);
         }
     };
-    
 
-    const favoriteFunc = (e: any) => {
+    // добавление и удаление музыки в списке отслеживаемых
+    const favoriteFunc = async (e: any) => {
         e.stopPropagation();
-        setIsFavorite(!isFavorite)
-    }
+
+        // подготавливаем данные для store
+        const musicData = {
+            id,
+            title,
+            user_id,
+            artwork_url,
+            music_url,
+            genre,
+            artist_name,
+            favorite_count
+        };
+
+        const userID = localStorageData.id;
+        const isCurrentlyFavorite = isFavorite;
+
+        try {
+            if (isCurrentlyFavorite) {
+                // Удаляем из избранного
+                const { error } = await supabase
+                    .from('favorite_music')
+                    .delete()
+                    .eq('user_id', userID)
+                    .eq('music_id', id);
+
+                if (error) throw error;
+            } else {
+                // Добавляем в избранное
+                const { error } = await supabase
+                    .from('favorite_music')
+                    .insert({ user_id: userID, music_id: id });
+
+                if (error) throw error;
+            }
+
+            // Обновляем состояние в Redux
+            dispatch(musicToFavorControl({ musicData, userID }));
+
+            // Обновляем локальное состояние
+            setIsFavorite(!isCurrentlyFavorite);
+        } catch (error) {
+            console.error('Error updating favorite:', error);
+        }
+    };
 
     return (
         <div className={classNames(style.musicItem, onList ? style.onList : '')} onClick={() => startPlayMusic(id)} id={id}>

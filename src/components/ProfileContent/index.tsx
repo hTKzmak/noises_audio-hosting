@@ -12,6 +12,8 @@ import { useContext, useEffect, useState } from 'react';
 import { Context } from '../../context/Context';
 import MusicList from '../MusicList';
 import supabase from '../../config/supabaseClient';
+import { artistToFavorControl } from '../../features/musicdata';
+import { useDispatch } from 'react-redux';
 
 // типизация данных для artistData
 type ArtistData = {
@@ -27,11 +29,13 @@ export default function ProfileContent() {
     // получение дпнных с app.tsx
     const { data, localStorageData, setCurrentSong, setShowMiniPlayer, setSongs, showMenuWindow, setShowMenuWindow, setUploadMusic } = useContext(Context)
 
+    const dispatch = useDispatch();
+
     // данные пользователя, которые будут храниться в artistData
     const [artistData, setArtistData] = useState<ArtistData | undefined>();
 
     // Храним id любимых треков
-    const [isFavorite, setIsFavorite] = useState(false)
+    const [isFavorite, setIsFavorite] = useState(false);
 
     // находим с помощью useParams значение id
     const { id } = useParams()
@@ -44,6 +48,18 @@ export default function ProfileContent() {
             console.log(foundArtist)
         }
     }, [id, data]);
+
+    // useEffect для отслеживания избранного
+    useEffect(() => {
+        const checkIfFavorite = async () => {
+            const user = data.find((elem: any) => elem.id === localStorageData.id);
+            if(user){
+                setIsFavorite(user.favorite_artists.some((user: any) => user.id === Number(id)))
+            }
+        };
+
+        checkIfFavorite();
+    }, [artistData, localStorageData.id]);
 
 
     function startPlayMusic() {
@@ -61,21 +77,41 @@ export default function ProfileContent() {
         setShowMenuWindow(!showMenuWindow)
     }
 
+    // добавление и удаление музыки в списке отслеживаемых
     const favoriteFunc = async () => {
-        if (id !== localStorageData.id) {
-            setIsFavorite(!isFavorite)
+        const userID = localStorageData.id;
+        const isCurrentlyFavorite = isFavorite;
 
-            const { data, error } = await supabase
-                .from('favorite_artists')
-                .insert({ user_id: localStorageData.id, artist_id: Number(id) });
+        if (artistData) {
+            try {
+                if (isCurrentlyFavorite) {
+                    // Удаляем из избранного
+                    const { error } = await supabase
+                        .from('favorite_artists')
+                        .delete()
+                        .eq('user_id', userID)
+                        .eq('artist_id', artistData.id);
 
-            if (error) {
-                console.error('Ошибка при добавлении в избранное:', error);
-            } else {
-                console.log('Добавлено в избранное:', data);
+                    if (error) throw error;
+                } else {
+                    // Добавляем в избранное
+                    const { error } = await supabase
+                        .from('favorite_artists')
+                        .insert({ user_id: userID, artist_id: artistData.id });
+
+                    if (error) throw error;
+                }
+
+                // Обновляем состояние в Redux
+                dispatch(artistToFavorControl({ artistData, userID }));
+
+                // Обновляем локальное состояние
+                setIsFavorite(!isCurrentlyFavorite);
+            } catch (error) {
+                console.error('Error updating favorite:', error);
             }
         }
-    }
+    };
 
 
     return (
