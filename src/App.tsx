@@ -88,29 +88,29 @@ function App() {
           supabase.from('favorite_music').select(),
           supabase.from('music_tracks').select(),
         ]);
-  
+
         if (usersRes.error || artistsRes.error || musicRes.error || tracksRes.error) {
           console.error(usersRes.error || artistsRes.error || musicRes.error || tracksRes.error);
           return;
         }
-  
+
         const users = usersRes.data;
         const favoriteArtists = artistsRes.data;
         const favoriteMusic = musicRes.data;
         const musicTracks = tracksRes.data;
-  
+
         // Подсчет количества отслеживаний для музыки
         const musicTrackCounts = favoriteMusic.reduce((acc: any, fav: any) => {
           acc[fav.music_id] = (acc[fav.music_id] || 0) + 1;
           return acc;
         }, {});
-  
+
         // Подсчет количества отслеживаний для исполнителей
         const artistCounts = favoriteArtists.reduce((acc: any, fav: any) => {
           acc[fav.artist_id] = (acc[fav.artist_id] || 0) + 1;
           return acc;
         }, {});
-  
+
         // Добавление количества отслеживаний в каждый трек
         const musicTracksWithArtistName = musicTracks.map(track => {
           const artist = users.find(user => user.id === track.user_id);
@@ -120,13 +120,13 @@ function App() {
             favorite_count: musicTrackCounts[track.id] || 0,
           };
         });
-  
+
         // Добавление количества отслеживаний в каждого исполнителя
         const usersWithFavoriteCount = users.map(user => ({
           ...user,
           favorite_count: artistCounts[user.id] || 0,
         }));
-  
+
         // Обработка структуры данных
         const supabaseData = usersWithFavoriteCount.map(user => {
           const userMusicTracks = musicTracksWithArtistName.filter(track => track.user_id === user.id);
@@ -136,7 +136,7 @@ function App() {
           const userFavoriteArtists = favoriteArtists
             .filter(fav => fav.user_id === user.id)
             .map(fav => usersWithFavoriteCount.find(artist => artist.id === fav.artist_id));
-  
+
           return {
             ...user,
             music_tracks: userMusicTracks,
@@ -144,13 +144,13 @@ function App() {
             favorite_artists: userFavoriteArtists,
           };
         });
-  
+
         dispatch(addingData(supabaseData));
       } catch (error) {
         console.error(error);
       }
     };
-  
+
     fetchData();
   }, []);
 
