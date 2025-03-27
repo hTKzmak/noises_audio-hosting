@@ -1,13 +1,17 @@
 .menu {
-    width: 250px;
+    min-width: 250px;
     padding: 53px 48px;
 
     background-color: #121212;
     z-index: 1;
     overflow-y: auto;
 
+    position: relative;
+
     .menuDesktop {
         text-align: left;
+        position: fixed;
+        min-width: inherit;
 
         .logo {
             width: 150px;
@@ -143,6 +147,7 @@
         width: auto;
         height: auto;
         padding: 25px 15px;
+        min-width: 80px;
     }
 
     @media screen and (max-width: 1024px) {

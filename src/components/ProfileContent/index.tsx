@@ -21,7 +21,7 @@ type ArtistData = {
     image_url: string,
     music_tracks: any[],
     id: number,
-    status: string
+    performer: boolean | null
 }
 
 export default function ProfileContent() {
@@ -45,7 +45,6 @@ export default function ProfileContent() {
         const foundArtist = data.find((elem: any) => elem.id === Number(id));
         if (foundArtist) {
             setArtistData(foundArtist)
-            console.log(foundArtist)
         }
     }, [id, data]);
 
@@ -121,7 +120,7 @@ export default function ProfileContent() {
                 {localStorageData.id == id ? (
                     <p>You</p>
                 ) : (
-                    <p>{artistData?.status}</p>
+                    <p>{artistData?.performer ? "Performer" : "User"}</p>
                 )}
                 <h2>{artistData ? artistData.name : ''}</h2>
 

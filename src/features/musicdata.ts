@@ -19,6 +19,7 @@ export const productsSlice = createSlice({
         // добавление данных
         addingData(state, action) {
             state.data = action.payload
+            console.log(state.data)
         },
         // загрузка своей музыки
         uploadMusic(state, action) {

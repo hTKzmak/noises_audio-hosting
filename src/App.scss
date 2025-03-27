@@ -19,10 +19,11 @@ $error-color: #f62828;
   .container {
     margin: 0 auto;
     width: calc(65% - 5rem);
-    padding: 5vh 10vw;
+    // padding: 5vh 10vw;
+    padding: 5vh 15vh;
 
     // ❤❤❤
-    flex-grow: 1;
+    flex: 1;
 
     .authPage {
       display: flex;

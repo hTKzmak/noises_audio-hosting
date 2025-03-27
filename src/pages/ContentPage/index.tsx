@@ -9,13 +9,13 @@ type PageType = {
     type: string
 }
 
-interface User {
+interface IUser {
     email: string;
     id: number;
     image_url: string;
     name: string;
     password_hash: string;
-    status: string | null;
+    performer: boolean | null;
 }
 
 export default function ContentPage({ data, type }: PageType) {
@@ -23,7 +23,7 @@ export default function ContentPage({ data, type }: PageType) {
     // список музыки и исполнителей
     const [musicList, setMusicList] = useState([]);
     const [artistsList, setArtistsList] = useState([]);
-    const [latestArtists, setLatestArtists] = useState<User[]>([]);
+    const [latestArtists, setLatestArtists] = useState<IUser[]>([]);
 
     // находим нужный нам div элемент с указанием типизации (<HTMLDivElement>)
     const scrollMusicsRef = useRef<HTMLDivElement>(null);

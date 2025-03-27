@@ -136,7 +136,7 @@ export type Database = {
           image_url: string
           name: string
           password_hash: string
-          status: string | null
+          performer: boolean | null
         }
         Insert: {
           email: string
@@ -144,7 +144,7 @@ export type Database = {
           image_url: string
           name: string
           password_hash: string
-          status?: string | null
+          performer?: boolean | null
         }
         Update: {
           email?: string
@@ -152,7 +152,7 @@ export type Database = {
           image_url?: string
           name?: string
           password_hash?: string
-          status?: string | null
+          performer?: boolean | null
         }
         Relationships: []
       }
