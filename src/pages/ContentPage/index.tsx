@@ -62,7 +62,7 @@ export default function ContentPage({ data, type }: PageType) {
                 .filter((user: any) => user.favorite_count > 0)
                 .sort((a: any, b: any) => b.favorite_count - a.favorite_count);
 
-            setMusicList(type === 'explore' && sortedMusic.length > 0 ? sortedMusic : latestMusic.reverse());
+            setMusicList(type === 'explore' && sortedMusic.length > 0 ? sortedMusic.slice(0, 24) : latestMusic.reverse().slice(0, 24));
             setArtistsList(type === 'explore' && sortedArtists.length > 0 ? sortedArtists : latestArtists);
         }
     }, [data, type, latestArtists]);
