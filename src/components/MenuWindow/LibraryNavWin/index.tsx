@@ -39,9 +39,9 @@ export default function LibraryNavWin() {
                 <button onClick={() => setShowMenuWindow(!showMenuWindow)}><IoCloseOutline /></button>
             </div>
             <div className={style.libraryNavigation}>
-                <Link onClick={() => setShowMenuWindow(!showMenuWindow)} to={'/musics/favorite'}><RiHeartFill/> <span>Favorite</span></Link>
-                <Link onClick={() => setShowMenuWindow(!showMenuWindow)} to={'/artists/favorite'}><FaUser/> <span>Artists</span></Link>
-                <Link onClick={() => setShowMenuWindow(!showMenuWindow)} to={'/musics/latest'}><FaArrowRotateLeft/> <span>Latest</span></Link>
+                <Link onClick={() => setShowMenuWindow(!showMenuWindow)} to={'/musics/favorite'}><RiHeartFill/> <span>Favorite music</span></Link>
+                <Link onClick={() => setShowMenuWindow(!showMenuWindow)} to={'/artists/favorite'}><FaUser/> <span>Favorite artists</span></Link>
+                <Link onClick={() => setShowMenuWindow(!showMenuWindow)} to={'/musics/listened'}><FaArrowRotateLeft/> <span>Listened</span></Link>
             </div>
         </div>
     )

@@ -187,13 +187,16 @@ function App() {
 
                 {/* список музыки */}
                 <Route path='/musics/favorite' element={<MusicListPage showContent={'favorite'} />} />
-                <Route path='/musics/popular' element={<MusicListPage showContent={'favorite'} />} />
+                <Route path='/musics/popular' element={<MusicListPage showContent={'popular'} />} />
                 <Route path='/musics/latest' element={<MusicListPage showContent={'latest'} />} />
+                <Route path='/musics/listened' element={<MusicListPage showContent={'listened'} />} />
                 
                 {/* список исполнителей */}
-                <Route path='/artists/favorite' element={<ArtistsListPage />} />
-                <Route path='/artists/latest' element={<ArtistsListPage />} />
-                <Route path='/artists/popular' element={<ArtistsListPage />} />
+                <Route path='/artists/favorite' element={<ArtistsListPage showContent={'favorite'} />} />
+                <Route path='/artists/latest' element={<ArtistsListPage showContent={'latest'}/>} />
+                <Route path='/artists/popular' element={<ArtistsListPage showContent={'popular'}/>} />
+
+                
                 <Route path='/search' element={<MusicListPage showContent={'search'} />} />
                 <Route path='/settings' element={<SettingsPage />} />
                 <Route path='*' element={<ErrorPage />} />
