@@ -4,6 +4,7 @@ import PerformerList from "../../components/PerformersList";
 import MiniButton from "../../components/UI/MiniButton";
 import supabase from "../../config/supabaseClient";
 import { Link } from "react-router-dom";
+import { IoIosArrowForward } from "react-icons/io";
 
 type PageType = {
     data: any,
@@ -73,7 +74,7 @@ export default function ContentPage({ data, type }: PageType) {
         <div className="content">
             <div className="musicContent">
                 <div className="contentHeader">
-                    <Link to={type === 'home' ? '/musics/latest' : '/musics/popular'} className="headerText">{type === 'home' ? 'Latest music' : 'Popular music'}</Link>
+                    <Link to={type === 'home' ? '/musics/latest' : '/musics/popular'} className="headerText">{type === 'home' ? 'Latest music' : 'Popular music'} <IoIosArrowForward/> </Link>
                     <div className="scrollsOption">
                         <MiniButton sign='back' func={() => handleScroll('right', scrollMusicsRef)} />
                         <MiniButton sign='forward' func={() => handleScroll('left', scrollMusicsRef)} />
@@ -83,7 +84,7 @@ export default function ContentPage({ data, type }: PageType) {
             </div>
             <div className="performersContent">
                 <div className="contentHeader">
-                    <Link to={type === 'home' ? '/artists/latest' : '/artists/popular'} className="headerText">{type === 'home' ? 'Latest artists' : 'Popular artists'}</Link>
+                    <Link to={type === 'home' ? '/artists/latest' : '/artists/popular'} className="headerText">{type === 'home' ? 'Latest artists' : 'Popular artists'} <IoIosArrowForward/> </Link>
                     <div className="scrollsOption">
                         <MiniButton sign='back' func={() => handleScroll('right', scrollArtistsRef)} />
                         <MiniButton sign='forward' func={() => handleScroll('left', scrollArtistsRef)} />
