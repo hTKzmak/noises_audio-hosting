@@ -13,6 +13,7 @@ import repeatList from '../../../assets/icons/player/repeat_list.svg';
 import repeatMusic from '../../../assets/icons/player/repeat_music.svg';
 import classNames from 'classnames';
 import MiniButton from '../../UI/MiniButton';
+import Loading from '../../Loading';
 
 interface PlayerProps {
     audioElem: any;
@@ -44,6 +45,9 @@ export default function Player({ audioElem, isplaying, setIsPlaying, currentSong
 
     // значение громкости
     const [volumeCount, setVolumeCount] = useState('1');
+
+    // отображение загрузки
+    const [isLoading, setIsLoading] = useState(false);
 
     // функция паузы и воспроизведения
     const PlayPause = () => {
@@ -79,24 +83,27 @@ export default function Player({ audioElem, isplaying, setIsPlaying, currentSong
     // ОПЦИИ:
     // скачивание файла
     const downloadMusicFunc = async () => {
+        setIsLoading(true)
         try {
             const response = await fetch(currentSong.music_url);
             const blob = await response.blob();
             const url = URL.createObjectURL(blob);
-    
+
             const a = document.createElement('a');
             a.href = url;
             a.download = currentSong.title || 'music.mp3'; // Имя файла
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
-    
+
             URL.revokeObjectURL(url); // Освобождение памяти
+
+        setIsLoading(false)
         } catch (error) {
             console.error('Ошибка загрузки:', error);
         }
     };
-    
+
     // функционал перемешивания
     const mixMusicList = () => {
         mixSongsFunc()
@@ -236,7 +243,11 @@ export default function Player({ audioElem, isplaying, setIsPlaying, currentSong
                                 {mixMusic === false ? <img src={mixOff} alt="mix off" /> : <img src={mixOn} alt="mix on" />}
                             </button>
                             <button onClick={downloadMusicFunc}>
-                                <img src={download} alt="download" />
+                                {isLoading ? (
+                                    <Loading inPlayer={true} />
+                                ) : (
+                                    <img src={download} alt="download" />
+                                )}
                             </button>
                         </>
                     )

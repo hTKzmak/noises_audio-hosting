@@ -14,13 +14,13 @@ $error-color: #f62828;
 .app {
   display: flex;
   flex-direction: row;
-  min-height: 100vh;
+  height: 100vh;
 
   .container {
     margin: 0 auto;
-    width: calc(65% - 5rem);
-    // padding: 5vh 10vw;
     padding: 5vh 15vh;
+    flex-grow: 1;
+    overflow-y: auto;
 
     // ❤❤❤
     flex: 1;
@@ -75,11 +75,11 @@ $error-color: #f62828;
           }
         }
 
-        a{
+        a {
           color: $main-font-color;
         }
 
-        button{
+        button {
           background: transparent;
           border: none;
           padding: 0;

@@ -1,9 +1,13 @@
 import style from './Loading.module.scss';
 
-function Loading(){
+type inPlayer = {
+    inPlayer?: boolean
+}
+
+function Loading({inPlayer}: inPlayer){
     return(
-        <div className={style.loading}>
-            <span className={style.loader}></span>
+        <div className={style.loading} style={{height: inPlayer ? 'auto' : '100vh'}}>
+            <span className={inPlayer ? style.loaderPlayer : style.loader}></span>
         </div>
     )
 }

@@ -69,37 +69,56 @@ export default function PlayerApp({ data }: any) {
 
     // пропуск музыки на предыдущую музыку
     const skipBack = () => {
-        const index = mixMusic
-            ? mixSongsdata.findIndex((x) => x.title === currentSong.title)
-            : songs.findIndex((x: any) => x.title === currentSong.title);
-
-        const newIndex = index === 0
-            ? (mixMusic ? mixSongsdata.length - 1 : songs.length - 1)
-            : index - 1;
-
-        setCurrentSong(mixMusic ? mixSongsdata[newIndex] : songs[newIndex]);
+        if (mixMusic) {
+            const index = mixSongsdata.findIndex((x: Song) => x.title === currentSong.title);
+            if (index === 0) {
+                setCurrentSong(mixSongsdata[mixSongsdata.length - 1])
+            }
+            else {
+                setCurrentSong(mixSongsdata[index - 1])
+            }
+        }
+        else {
+            const index = songs.findIndex((x: Song) => x.title === currentSong.title);
+            if (index === 0) {
+                setCurrentSong(songs[songs.length - 1])
+            }
+            else {
+                setCurrentSong(songs[index - 1])
+            }
+        }
 
         if (audioElem.current) audioElem.current.currentTime = 0;
-    };
+    }
 
     // пропуск музыки на следующую музыку
     const skiptoNext = () => {
-        const index = mixMusic
-            ? mixSongsdata.findIndex((x) => x.title === currentSong.title)
-            : songs.findIndex((x: any) => x.title === currentSong.title);
 
-        const newIndex = index === (mixMusic ? mixSongsdata.length - 1 : songs.length - 1)
-            ? 0
-            : index + 1;
+        if (mixMusic) {
+            const index = mixSongsdata.findIndex((x: Song) => x.title === currentSong.title);
+            if (index === mixSongsdata.length - 1) {
+                setCurrentSong(mixSongsdata[0]);
+            } else {
+                setCurrentSong(mixSongsdata[index + 1]);
+            }
+        }
+        // Если перемешивание выключено, переходим к следующей песне
+        else {
+            const index = songs.findIndex((x: Song) => x.title === currentSong.title);
+            if (index === songs.length - 1) {
+                setCurrentSong(songs[0]);
+            } else {
+                setCurrentSong(songs[index + 1]);
+            }
+        }
 
-        setCurrentSong(mixMusic ? mixSongsdata[newIndex] : songs[newIndex]);
-
-        if (audioElem.current) audioElem.current.currentTime = 0;
+        if (audioElem.current) audioElem.current.currentTime = 0; // Сброс времени проигрывания
     };
+
 
     // функционал повторения музыки
     const repeatMusicFunc = () => {
-        const index = songs.findIndex((x: any) => x.title === currentSong.title);
+        const index = songs.findIndex((x: Song) => x.title === currentSong.title);
         switch (repeatValue) {
             // первая опция: если индекс последней музыки равен длине всего списка музыки, то музыка останавливается
             case 1:

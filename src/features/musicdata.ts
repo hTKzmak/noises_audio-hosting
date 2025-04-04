@@ -91,11 +91,20 @@ export const productsSlice = createSlice({
                 }
                 return user;
             });
-        }
+        },
+
+
     },
 })
 
 // Action creators are generated for each case reducer function
-export const { getData, addingData, uploadMusic, deleteMusic, musicToFavorControl, artistToFavorControl } = productsSlice.actions
+export const {
+    getData,
+    addingData,
+    uploadMusic,
+    deleteMusic,
+    musicToFavorControl,
+    artistToFavorControl
+} = productsSlice.actions
 
 export default productsSlice.reducer

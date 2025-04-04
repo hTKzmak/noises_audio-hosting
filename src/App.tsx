@@ -184,9 +184,16 @@ function App() {
                 <Route path='/' element={<ContentPage data={data} type={'home'} />} />
                 <Route path='/explore' element={<ContentPage data={data} type={'explore'} />} />
                 <Route path='/profile/:id' element={<ProfilePage />} />
-                <Route path='/favorite' element={<MusicListPage showContent={'favorite'} />} />
-                <Route path='/artists' element={<ArtistsListPage />} />
-                <Route path='/latest' element={<MusicListPage showContent={'latest'} />} />
+
+                {/* список музыки */}
+                <Route path='/musics/favorite' element={<MusicListPage showContent={'favorite'} />} />
+                <Route path='/musics/popular' element={<MusicListPage showContent={'favorite'} />} />
+                <Route path='/musics/latest' element={<MusicListPage showContent={'latest'} />} />
+                
+                {/* список исполнителей */}
+                <Route path='/artists/favorite' element={<ArtistsListPage />} />
+                <Route path='/artists/latest' element={<ArtistsListPage />} />
+                <Route path='/artists/popular' element={<ArtistsListPage />} />
                 <Route path='/search' element={<MusicListPage showContent={'search'} />} />
                 <Route path='/settings' element={<SettingsPage />} />
                 <Route path='*' element={<ErrorPage />} />

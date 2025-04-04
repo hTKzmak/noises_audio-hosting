@@ -3,6 +3,7 @@ import MusicList from "../../components/MusicList";
 import PerformerList from "../../components/PerformersList";
 import MiniButton from "../../components/UI/MiniButton";
 import supabase from "../../config/supabaseClient";
+import { Link } from "react-router-dom";
 
 type PageType = {
     data: any,
@@ -72,7 +73,7 @@ export default function ContentPage({ data, type }: PageType) {
         <div className="content">
             <div className="musicContent">
                 <div className="contentHeader">
-                    <h3 className="headerText">{type === 'home' ? 'Latest music' : 'Popular music'}</h3>
+                    <Link to={'/musics'} className="headerText">{type === 'home' ? 'Latest music' : 'Popular music'}</Link>
                     <div className="scrollsOption">
                         <MiniButton sign='back' func={() => handleScroll('right', scrollMusicsRef)} />
                         <MiniButton sign='forward' func={() => handleScroll('left', scrollMusicsRef)} />
@@ -82,7 +83,7 @@ export default function ContentPage({ data, type }: PageType) {
             </div>
             <div className="performersContent">
                 <div className="contentHeader">
-                    <h3 className="headerText">{type === 'home' ? 'Latest artists' : 'Popular artists'}</h3>
+                    <Link to={'/artists'} className="headerText">{type === 'home' ? 'Latest artists' : 'Popular artists'}</Link>
                     <div className="scrollsOption">
                         <MiniButton sign='back' func={() => handleScroll('right', scrollArtistsRef)} />
                         <MiniButton sign='forward' func={() => handleScroll('left', scrollArtistsRef)} />

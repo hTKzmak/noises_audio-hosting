@@ -44,13 +44,13 @@ export default function NavMenu() {
                     <ul>
                         <h3>Library</h3>
                         <li>
-                            <Link to={'/favorite'}><RiHeartFill/> <span>Favorite</span></Link>
+                            <Link to={'/musics/favorite'}><RiHeartFill/> <span>Favorite</span></Link>
                         </li>
                         <li>
-                            <Link to={'/artists'}><FaUser/> <span>Artists</span></Link>
+                            <Link to={'/artists/favorite'}><FaUser/> <span>Artists</span></Link>
                         </li>
                         <li>
-                            <Link to={'/latest'}><FaArrowRotateLeft/> <span>Latest</span></Link>
+                            <Link to={'/musics/latest'}><FaArrowRotateLeft/> <span>Latest</span></Link>
                         </li>
                     </ul>
                 </div>
