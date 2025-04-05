@@ -28,8 +28,20 @@ import PrivateRoute from './components/PrivateRoute'
 import MenuWindow from './components/MenuWindow'
 import SettingsPage from './pages/SettingsPage'
 
-// В начале файла добавьте импорт типов
-import { ContextData, UserType, MusicTrack, Song } from './types/context';
+interface Song {
+  title: string;
+  url: string;
+  progress?: number;
+  length?: number;
+}
+
+interface userType {
+  id: number,
+  name: string,
+  email: string,
+  password_hash: string,
+  image_url: string
+}
 
 function App() {
 
@@ -39,7 +51,7 @@ function App() {
   const dispatch = useDispatch();
 
   // текущая музыка (стоит первая музыка по index)
-  const [currentSong, setCurrentSong] = useState<MusicTrack | any>({});
+  const [currentSong, setCurrentSong] = useState<any>({});
 
   // список песниб которые будет воспроизводить плеер
   const [songs, setSongs] = useState<Song[]>([]);
@@ -48,20 +60,17 @@ function App() {
   const [showPlayer, setShowPlayer] = useState<boolean>(false);
   const [showMiniPlayer, setShowMiniPlayer] = useState<boolean>(false);
 
-  const [searchResults, setSearchResults] = useState<any[]>([]); // Состояние для поиска
+  const [searchResults, setSearchResults] = useState([]); // Состояние для поиска
 
   // Получаем текущий путь
   const location = useLocation();
   const isAuthPage = location.pathname === '/login' || location.pathname === '/registration';
 
   // получаем данные о пользователе с локального хранилища
-  const localStorageData: UserType | null = JSON.parse(
-    localStorage.getItem('userData') || 'null'
-  );
+  const localStorageData: userType | [] = JSON.parse(localStorage.getItem('userData') || '[]');
 
   // создаём и получаем список недавно прослушааных треков
-  const [latestMusic, setLatestMusic] = useState<MusicTrack[]>([]);
-
+  const [latestMusic, setLatestMusic] = useState([])
   sessionStorage.setItem('latestMusic', JSON.stringify(latestMusic))
   const sessionStorageData: any | [] = JSON.parse(sessionStorage.getItem('latestMusic') || '[]');
 
@@ -159,31 +168,8 @@ function App() {
     };
   }, [showMenuWindow]); // Зависимость от showMenuWindow
 
-  // Создаем объект контекста
-  const contextValue: ContextData = {
-    data,
-    localStorageData,
-    currentSong,
-    setCurrentSong,
-    showPlayer,
-    setShowPlayer,
-    showMiniPlayer,
-    setShowMiniPlayer,
-    songs,
-    setSongs,
-    showMenuWindow,
-    setShowMenuWindow,
-    uploadMusic,
-    setUploadMusic,
-    latestMusic,
-    setLatestMusic,
-    sessionStorageData,
-    searchResults,
-    setSearchResults,
-  };
-
   return (
-    <Context.Provider value={contextValue}>
+    <Context.Provider value={{ data, localStorageData, currentSong, setCurrentSong, showPlayer, setShowPlayer, showMiniPlayer, setShowMiniPlayer, songs, setSongs, showMenuWindow, setShowMenuWindow, uploadMusic, setUploadMusic, latestMusic, setLatestMusic, sessionStorageData, searchResults, setSearchResults }}>
       <div className="app">
         <MenuWindow />
         {!isAuthPage && <NavMenu />}
@@ -204,13 +190,13 @@ function App() {
                 <Route path='/musics/popular' element={<MusicListPage showContent={'popular'} />} />
                 <Route path='/musics/latest' element={<MusicListPage showContent={'latest'} />} />
                 <Route path='/musics/listened' element={<MusicListPage showContent={'listened'} />} />
-
+                
                 {/* список исполнителей */}
                 <Route path='/artists/favorite' element={<ArtistsListPage showContent={'favorite'} />} />
-                <Route path='/artists/latest' element={<ArtistsListPage showContent={'latest'} />} />
-                <Route path='/artists/popular' element={<ArtistsListPage showContent={'popular'} />} />
+                <Route path='/artists/latest' element={<ArtistsListPage showContent={'latest'}/>} />
+                <Route path='/artists/popular' element={<ArtistsListPage showContent={'popular'}/>} />
 
-
+                
                 <Route path='/search' element={<MusicListPage showContent={'search'} />} />
                 <Route path='/settings' element={<SettingsPage />} />
                 <Route path='*' element={<ErrorPage />} />

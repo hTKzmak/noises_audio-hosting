@@ -23,142 +23,117 @@ type ArtistData = {
 export default function ProfileContent() {
 
     // получение дпнных с app.tsx
-    const {
-        data,
-        localStorageData,
-        setCurrentSong,
-        setShowMiniPlayer,
-        setSongs,
-        showMenuWindow,
-        setShowMenuWindow,
-        setUploadMusic
-    } = useContext(Context);
+    const { data, localStorageData, setCurrentSong, setShowMiniPlayer, setSongs, showMenuWindow, setShowMenuWindow, setUploadMusic } = useContext(Context)
 
     const dispatch = useDispatch();
 
     // данные пользователя, которые будут храниться в artistData
-    const [artistData, setArtistData] = useState<ArtistData | null>(null);
+    const [artistData, setArtistData] = useState<ArtistData | undefined>();
 
     // Храним id любимых треков
     const [isFavorite, setIsFavorite] = useState(false);
-    
+
     // находим с помощью useParams значение id
-    const { id } = useParams();
+    const { id } = useParams()
 
-    // Проверка авторизации
-    if (!localStorageData || !id) {
-        return <div>Please log in</div>;
-    }
-
-    // наш id
-    const currentUserId = localStorageData.id;
-    
-    // id пользователя
-    const profileUserId = Number(id);
-
-    // проверка на то, что мы перешли на свою страницу
-    const isCurrentUser = currentUserId === profileUserId;
-
-    // нахождение данных о пользователе
+    // находим данные пользователя по id
     useEffect(() => {
-        const foundArtist = data.find((elem: any) => elem.id === profileUserId);
+        const foundArtist = data.find((elem: any) => elem.id === Number(id));
         if (foundArtist) {
-            setArtistData({
-                id: foundArtist.id,
-                name: foundArtist.name,
-                image_url: foundArtist.image_url,
-                music_tracks: foundArtist.music_tracks || [],
-                performer: foundArtist.performer ?? null
-            });
+            setArtistData(foundArtist)
         }
-    }, [id, data, profileUserId]);
+    }, [id, data]);
 
-    // проекрка на то, является ли пользователь нашим любимым
+    // useEffect для отслеживания избранного
     useEffect(() => {
-        const user = data.find((elem: any) => elem.id === currentUserId);
-        if (user?.favorite_artists) {
-            setIsFavorite(user.favorite_artists.some((artist: any) => artist.id === profileUserId));
-        }
-    }, [artistData, currentUserId, data, profileUserId]);
-
-    // запуск музыки
-    function startPlayMusic() {
-        if (artistData?.music_tracks?.length) {
-            setSongs(artistData.music_tracks);
-            setCurrentSong(artistData.music_tracks[0]);
-            setShowMiniPlayer(true);
-        }
-    }
-
-    // отобразить окно загрузки музыки
-    const showUploadMusic = () => {
-        setUploadMusic(true);
-        setShowMenuWindow(!showMenuWindow);
-    };
-
-    // добавление пользователя в любимые
-    const favoriteFunc = async () => {
-        if (!artistData) return;
-
-        try {
-            if (isFavorite) {
-                const { error } = await supabase
-                    .from('favorite_artists')
-                    .delete()
-                    .match({
-                        user_id: currentUserId,
-                        artist_id: artistData.id
-                    });
-                if (error) throw error;
-            } else {
-                const { error } = await supabase
-                    .from('favorite_artists')
-                    .insert([{
-                        user_id: currentUserId,
-                        artist_id: artistData.id
-                    }]);
-                if (error) throw error;
+        const checkIfFavorite = async () => {
+            const user = data.find((elem: any) => elem.id === localStorageData.id);
+            if (user) {
+                setIsFavorite(user.favorite_artists.some((user: any) => user.id === Number(id)))
             }
+        };
 
-            dispatch(artistToFavorControl({
-                artistData,
-                userID: currentUserId
-            }));
-            setIsFavorite(!isFavorite);
-        } catch (error) {
-            console.error('Error updating favorite:', error);
+        checkIfFavorite();
+    }, [artistData, localStorageData.id]);
+
+
+    function startPlayMusic() {
+        if (artistData && artistData?.music_tracks.length > 0) {
+            setSongs(artistData?.music_tracks)
+
+            setCurrentSong(artistData?.music_tracks[0])
+            // будет отображаться еще основной плеер, только если экран будет больше 768px, иначе бкдет отображаться мини-плеер для мобильных устройств
+            setShowMiniPlayer(true)
+        }
+    }
+
+    const showUploadMusic = () => {
+        setUploadMusic(true)
+        setShowMenuWindow(!showMenuWindow)
+    }
+
+    // добавление и удаление музыки в списке отслеживаемых
+    const favoriteFunc = async () => {
+        const userID = localStorageData.id;
+        const isCurrentlyFavorite = isFavorite;
+
+        if (artistData) {
+            try {
+                if (isCurrentlyFavorite) {
+                    // Удаляем из избранного
+                    const { error } = await supabase
+                        .from('favorite_artists')
+                        .delete()
+                        .eq('user_id', userID)
+                        .eq('artist_id', artistData.id);
+
+                    if (error) throw error;
+                } else {
+                    // Добавляем в избранное
+                    const { error } = await supabase
+                        .from('favorite_artists')
+                        .insert({ user_id: userID, artist_id: artistData.id });
+
+                    if (error) throw error;
+                }
+
+                // Обновляем состояние в Redux
+                dispatch(artistToFavorControl({ artistData, userID }));
+
+                // Обновляем локальное состояние
+                setIsFavorite(!isCurrentlyFavorite);
+            } catch (error) {
+                console.error('Error updating favorite:', error);
+            }
         }
     };
 
-    // загрузка, если данных пока нет
-    if (!artistData) {
-        return <div>Loading...</div>;
-    }
 
     return (
         <div className={style.profileContent}>
             <div className={style.userBlock}>
-                <div
-                    className={style.userImage}
-                    style={{ backgroundImage: `url(${artistData.image_url})` }}
-                />
+                <div className={style.userImage} style={{ backgroundImage: `url(${artistData?.image_url})` }}></div>
 
-                {isCurrentUser ? <p>You</p> : <p>{artistData.performer ? "Performer" : "User"}</p>}
-                <h2>{artistData.name}</h2>
+                {localStorageData.id == id ? (
+                    <p>You</p>
+                ) : (
+                    <p>{artistData?.performer ? "Performer" : "User"}</p>
+                )}
+                <h2>{artistData ? artistData.name : ''}</h2>
 
                 <div className={style.options}>
                     <ButtonElem title='Play' func={startPlayMusic} />
-                    {isCurrentUser && (
+                    {localStorageData.id == id && (
                         <button onClick={showUploadMusic}>
                             <FiUpload />
                         </button>
                     )}
-                    {!isCurrentUser && artistData.performer && (
+                    {localStorageData.id != id && artistData?.performer && (
                         <button onClick={() => alert('pay')}>
                             <HiOutlineCurrencyDollar />
                         </button>
                     )}
-                    {isCurrentUser ? (
+                    {localStorageData.id == id ? (
                         <Link to={'/settings'}>
                             <IoSettingsOutline />
                         </Link>
@@ -170,7 +145,7 @@ export default function ProfileContent() {
                 </div>
             </div>
             <div className={style.musicList}>
-                {artistData.music_tracks?.length ? (
+                {artistData && artistData.music_tracks.length > 0 ? (
                     <MusicList onList={false} sortedData={artistData.music_tracks} />
                 ) : (
                     <span className={style.noMusicMessage}>There is nothing</span>

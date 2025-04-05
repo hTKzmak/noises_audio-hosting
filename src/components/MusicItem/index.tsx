@@ -18,9 +18,7 @@ export default function MusicItem({ id, title, user_id, artist_name, artwork_url
     const { data, setCurrentSong, setShowMiniPlayer, setSongs, latestMusic, localStorageData, setLatestMusic } = useContext(Context)
 
     const { pathname } = useLocation();
-    const myProfile = pathname.startsWith('/profile/') && 
-                 localStorageData && 
-                 pathname.endsWith(`/${localStorageData.id}`);
+    const myProfile = pathname.includes('profile') && pathname.includes(localStorageData.id);
 
     const dispatch = useDispatch();
 
@@ -28,11 +26,11 @@ export default function MusicItem({ id, title, user_id, artist_name, artwork_url
 
     // Упрощенный useEffect для отслеживания избранного
     useEffect(() => {
-        const user = data.find((elem: any) => elem.id === localStorageData?.id);
-        if (user && user.favorite_music) {
+        const user = data.find((elem: any) => elem.id === localStorageData.id);
+        if (user) {
             setIsFavorite(user.favorite_music.some((music: any) => music.id === id));
         }
-    }, [data, localStorageData?.id, id]); // Зависимость от data, а не от isFavorite
+    }, [data, localStorageData.id, id]); // Зависимость от data, а не от isFavorite
 
 
     function startPlayMusic(id: number) {
@@ -42,9 +40,6 @@ export default function MusicItem({ id, title, user_id, artist_name, artwork_url
             // находим список музыки
             const newData = data.flatMap((item: any) => item.music_tracks);
 
-            // находим выбранную музыку
-            const selectedTrack = newData.find((elem: any) => elem.id === id);
-
             // проходимся по ним
             newData.map((elem: any) => {
 
@@ -52,10 +47,10 @@ export default function MusicItem({ id, title, user_id, artist_name, artwork_url
                 if (elem.id === id) {
                     // если выбранной музыки нет в списке недавно прослушанных, то добавляем его в список
                     if (!latestMusic.find((music: any) => music.id === elem.id)) {
-                        setLatestMusic([...latestMusic, selectedTrack]);
+                        setLatestMusic((prev: any) => [...prev, elem]);
                     }
 
-                    setCurrentSong(selectedTrack)
+                    setCurrentSong(elem)
 
                     // будет отображаться еще основной плеер, только если экран будет больше 768px, иначе бкдет отображаться мини-плеер для мобильных устройств
                     setShowMiniPlayer(true)
@@ -68,7 +63,7 @@ export default function MusicItem({ id, title, user_id, artist_name, artwork_url
     const deleteFunc = async (e: any) => {
         e.stopPropagation();
 
-        const userId = localStorageData!.id;
+        const userId = localStorageData.id;
         const musicId = id;
 
         // также удаляем музыку с разметки
@@ -123,7 +118,7 @@ export default function MusicItem({ id, title, user_id, artist_name, artwork_url
             favorite_count
         };
 
-        const userID = localStorageData!.id;
+        const userID = localStorageData.id;
         const isCurrentlyFavorite = isFavorite;
 
         try {

@@ -28,7 +28,7 @@ interface PlayerProps {
     repeatValue: number;
     setRepeatValue: React.Dispatch<React.SetStateAction<number>>;
     showPlayer: boolean;
-    setShowPlayer: any;
+    setShowPlayer: React.Dispatch<React.SetStateAction<boolean>>;
     showMiniPlayer: boolean;
     mixSongsFunc: () => void;
 }

@@ -8,8 +8,6 @@ export default function SettingsPage() {
 
     const { localStorageData } = useContext(Context)
 
-    const userId = localStorageData?.id;
-
     const navigate = useNavigate();
 
     const logoutFunc = () => {
@@ -17,14 +15,8 @@ export default function SettingsPage() {
         navigate('/login');
     }
 
-    if (!userId) {
-        // Обработка случая, когда пользователь не авторизован
-        console.error('Не удалось получить ID пользователя');
-        return; // или throw new Error()
-    }
-
     const deleteAccFunc = async () => {
-        const { data, error } = await supabase.from('users').delete().eq('id', userId).select()
+        const { data, error } = await supabase.from('users').delete().eq('id', localStorageData.id).select()
 
         if (error) {
             console.error(error)
