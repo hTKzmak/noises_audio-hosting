@@ -67,7 +67,7 @@ export default function NavMenu() {
                     <button onClick={showLibrary}><MdLibraryMusic/></button>
                 </li>
                 <li>
-                    <Link to={`/profile/${localStorageData.id}`} className={style.user}>
+                    <Link to={`/profile/${localStorageData?.id}`} className={style.user}>
                         <div className={style.userImage} style={{ backgroundImage: `url(${localStorageData ? localStorageData.image_url : 'https://evapkmvcgowyfwuogwbq.supabase.co/storage/v1/object/public/noises_bucket/user_profile_images/default.png'})` }}></div>
                     </Link>
                 </li>

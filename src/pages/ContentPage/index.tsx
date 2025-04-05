@@ -1,8 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import MusicList from "../../components/MusicList";
 import PerformerList from "../../components/PerformersList";
 import MiniButton from "../../components/UI/MiniButton";
-import supabase from "../../config/supabaseClient";
 import { Link } from "react-router-dom";
 import { IoIosArrowForward } from "react-icons/io";
 import { RootState } from "../../app/store";
@@ -13,16 +12,7 @@ type PageType = {
     type: string
 }
 
-interface IUser {
-    email: string;
-    id: number;
-    image_url: string;
-    name: string;
-    password_hash: string;
-    performer: boolean | null;
-}
-
-export default function ContentPage({ data, type }: PageType) {
+export default function ContentPage({ type }: PageType) {
 
     // список музыки и исполнителей
     const { 

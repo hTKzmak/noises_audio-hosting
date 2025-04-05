@@ -1,3 +1,8 @@
+export interface Song extends MusicTrack {
+    progress?: number;
+    length?: number;
+}
+
 export interface Song {
     title: string;
     url: string;
@@ -28,7 +33,6 @@ export interface MusicTrack {
     artist_name: string;
     favorite_count: number;
 }
-
 export interface ContextData {
     data: UserType[];
     localStorageData: UserType | null;

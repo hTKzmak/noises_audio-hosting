@@ -14,11 +14,15 @@ export default function ArtistsListPage({ showContent }: IContent) {
         popular_artists, 
         data 
     } = useSelector((state: RootState) => state.musicdata);
+
+    console.log(data)
     
     const { localStorageData } = useContext(Context);
 
     // Получаем избранных артистов пользователя
-    const userFavArtists = data.find(user => user.id === Number(localStorageData.id))?.favorite_artists || [];
+    const userFavArtists = data.find(user => user.id === localStorageData?.id).favorite_artists;
+    console.log(userFavArtists)
+
 
     // какие данные мы должны отображать
     const getDataToShow = () => {

@@ -16,7 +16,7 @@ interface musicData {
     id: number,
     title: string,
     genre: string,
-    user_id: number,
+    user_id: number | undefined,
     artwork_url: string,
     music_url: string,
     artist_name?: string
@@ -112,7 +112,7 @@ export default function UploadMusicWin() {
                     id: Date.now(),
                     title: values.title,
                     genre: values.genre,
-                    user_id: localStorageData.id,
+                    user_id: localStorageData?.id,
                     artwork_url: 'https://evapkmvcgowyfwuogwbq.supabase.co/storage/v1/object/public/noises_bucket/artworks/default.png',
                     music_url: '',
                 };
@@ -144,7 +144,7 @@ export default function UploadMusicWin() {
 
                 // добавление музыки на странице (но с добавлением нового ключа и значения с именем пользователя)
                 let musicDataWithArtistName = musicData
-                musicDataWithArtistName.artist_name = `${localStorageData.name}`
+                musicDataWithArtistName.artist_name = `${localStorageData?.name}`
 
                 console.log('загруженные данные:')
                 console.log(musicData)

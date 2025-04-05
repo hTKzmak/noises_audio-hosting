@@ -18,7 +18,7 @@ export default function MusicListPage({ showContent }: IContent) {
     const { localStorageData, sessionStorageData, searchResults } = useContext(Context);
 
     // Получаем избранные треки пользователя
-    const userFavList = data.find(user => user.id === Number(localStorageData.id))?.favorite_music || [];
+    const userFavList = data.find(user => user.id === Number(localStorageData?.id))?.favorite_music || [];
 
     // какие данные мы должны отображать
     const getDataToShow = () => {
