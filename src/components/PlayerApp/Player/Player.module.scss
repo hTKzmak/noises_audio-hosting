@@ -87,7 +87,8 @@ $image-background-color: #212121;
             display: flex;
             align-items: center;
             gap: 20px;
-            width: 200px;
+            // width: 200px;
+            min-width: 230px;
 
             .music_image {
                 width: 50px;
