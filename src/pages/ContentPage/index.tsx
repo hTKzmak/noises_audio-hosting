@@ -5,6 +5,8 @@ import MiniButton from "../../components/UI/MiniButton";
 import supabase from "../../config/supabaseClient";
 import { Link } from "react-router-dom";
 import { IoIosArrowForward } from "react-icons/io";
+import { RootState } from "../../app/store";
+import { useSelector } from "react-redux";
 
 type PageType = {
     data: any,
@@ -23,9 +25,12 @@ interface IUser {
 export default function ContentPage({ data, type }: PageType) {
 
     // список музыки и исполнителей
-    const [musicList, setMusicList] = useState([]);
-    const [artistsList, setArtistsList] = useState([]);
-    const [latestArtists, setLatestArtists] = useState<IUser[]>([]);
+    const { 
+        latest_music, 
+        popular_music, 
+        latest_artists, 
+        popular_artists 
+    } = useSelector((state: RootState) => state.musicdata);
 
     // находим нужный нам div элемент с указанием типизации (<HTMLDivElement>)
     const scrollMusicsRef = useRef<HTMLDivElement>(null);
@@ -39,36 +44,6 @@ export default function ContentPage({ data, type }: PageType) {
         ref.current?.scrollBy({ left: direction === 'left' ? scrollValue : -scrollValue, behavior: 'smooth' });
     };
 
-    // фильтрация данных в зависимости от страницы
-    useEffect(() => {
-        const getUsers = async () => {
-            const { data, error } = await supabase  
-                .from('users')  
-                .select()
-
-            if(error){
-                console.error(error)
-            }
-            if(data){
-                setLatestArtists(data.reverse())
-            }
-        }
-
-        // анонимная ошибка
-        getUsers()
-
-        if (data?.length > 0) {
-            const latestMusic = data.flatMap((item: any) => item.music_tracks);
-            const sortedMusic = latestMusic.sort((a: any, b: any) => b.favorite_count - a.favorite_count);
-            const sortedArtists = data
-                .filter((user: any) => user.favorite_count > 0)
-                .sort((a: any, b: any) => b.favorite_count - a.favorite_count);
-
-            setMusicList(type === 'explore' && sortedMusic.length > 0 ? sortedMusic.slice(0, 24) : latestMusic.reverse().slice(0, 24));
-            setArtistsList(type === 'explore' && sortedArtists.length > 0 ? sortedArtists : latestArtists);
-        }
-    }, [data, type, latestArtists]);
-
 
     return (
         <div className="content">
@@ -80,7 +55,7 @@ export default function ContentPage({ data, type }: PageType) {
                         <MiniButton sign='forward' func={() => handleScroll('left', scrollMusicsRef)} />
                     </div>
                 </div>
-                <MusicList scrollMusicsRef={scrollMusicsRef} onList={true} sortedData={musicList} />
+                <MusicList scrollMusicsRef={scrollMusicsRef} onList={true} sortedData={type === 'home' ? latest_music : popular_music}  />
             </div>
             <div className="performersContent">
                 <div className="contentHeader">
@@ -90,7 +65,7 @@ export default function ContentPage({ data, type }: PageType) {
                         <MiniButton sign='forward' func={() => handleScroll('left', scrollArtistsRef)} />
                     </div>
                 </div>
-                <PerformerList sortedData={artistsList} onList={true} scrollArtistsRef={scrollArtistsRef} />
+                <PerformerList sortedData={type === 'home' ? latest_artists : popular_artists} onList={true} scrollArtistsRef={scrollArtistsRef} />
             </div>
         </div>
     )

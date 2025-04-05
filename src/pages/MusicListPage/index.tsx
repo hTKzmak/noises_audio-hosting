@@ -1,100 +1,54 @@
-import { useContext, useEffect, useState } from "react";
-import { Context } from "../../context/Context";
-import MusicList from "../../components/MusicList";
-import supabase from "../../config/supabaseClient";
+import { useSelector } from 'react-redux';
+import { RootState } from '../../app/store';
+import MusicList from '../../components/MusicList';
+import { useContext } from 'react';
+import { Context } from '../../context/Context';
 
-interface MusicListPageProps {
+interface IContent {
     showContent: string;
 }
 
-interface IUser {
-    email: string;
-    id: number;
-    image_url: string;
-    name: string;
-    password_hash: string;
-    performer: boolean | null;
-}
+export default function MusicListPage({ showContent }: IContent) {
+    const { 
+        latest_music, 
+        popular_music, 
+        data 
+    } = useSelector((state: RootState) => state.musicdata);
+    
+    const { localStorageData, sessionStorageData, searchResults } = useContext(Context);
 
-export default function MusicListPage({ showContent }: MusicListPageProps) {
+    // Получаем избранные треки пользователя
+    const userFavList = data.find(user => user.id === Number(localStorageData.id))?.favorite_music || [];
 
-    // ЧИСТИ ГОВНО С ПОМОЩЬЮ REDUX
-
-    // получение данных с app.tsx
-    const { data, localStorageData, sessionStorageData, searchResults } = useContext(Context);
-
-    // данные пользователя, которые будут храниться в artistData
-    const [userFavList, setUserFavList] = useState<any[]>([]);
-    // список музыки и исполнителей
-    const [musicList, setMusicList] = useState([]);
-    const [latestArtists, setLatestArtists] = useState<IUser[]>([]);
-
-    // находим данные пользователя по id
-    useEffect(() => {
-        if (showContent === 'favorite') {
-            if (data?.length > 0) {
-                const foundUser = data.find((elem: any) => elem.id === Number(localStorageData.id));
-                setUserFavList(foundUser?.favorite_music || []);
-            }
+    // какие данные мы должны отображать
+    const getDataToShow = () => {
+        switch(showContent) {
+            case 'favorite': return userFavList;
+            case 'listened': return sessionStorageData;
+            case 'search': return searchResults;
+            case 'popular': return popular_music;
+            case 'latest': return latest_music;
+            default: return [];
         }
-        // получаем всю музыку и сортируем их
-        else {
-            const getUsers = async () => {
-                const { data, error } = await supabase
-                    .from('users')
-                    .select()
+    };
 
-                if (error) {
-                    console.error(error)
-                }
-                if (data) {
-                    setLatestArtists(data.reverse())
-                }
-            }
-
-            getUsers()
-
-            if (data?.length > 0) {
-                const latestMusic = data.flatMap((item: any) => item.music_tracks);
-                const sortedMusic = latestMusic.sort((a: any, b: any) => b.favorite_count - a.favorite_count);
-                setMusicList(showContent === 'popular' && sortedMusic.length > 0 ? sortedMusic.slice(0, 24) : latestMusic.reverse().slice(0, 24));
-            }
-        }
-    }, [localStorageData.id, data, latestArtists, showContent]);
-
-    const hasFavMusic = userFavList.length > 0;
-    const hasListenedMusic = sessionStorageData?.length > 0;
-    const hasOtherMusic = musicList?.length > 0;
-    const hasSearchResults = searchResults.length > 0;
-
-    const hasData = (showContent === 'favorite' && hasFavMusic) ||
-        (showContent === 'listened' && hasListenedMusic) ||
-        (showContent === 'search' && hasSearchResults) || 
-        ((showContent === 'popular' || showContent === 'latest') && hasOtherMusic);
+    const dataToShow = getDataToShow();
+    const hasData = dataToShow.length > 0;
 
     return (
         <div className={hasData ? "content" : "noContent"}>
             {hasData && (
                 <h3 className="headerText">
                     {showContent === "favorite" ? "Favorite music" :
-                        showContent === "listened" ? "Listened music" :
-                            showContent === "search" ? "Search results" :
-                                showContent === "popular" ? "Popular music" :
-                                    showContent === "latest" ? "Latest music" :
-                                        ""}
+                     showContent === "listened" ? "Listened music" :
+                     showContent === "search" ? "Search results" :
+                     showContent === "popular" ? "Popular music" :
+                     showContent === "latest" ? "Latest music" : ""}
                 </h3>
             )}
             <div className="listContent">
-                {showContent === "favorite" && hasFavMusic ? (
-                    <MusicList onList={false} sortedData={userFavList} />
-                ) : showContent === "listened" && hasListenedMusic ? (
-                    <MusicList onList={false} sortedData={sessionStorageData} />
-                ) : showContent === "search" && hasSearchResults ? (
-                    <MusicList onList={false} sortedData={searchResults} />
-                ) : showContent === "popular" && hasOtherMusic ? (
-                    <MusicList onList={false} sortedData={musicList} />
-                ) : showContent === "latest" && hasOtherMusic ? (
-                    <MusicList onList={false} sortedData={musicList} />
+                {hasData ? (
+                    <MusicList onList={false} sortedData={dataToShow} />
                 ) : (
                     <span>There is nothing</span>
                 )}

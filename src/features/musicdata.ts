@@ -2,10 +2,18 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface ProductsState {
     data: any[],
+    latest_music: any[]
+    latest_artists: any[],
+    popular_music: any[],
+    popular_artists: any[]
 }
 
 const initialState: ProductsState = {
     data: [],
+    latest_music: [],
+    latest_artists: [],
+    popular_music: [],
+    popular_artists: []
 }
 
 export const productsSlice = createSlice({
@@ -17,9 +25,32 @@ export const productsSlice = createSlice({
             console.log(state.data)
         },
         // добавление данных
-        addingData(state, action) {
-            state.data = action.payload
-            console.log(state.data)
+        addingData(state, action: PayloadAction<any[]>) {
+            state.data = action.payload;
+            
+            // Обновляем популярную и последнюю музыку/артистов
+            const allMusic = action.payload.flatMap(user => user.music_tracks);
+            
+            // Последняя музыка (сортировка по ID в обратном порядке)
+            state.latest_music = [...allMusic]
+                .sort((a, b) => b.id - a.id)
+                .slice(0, 24);
+            
+            // Популярная музыка (сортировка по количеству лайков)
+            state.popular_music = [...allMusic]
+                .sort((a, b) => (b.favorite_count || 0) - (a.favorite_count || 0))
+                .slice(0, 24);
+            
+            // Последние артисты (сортировка по ID в обратном порядке)
+            state.latest_artists = [...action.payload]
+                .sort((a, b) => b.id - a.id)
+                .slice(0, 24);
+            
+            // Популярные артисты (сортировка по количеству подписчиков)
+            state.popular_artists = [...action.payload]
+                .filter(user => (user.favorite_count || 0) > 0)
+                .sort((a, b) => (b.favorite_count || 0) - (a.favorite_count || 0))
+                .slice(0, 24);
         },
         // загрузка своей музыки
         uploadMusic(state, action) {
