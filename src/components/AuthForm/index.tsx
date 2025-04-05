@@ -50,7 +50,7 @@ export default function AuthForm() {
                     setError(true);
                     return;
                 }
-                else{
+                else {
                     localStorage.setItem('userData', JSON.stringify(data));
                     setFormError('');
                     setError(false);

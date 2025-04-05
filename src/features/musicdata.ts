@@ -92,8 +92,6 @@ export const productsSlice = createSlice({
                 return user;
             });
         },
-
-
     },
 })
 
@@ -104,7 +102,7 @@ export const {
     uploadMusic,
     deleteMusic,
     musicToFavorControl,
-    artistToFavorControl
+    artistToFavorControl,
 } = productsSlice.actions
 
 export default productsSlice.reducer

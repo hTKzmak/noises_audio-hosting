@@ -171,7 +171,10 @@ export default function Player({ audioElem, isplaying, setIsPlaying, currentSong
             </div>
             <div className={style.info_and_navigation}>
                 <div className={style.music_info}>
-                    <img src={currentSong.artwork_url} alt={currentSong.title} />
+                    
+                    {/* <img src={currentSong.artwork_url} alt={currentSong.title} /> */}
+
+                    <div className={style.music_image} style={{ backgroundImage: `url(${currentSong.artwork_url})` }}></div>
                     <div className={style.music_info_text}>
                         <p className={style.title}>{currentSong.title}</p>
                         <p className={style.artist}>{currentSong.artist_name}</p>

@@ -52,7 +52,7 @@ export default function ProfileContent() {
     useEffect(() => {
         const checkIfFavorite = async () => {
             const user = data.find((elem: any) => elem.id === localStorageData.id);
-            if(user){
+            if (user) {
                 setIsFavorite(user.favorite_artists.some((user: any) => user.id === Number(id)))
             }
         };
@@ -112,11 +112,11 @@ export default function ProfileContent() {
         }
     };
 
-
     return (
         <div className={style.profileContent}>
             <div className={style.userBlock}>
-                <img src={artistData ? artistData.image_url : 'https://evapkmvcgowyfwuogwbq.supabase.co/storage/v1/object/public/noises_bucket/user_profile_images/default.png'} alt={artistData ? artistData.name : 'performer_image'} />
+                <div className={style.userImage} style={{ backgroundImage: `url(${artistData?.image_url})` }}></div>
+
                 {localStorageData.id == id ? (
                     <p>You</p>
                 ) : (

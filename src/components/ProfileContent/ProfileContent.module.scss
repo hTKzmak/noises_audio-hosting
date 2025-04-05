@@ -19,13 +19,17 @@ $white-color: #fff;
             align-self: start;
         }
 
-        img {
+        .userImage {
             width: 20vw;
             height: 20vw;
+            border-radius: 8px;
+
             max-width: 300px;
             max-height: 300px;
 
-            border-radius: 8px;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
 
             @media screen and (max-width: 1280px) {
                 width: 217px;
