@@ -5,6 +5,7 @@ import { RiHeartFill } from "react-icons/ri";
 import { RiHeartLine } from "react-icons/ri";
 import { IoSettingsOutline } from "react-icons/io5";
 import { FiUpload } from "react-icons/fi";
+import { HiOutlineCurrencyDollar } from "react-icons/hi2";
 
 import { Link, useParams } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
@@ -127,6 +128,7 @@ export default function ProfileContent() {
                 <div className={style.options}>
                     <ButtonElem title='Play' func={() => startPlayMusic()} />
                     {localStorageData.id == id && (<button onClick={showUploadMusic}><FiUpload /></button>)}
+                    {(localStorageData.id != id && artistData?.performer) && ((<button onClick={() => alert('pay')}><HiOutlineCurrencyDollar /></button>))}
                     {localStorageData.id == id ? (<Link to={'/settings'}><IoSettingsOutline /></Link>) : (<button onClick={favoriteFunc}>{isFavorite ? <RiHeartFill /> : <RiHeartLine />}</button>)}
                 </div>
             </div>
