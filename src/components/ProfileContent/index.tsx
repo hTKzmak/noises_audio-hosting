@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { RiHeartFill, RiHeartLine } from "react-icons/ri";
 import { IoSettingsOutline } from "react-icons/io5";
 import { FiUpload } from "react-icons/fi";
-import { HiOutlineCurrencyDollar } from "react-icons/hi2";
+import { HiCurrencyDollar } from "react-icons/hi2";
 import ButtonElem from '../UI/ButtonElem';
 import style from './ProfileContent.module.scss';
 import { Context } from '../../context/Context';
@@ -129,9 +129,9 @@ export default function ProfileContent() {
                         </button>
                     )}
                     {localStorageData.id != id && artistData?.performer && (
-                        <button onClick={() => alert('pay')}>
-                            <HiOutlineCurrencyDollar />
-                        </button>
+                        <a href="https://donate.stripe.com/test_28oeUZcYvgwS0246oo" target='_blank'>
+                            <HiCurrencyDollar />
+                        </a>
                     )}
                     {localStorageData.id == id ? (
                         <Link to={'/settings'}>

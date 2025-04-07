@@ -14,6 +14,7 @@ import repeatMusic from '../../../assets/icons/player/repeat_music.svg';
 import classNames from 'classnames';
 import MiniButton from '../../UI/MiniButton';
 import Loading from '../../Loading';
+import { HiCurrencyDollar } from "react-icons/hi2";
 
 interface PlayerProps {
     audioElem: any;
@@ -78,8 +79,6 @@ export default function Player({ audioElem, isplaying, setIsPlaying, currentSong
         }
     }, [currentSong.progress, currentSong.length]);
 
-
-
     // ОПЦИИ:
     // скачивание файла
     const downloadMusicFunc = async () => {
@@ -98,7 +97,7 @@ export default function Player({ audioElem, isplaying, setIsPlaying, currentSong
 
             URL.revokeObjectURL(url); // Освобождение памяти
 
-        setIsLoading(false)
+            setIsLoading(false)
         } catch (error) {
             console.error('Ошибка загрузки:', error);
         }
@@ -147,6 +146,13 @@ export default function Player({ audioElem, isplaying, setIsPlaying, currentSong
         };
     }, [setShowPlayer, showMiniPlayer]);
 
+    const openPaymentLink = () => {
+        const url = "https://buy.stripe.com/test_aEUfZ3gaH5Se4ik5km";
+        window.open(url, '_blank');
+
+        downloadMusicFunc()
+    }
+
     return (
         <div className={style.player_container} style={{ display: showPlayer ? 'flex' : 'none' }}>
             <div className={style.showingPlayer}>
@@ -171,7 +177,7 @@ export default function Player({ audioElem, isplaying, setIsPlaying, currentSong
             </div>
             <div className={style.info_and_navigation}>
                 <div className={style.music_info}>
-                    
+
                     {/* <img src={currentSong.artwork_url} alt={currentSong.title} /> */}
 
                     <div className={style.music_image} style={{ backgroundImage: `url(${currentSong.artwork_url})` }}></div>
@@ -245,13 +251,23 @@ export default function Player({ audioElem, isplaying, setIsPlaying, currentSong
                             <button onClick={() => { mixMusicList() }}>
                                 {mixMusic === false ? <img src={mixOff} alt="mix off" /> : <img src={mixOn} alt="mix on" />}
                             </button>
-                            <button onClick={downloadMusicFunc}>
-                                {isLoading ? (
-                                    <Loading inPlayer={true} />
-                                ) : (
-                                    <img src={download} alt="download" />
-                                )}
-                            </button>
+                            {currentSong.isPerformer ? (
+                                <button onClick={openPaymentLink}>
+                                    {isLoading ? (
+                                        <Loading inPlayer={true} />
+                                    ) : (
+                                        <HiCurrencyDollar />
+                                    )}
+                                </button>
+                            ) : (
+                                <button onClick={downloadMusicFunc}>
+                                    {isLoading ? (
+                                        <Loading inPlayer={true} />
+                                    ) : (
+                                        <img src={download} alt="download" />
+                                    )}
+                                </button>
+                            )}
                         </>
                     )
                 }
