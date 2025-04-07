@@ -50,11 +50,8 @@ export default function MusicItem({ id, title, user_id, artist_name, artwork_url
                         setLatestMusic((prev: any) => [...prev, elem]);
                     }
 
-                    // (Временное решение) 
-                    // Проверка на то, является ли пользователь исполнителем или обычным пользователем.
-                    // Находим данные о пользователе и добавляем его к остальным данным о музыке.
-                    const findUser = data.find((elem: any) => elem.id === user_id);
-                    setCurrentSong({...elem, isPerformer: findUser.performer})
+                    // добавление музыки
+                    setCurrentSong(elem)
 
                     // будет отображаться еще основной плеер, только если экран будет больше 768px, иначе бкдет отображаться мини-плеер для мобильных устройств
                     setShowMiniPlayer(true)

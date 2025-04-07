@@ -17,6 +17,7 @@ import Loading from '../../Loading';
 import { HiCurrencyDollar } from "react-icons/hi2";
 
 interface PlayerProps {
+    data: any;
     audioElem: any;
     isplaying: boolean;
     setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>;
@@ -34,12 +35,15 @@ interface PlayerProps {
     mixSongsFunc: () => void;
 }
 
-export default function Player({ audioElem, isplaying, setIsPlaying, currentSong, setCurrentSong, mixMusic, setMixMusic, skipBack, skiptoNext, repeatValue, setRepeatValue, showPlayer, setShowPlayer, showMiniPlayer, mixSongsFunc }: PlayerProps) {
+export default function Player({ data, audioElem, isplaying, setIsPlaying, currentSong, setCurrentSong, mixMusic, setMixMusic, skipBack, skiptoNext, repeatValue, setRepeatValue, showPlayer, setShowPlayer, showMiniPlayer, mixSongsFunc }: PlayerProps) {
     // место события на разметке (input range)
     const inputRef = useRef<HTMLInputElement | null>(null);
 
     // громкость музыки
     const volumeRef = useRef<HTMLInputElement | null>(null);
+
+    // является ли пользователь исполнителем
+    const [isPerformer, setIsPerformer] = useState(false)
 
     // показывать ползунок для изменения громкости
     const [showVolume, setShowVolume] = useState(false);
@@ -78,6 +82,15 @@ export default function Player({ audioElem, isplaying, setIsPlaying, currentSong
             inputRef.current.style.background = `linear-gradient(90deg, #f7f7f7 ${ratio}%, #626262 ${ratio}%)`;
         }
     }, [currentSong.progress, currentSong.length]);
+
+    // обновление информации о типе пользователя: исполнитель ли он или нет
+    useEffect(() => {
+        const findUser = data.find((elem: any) => elem.id === currentSong.user_id);
+        // если данные есть и пользователь найден, то тогда смотрим на значение performer
+        if(findUser){
+            setIsPerformer(findUser.performer)
+        }
+    }, [currentSong])
 
     // ОПЦИИ:
     // скачивание файла
@@ -251,7 +264,7 @@ export default function Player({ audioElem, isplaying, setIsPlaying, currentSong
                             <button onClick={() => { mixMusicList() }}>
                                 {mixMusic === false ? <img src={mixOff} alt="mix off" /> : <img src={mixOn} alt="mix on" />}
                             </button>
-                            {currentSong.isPerformer ? (
+                            {isPerformer ? (
                                 <button onClick={openPaymentLink}>
                                     {isLoading ? (
                                         <Loading inPlayer={true} />

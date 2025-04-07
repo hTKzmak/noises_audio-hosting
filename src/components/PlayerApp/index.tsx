@@ -163,6 +163,7 @@ export default function PlayerApp({ data }: any) {
             />
 
             <Player
+                data={data}
                 isplaying={isplaying}
                 setIsPlaying={setIsPlaying}
                 audioElem={audioElem}
