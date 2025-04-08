@@ -17,7 +17,6 @@ import Loading from '../../Loading';
 import { HiCurrencyDollar } from "react-icons/hi2";
 
 interface PlayerProps {
-    data: any;
     audioElem: any;
     isplaying: boolean;
     setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>;
@@ -33,17 +32,15 @@ interface PlayerProps {
     setShowPlayer: React.Dispatch<React.SetStateAction<boolean>>;
     showMiniPlayer: boolean;
     mixSongsFunc: () => void;
+    isLoadingMusic: boolean;
 }
 
-export default function Player({ data, audioElem, isplaying, setIsPlaying, currentSong, setCurrentSong, mixMusic, setMixMusic, skipBack, skiptoNext, repeatValue, setRepeatValue, showPlayer, setShowPlayer, showMiniPlayer, mixSongsFunc }: PlayerProps) {
+export default function Player({ audioElem, isplaying, setIsPlaying, currentSong, setCurrentSong, mixMusic, setMixMusic, skipBack, skiptoNext, repeatValue, setRepeatValue, showPlayer, setShowPlayer, showMiniPlayer, mixSongsFunc, isLoadingMusic }: PlayerProps) {
     // место события на разметке (input range)
     const inputRef = useRef<HTMLInputElement | null>(null);
 
     // громкость музыки
     const volumeRef = useRef<HTMLInputElement | null>(null);
-
-    // является ли пользователь исполнителем
-    const [isPerformer, setIsPerformer] = useState(false)
 
     // показывать ползунок для изменения громкости
     const [showVolume, setShowVolume] = useState(false);
@@ -82,15 +79,6 @@ export default function Player({ data, audioElem, isplaying, setIsPlaying, curre
             inputRef.current.style.background = `linear-gradient(90deg, #f7f7f7 ${ratio}%, #626262 ${ratio}%)`;
         }
     }, [currentSong.progress, currentSong.length]);
-
-    // обновление информации о типе пользователя: исполнитель ли он или нет
-    useEffect(() => {
-        const findUser = data.find((elem: any) => elem.id === currentSong.user_id);
-        // если данные есть и пользователь найден, то тогда смотрим на значение performer
-        if(findUser){
-            setIsPerformer(findUser.performer)
-        }
-    }, [currentSong])
 
     // ОПЦИИ:
     // скачивание файла
@@ -190,10 +178,13 @@ export default function Player({ data, audioElem, isplaying, setIsPlaying, curre
             </div>
             <div className={style.info_and_navigation}>
                 <div className={style.music_info}>
-
-                    {/* <img src={currentSong.artwork_url} alt={currentSong.title} /> */}
-
-                    <div className={style.music_image} style={{ backgroundImage: `url(${currentSong.artwork_url})` }}></div>
+                    <div className={style.music_image} style={{ backgroundImage: `url(${currentSong.artwork_url})` }}>
+                        {isLoadingMusic && (
+                            <div className={style.loading_conatiner}>
+                                <Loading inMusicImage={true} />
+                            </div>
+                        )}
+                    </div>
                     <div className={style.music_info_text}>
                         <p className={style.title}>{currentSong.title}</p>
                         <p className={style.artist}>{currentSong.artist_name}</p>
@@ -264,7 +255,7 @@ export default function Player({ data, audioElem, isplaying, setIsPlaying, curre
                             <button onClick={() => { mixMusicList() }}>
                                 {mixMusic === false ? <img src={mixOff} alt="mix off" /> : <img src={mixOn} alt="mix on" />}
                             </button>
-                            {isPerformer ? (
+                            {currentSong.isPaid ? (
                                 <button onClick={openPaymentLink}>
                                     {isLoading ? (
                                         <Loading inPlayer={true} />

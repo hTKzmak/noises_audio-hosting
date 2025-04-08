@@ -95,7 +95,7 @@ $error-color: #f62828;
                 display: flex;
                 flex-direction: column;
                 gap: 17px;
-                margin-top: 40px;
+                margin-top: 10px;
 
                 input,
                 select {
@@ -133,6 +133,23 @@ $error-color: #f62828;
                     -webkit-user-select: none;
                     -ms-user-select: none;
                     user-select: none;
+                }
+            }
+
+            .paidCheckbox {
+                display: flex;
+                gap: 15px;
+                align-items: center;
+                text-align: left;
+
+                label {
+                    font-size: 16px;
+                }
+
+                input[type="checkbox"] {
+                    accent-color: $dark-white-color;
+                    width: 20px;
+                    height: 20px;
                 }
             }
         }

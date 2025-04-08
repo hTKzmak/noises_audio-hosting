@@ -9,13 +9,16 @@ interface IContent {
 }
 
 export default function MusicListPage({ showContent }: IContent) {
+
+    // получение данных с app.tsx
+    const { localStorageData, sessionStorageData, searchResults } = useContext(Context);
+
+    // получение данных со store (musicdata.ts)
     const { 
         latest_music, 
         popular_music, 
         data 
     } = useSelector((state: RootState) => state.musicdata);
-    
-    const { localStorageData, sessionStorageData, searchResults } = useContext(Context);
 
     // Получаем избранные треки пользователя
     const userFavList = data.find(user => user.id === Number(localStorageData.id))?.favorite_music || [];

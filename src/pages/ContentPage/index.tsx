@@ -15,11 +15,11 @@ type PageType = {
 export default function ContentPage({ type }: PageType) {
 
     // список музыки и исполнителей
-    const { 
-        latest_music, 
-        popular_music, 
-        latest_artists, 
-        popular_artists 
+    const {
+        latest_music,
+        popular_music,
+        latest_artists,
+        popular_artists
     } = useSelector((state: RootState) => state.musicdata);
 
     // находим нужный нам div элемент с указанием типизации (<HTMLDivElement>)
@@ -34,22 +34,21 @@ export default function ContentPage({ type }: PageType) {
         ref.current?.scrollBy({ left: direction === 'left' ? scrollValue : -scrollValue, behavior: 'smooth' });
     };
 
-
     return (
         <div className="content">
             <div className="musicContent">
                 <div className="contentHeader">
-                    <Link to={type === 'home' ? '/musics/latest' : '/musics/popular'} className="headerText">{type === 'home' ? 'Latest music' : 'Popular music'} <IoIosArrowForward/> </Link>
+                    <Link to={type === 'home' ? '/musics/latest' : '/musics/popular'} className="headerText">{type === 'home' ? 'Latest music' : 'Popular music'} <IoIosArrowForward /> </Link>
                     <div className="scrollsOption">
                         <MiniButton sign='back' func={() => handleScroll('right', scrollMusicsRef)} />
                         <MiniButton sign='forward' func={() => handleScroll('left', scrollMusicsRef)} />
                     </div>
                 </div>
-                <MusicList scrollMusicsRef={scrollMusicsRef} onList={true} sortedData={type === 'home' ? latest_music : popular_music}  />
+                <MusicList scrollMusicsRef={scrollMusicsRef} onList={true} sortedData={type === 'home' ? latest_music : popular_music} />
             </div>
             <div className="performersContent">
                 <div className="contentHeader">
-                    <Link to={type === 'home' ? '/artists/latest' : '/artists/popular'} className="headerText">{type === 'home' ? 'Latest artists' : 'Popular artists'} <IoIosArrowForward/> </Link>
+                    <Link to={type === 'home' ? '/artists/latest' : '/artists/popular'} className="headerText">{type === 'home' ? 'Latest artists' : 'Popular artists'} <IoIosArrowForward /> </Link>
                     <div className="scrollsOption">
                         <MiniButton sign='back' func={() => handleScroll('right', scrollArtistsRef)} />
                         <MiniButton sign='forward' func={() => handleScroll('left', scrollArtistsRef)} />

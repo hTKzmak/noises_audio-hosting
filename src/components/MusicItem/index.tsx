@@ -35,6 +35,7 @@ export default function MusicItem({ id, title, user_id, artist_name, artwork_url
     function startPlayMusic(id: number) {
 
         if (data && data.length > 0) {
+            // добавление всего списка музыки со страницы в массив songs
             setSongs(sortedData)
 
             // находим список музыки

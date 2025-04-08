@@ -17,7 +17,7 @@ type ArtistData = {
     image_url: string;
     music_tracks: any[];
     id: number;
-    performer: boolean | null;
+    isPerformer: boolean | null;
 };
 
 export default function ProfileContent() {
@@ -117,7 +117,7 @@ export default function ProfileContent() {
                 {localStorageData.id == id ? (
                     <p>You</p>
                 ) : (
-                    <p>{artistData?.performer ? "Performer" : "User"}</p>
+                    <p>{artistData?.isPerformer ? "Performer" : "User"}</p>
                 )}
                 <h2>{artistData ? artistData.name : ''}</h2>
 
@@ -128,7 +128,7 @@ export default function ProfileContent() {
                             <FiUpload />
                         </button>
                     )}
-                    {localStorageData.id != id && artistData?.performer && (
+                    {localStorageData.id != id && artistData?.isPerformer && (
                         <a href="https://donate.stripe.com/test_28oeUZcYvgwS0246oo" target='_blank'>
                             <HiCurrencyDollar />
                         </a>

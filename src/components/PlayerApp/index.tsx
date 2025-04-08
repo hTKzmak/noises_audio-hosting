@@ -18,7 +18,7 @@ export default function PlayerApp({ data }: any) {
     // фильтрация данных, чтобы оставались только треки для их отображения
     useEffect(() => {
         if (data && data.length > 0) {
-            const newData = data.flatMap((item: any) => item.music);
+            const newData = data.flatMap((item: any) => item.music_tracks);
             setSongs(newData);
         }
     }, [data]);
@@ -38,7 +38,7 @@ export default function PlayerApp({ data }: any) {
     // место события на разметке (audio тег)
     const audioElem = useRef<HTMLAudioElement | null>(null);
 
-
+    const [isLoadingMusic, setIsLoadingMusic] = useState<boolean>(false);
 
     // Одна из опций плеера: перемешивание музыки (данные songsdata)
     const mixSongsFunc = () => {
@@ -51,12 +51,46 @@ export default function PlayerApp({ data }: any) {
         console.log(arrayCopy)
     }
 
-    // воспроизведение и остановка музыки
+    // воспроизведение и остановка музыки с проверкой на готовкность к запуску музыки
     useEffect(() => {
-        if (audioElem.current) {
-            isplaying ? audioElem.current.play() : audioElem.current.pause();
+        if (!audioElem.current) return;
+
+        const handleCanPlay = () => {
+            setIsLoadingMusic(false);
+            if (isplaying) {
+                audioElem.current?.play().catch(e => {
+                    console.error("Playback failed:", e);
+                    setIsPlaying(false);
+                });
+            }
+        };
+
+        const handleWaiting = () => {
+            setIsLoadingMusic(true);
+        };
+
+        audioElem.current.addEventListener('canplay', handleCanPlay);
+        audioElem.current.addEventListener('waiting', handleWaiting);
+
+        if (isplaying) {
+            if (audioElem.current.readyState > 2) {
+                audioElem.current.play().catch(e => {
+                    console.error("Playback failed:", e);
+                    setIsPlaying(false);
+                });
+            } else {
+                setIsLoadingMusic(true);
+            }
+        } else {
+            audioElem.current.pause();
         }
+
+        return () => {
+            audioElem.current?.removeEventListener('canplay', handleCanPlay);
+            audioElem.current?.removeEventListener('waiting', handleWaiting);
+        };
     }, [isplaying, currentSong]);
+    
 
     // функция по обновлению времени музыки
     const onPlaying = () => {
@@ -87,13 +121,14 @@ export default function PlayerApp({ data }: any) {
                 setCurrentSong(songs[index - 1])
             }
         }
-
-        if (audioElem.current) audioElem.current.currentTime = 0;
+        
+        if (audioElem.current) {
+            audioElem.current.currentTime = 0;
+        }
     }
 
     // пропуск музыки на следующую музыку
     const skiptoNext = () => {
-
         if (mixMusic) {
             const index = mixSongsdata.findIndex((x: Song) => x.title === currentSong.title);
             if (index === mixSongsdata.length - 1) {
@@ -112,7 +147,9 @@ export default function PlayerApp({ data }: any) {
             }
         }
 
-        if (audioElem.current) audioElem.current.currentTime = 0; // Сброс времени проигрывания
+        if (audioElem.current) {
+            audioElem.current.currentTime = 0; // Сброс времени проигрывания
+        }
     };
 
 
@@ -163,7 +200,6 @@ export default function PlayerApp({ data }: any) {
             />
 
             <Player
-                data={data}
                 isplaying={isplaying}
                 setIsPlaying={setIsPlaying}
                 audioElem={audioElem}
@@ -179,6 +215,7 @@ export default function PlayerApp({ data }: any) {
                 setShowPlayer={setShowPlayer}
                 showMiniPlayer={showMiniPlayer}
                 mixSongsFunc={mixSongsFunc}
+                isLoadingMusic={isLoadingMusic}
             />
         </div>
     )

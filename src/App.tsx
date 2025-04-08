@@ -53,7 +53,7 @@ function App() {
   // текущая музыка (стоит первая музыка по index)
   const [currentSong, setCurrentSong] = useState<any>({});
 
-  // список песниб которые будет воспроизводить плеер
+  // список песни, которые будет воспроизводить плеер
   const [songs, setSongs] = useState<Song[]>([]);
 
   // отображение плеера

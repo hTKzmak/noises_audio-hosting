@@ -19,11 +19,12 @@ interface musicData {
     user_id: number,
     artwork_url: string,
     music_url: string,
+    isPaid: boolean,
     artist_name?: string
 }
 
 export default function UploadMusicWin() {
-    const { setShowMenuWindow, localStorageData } = useContext(Context);
+    const { data, setShowMenuWindow, localStorageData } = useContext(Context);
 
     // useRef input'ов (для выбора файлов)
     const fileElem = useRef<HTMLInputElement | null>(null);
@@ -44,6 +45,9 @@ export default function UploadMusicWin() {
     // отображение сообщения об ошибке
     const [showError, setShowError] = useState(false);
     const [formError, setFormError] = useState('');
+
+    // paid состояние
+    const [isPaid, setIsPaid] = useState(false)
 
     const [values, setValues] = useState({ title: "", genre: "soundtrack" });
 
@@ -115,6 +119,7 @@ export default function UploadMusicWin() {
                     user_id: localStorageData.id,
                     artwork_url: 'https://evapkmvcgowyfwuogwbq.supabase.co/storage/v1/object/public/noises_bucket/artworks/default.png',
                     music_url: '',
+                    isPaid: isPaid
                 };
 
                 if (choosenArtwork) {
@@ -218,6 +223,13 @@ export default function UploadMusicWin() {
                                 <option value="cinematic">Cinematic</option>
                                 <option value="soundtrack">Soundtrack</option>
                             </select>
+
+                            {data.find((user: any) => user.id === localStorageData.id).isPerformer && (
+                                <div className={style.paidCheckbox}>
+                                    <label>Make it paid</label>
+                                    <input type="checkbox" checked={isPaid} onChange={() => setIsPaid(!isPaid)}/>
+                                </div>
+                            )}
 
                             <ButtonElem title={'Upload music'} func={uploadData} />
                             <p className={classNames(showError ? style.errorMessage : style.noneError)}>{formError}</p>
