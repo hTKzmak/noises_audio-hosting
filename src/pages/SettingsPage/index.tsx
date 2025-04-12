@@ -37,6 +37,7 @@ export default function SettingsPage() {
             </div>
 
             <ul className="settings">
+                <li><a href="https://buy.stripe.com/test_4gw6otcYvbcyg12aEH" target="_blank">Buy premium</a></li>
                 <li><a href="https://github.com/hTKzmak/noises_audio-hosting" target="_blank">Project info</a></li>
                 <li><a href="https://github.com/hTKzmak/noises_audio-hosting" target="_blank">Documentation</a></li>
                 <li><button onClick={logoutFunc}>Log out</button></li>
