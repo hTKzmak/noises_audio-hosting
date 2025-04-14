@@ -6,7 +6,7 @@ import supabase from "../../config/supabaseClient";
 
 export default function SettingsPage() {
 
-    const { localStorageData, setShowCustomAccWin, setShowMenuWindow, showMenuWindow } = useContext(Context)
+    const { localStorageData, setShowCustomAccWin, setShowMenuWindow } = useContext(Context)
 
     const navigate = useNavigate();
 
