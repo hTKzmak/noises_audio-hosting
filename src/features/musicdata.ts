@@ -51,6 +51,8 @@ export const productsSlice = createSlice({
                 .filter(user => (user.favorite_count || 0) > 0)
                 .sort((a, b) => (b.favorite_count || 0) - (a.favorite_count || 0))
                 .slice(0, 24);
+
+            console.log(state.data)
         },
         // загрузка своей музыки
         uploadMusic(state, action) {

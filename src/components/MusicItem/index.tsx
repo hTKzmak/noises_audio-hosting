@@ -12,7 +12,7 @@ import supabase from '../../config/supabaseClient';
 import { useDispatch } from 'react-redux';
 import { musicToFavorControl, deleteMusic } from '../../features/musicdata';
 
-export default function MusicItem({ id, title, user_id, artist_name, artwork_url, music_url, genre, favorite_count, onList, sortedData }: any) {
+export default function MusicItem({ id, title, user_id, artist_name, artwork_url, music_url, genre, favorite_count, onList, sortedData, listening }: any) {
 
     // получение данных с app.tsx
     const { data, setCurrentSong, setShowMiniPlayer, setSongs, latestMusic, localStorageData, setLatestMusic } = useContext(Context)
@@ -32,6 +32,13 @@ export default function MusicItem({ id, title, user_id, artist_name, artwork_url
         }
     }, [data, localStorageData.id, id]); // Зависимость от data, а не от isFavorite
 
+    // функция по прибавлению значения Listening у музыки
+    const incrementListening = async () => {
+        const { data, error } = await supabase.from('music_tracks').update({ listening: listening + 1 }).eq('id', id).select()
+        if(error){console.error(error)}
+        if(data){console.log(data)}
+    }
+
     function startPlayMusic(id: number) {
 
         if (data && data.length > 0) {
@@ -50,6 +57,9 @@ export default function MusicItem({ id, title, user_id, artist_name, artwork_url
                     if (!latestMusic.find((music: any) => music.id === elem.id)) {
                         setLatestMusic((prev: any) => [...prev, elem]);
                     }
+
+                    // функционал прибавления счётчика listening на +1
+                    incrementListening()
 
                     // добавление музыки
                     setCurrentSong(elem)

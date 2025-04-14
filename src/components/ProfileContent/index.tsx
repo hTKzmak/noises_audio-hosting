@@ -18,6 +18,7 @@ type ArtistData = {
     music_tracks: any[];
     id: number;
     isPerformer: boolean | null;
+    cash: number;
 };
 
 export default function ProfileContent() {
@@ -108,6 +109,18 @@ export default function ProfileContent() {
         }
     };
 
+    // демонтсрационная функция доната пользователю
+    const openPaymentLink = async () => {
+        const url = "https://donate.stripe.com/test_28oeUZcYvgwS0246oo";
+        window.open(url, '_blank');
+
+        // здесь нужно реализовать счёт +100 в виде покупки доната пользователю
+        if(artistData){
+            const { data, error } = await supabase.from('users').update({ cash: artistData.cash + 100 }).eq('id', artistData.id).select()
+            if(error){console.error(error)}
+            if(data){console.log(data)}
+        }
+    }
 
     return (
         <div className={style.profileContent}>
@@ -129,9 +142,12 @@ export default function ProfileContent() {
                         </button>
                     )}
                     {localStorageData.id != id && artistData?.isPerformer && (
-                        <a href="https://donate.stripe.com/test_28oeUZcYvgwS0246oo" target='_blank'>
+                        // <a href="https://donate.stripe.com/test_28oeUZcYvgwS0246oo" target='_blank'>
+                        //     <HiCurrencyDollar />
+                        // </a>
+                        <button onClick={openPaymentLink}>
                             <HiCurrencyDollar />
-                        </a>
+                        </button>
                     )}
                     {localStorageData.id == id ? (
                         <Link to={'/settings'}>

@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import MiniButton from "../../components/UI/MiniButton";
 import { useContext } from "react";
 import { Context } from "../../context/Context";
@@ -27,6 +27,17 @@ export default function SettingsPage() {
         }
     }
 
+    const activatePremium = async () => {
+        const { error } = await supabase  
+            .from('users')
+            .update({ isPremium: true })
+            .eq('id', localStorageData.id)
+        
+        if(error){console.error(error)}
+
+        console.log('premium is activated')
+    }
+
     return (
         <div className="content">
             <div className="settingsHeader">
@@ -37,9 +48,10 @@ export default function SettingsPage() {
             </div>
 
             <ul className="settings">
-                <li><a href="https://buy.stripe.com/test_4gw6otcYvbcyg12aEH" target="_blank">Buy premium</a></li>
+                <li onClick={activatePremium}><a href="https://buy.stripe.com/test_4gw6otcYvbcyg12aEH" target="_blank">Buy premium</a></li>
+                <li><Link to=''>Customise account</Link></li>
+                <li><Link to='/settings/statistic'>Show statistic</Link></li>
                 <li><a href="https://github.com/hTKzmak/noises_audio-hosting" target="_blank">Project info</a></li>
-                <li><a href="https://github.com/hTKzmak/noises_audio-hosting" target="_blank">Documentation</a></li>
                 <li><button onClick={logoutFunc}>Log out</button></li>
                 <li><button onClick={deleteAccFunc}>Delete account</button></li>
             </ul>

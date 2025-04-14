@@ -97,24 +97,33 @@ export type Database = {
       music_tracks: {
         Row: {
           artwork_url: string
+          cash: number
           genre: string | null
           id: number
+          isPaid: boolean | null
+          listening: number
           music_url: string
           title: string
           user_id: number | null
         }
         Insert: {
           artwork_url: string
+          cash?: number
           genre?: string | null
           id: number
+          isPaid?: boolean | null
+          listening?: number
           music_url: string
           title: string
           user_id?: number | null
         }
         Update: {
           artwork_url?: string
+          cash?: number
           genre?: string | null
           id?: number
+          isPaid?: boolean | null
+          listening?: number
           music_url?: string
           title?: string
           user_id?: number | null
@@ -131,26 +140,32 @@ export type Database = {
       }
       users: {
         Row: {
+          cash: number
           email: string
           id: number
           image_url: string
           isPerformer: boolean | null
+          isPremium: boolean | null
           name: string
           password_hash: string
         }
         Insert: {
+          cash?: number
           email: string
           id: number
           image_url: string
           isPerformer?: boolean | null
+          isPremium?: boolean | null
           name: string
           password_hash: string
         }
         Update: {
+          cash?: number
           email?: string
           id?: number
           image_url?: string
           isPerformer?: boolean | null
+          isPremium?: boolean | null
           name?: string
           password_hash?: string
         }

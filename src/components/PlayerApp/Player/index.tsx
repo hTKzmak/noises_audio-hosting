@@ -15,6 +15,7 @@ import classNames from 'classnames';
 import MiniButton from '../../UI/MiniButton';
 import Loading from '../../Loading';
 import { HiCurrencyDollar } from "react-icons/hi2";
+import supabase from '../../../config/supabaseClient';
 
 interface PlayerProps {
     audioElem: any;
@@ -147,11 +148,16 @@ export default function Player({ audioElem, isplaying, setIsPlaying, currentSong
         };
     }, [setShowPlayer, showMiniPlayer]);
 
-    const openPaymentLink = () => {
+    const openPaymentLink = async () => {
         const url = "https://buy.stripe.com/test_aEUfZ3gaH5Se4ik5km";
         window.open(url, '_blank');
 
         downloadMusicFunc()
+
+        // здесь нужно реализовать счёт +100 в виде покупки музыки пользователя
+        const { data, error } = await supabase.from('music_tracks').update({ cash: currentSong.cash + 100 }).eq('id', currentSong.id).select()
+        if (error) { console.error(error) }
+        if (data) { console.log(data) }
     }
 
     return (

@@ -48,7 +48,7 @@ $error-color: #f62828;
       gap: 10px;
       transition: 0.3s;
 
-      &:hover{
+      &:hover {
         gap: 20px;
       }
 
@@ -75,6 +75,8 @@ $error-color: #f62828;
       gap: 40px;
 
       li {
+        font-size: 28px;
+
         a,
         button {
           font-size: 28px;
@@ -94,6 +96,31 @@ $error-color: #f62828;
           padding: 0;
           color: $error-color;
         }
+
+        @media screen and (max-width: 1024px) {
+          font-size: 23px;
+        }
+      }
+    }
+
+    .musicCount {
+      margin-top: 100px;
+      text-align: start;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+
+      h3 {
+        font-weight: 400;
+        font-size: 28px;
+
+        @media screen and (max-width: 1024px) {
+          font-size: 23px;
+        }
+      }
+
+      li{
+        font-size: 18px;
       }
     }
 

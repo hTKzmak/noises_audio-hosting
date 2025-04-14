@@ -27,6 +27,7 @@ import Loading from './components/Loading'
 import PrivateRoute from './components/PrivateRoute'
 import MenuWindow from './components/MenuWindow'
 import SettingsPage from './pages/SettingsPage'
+import StatisticPage from './pages/StatisticPage'
 
 interface Song {
   title: string;
@@ -199,6 +200,7 @@ function App() {
                 
                 <Route path='/search' element={<MusicListPage showContent={'search'} />} />
                 <Route path='/settings' element={<SettingsPage />} />
+                <Route path='/settings/statistic' element={<StatisticPage />} />
                 <Route path='*' element={<ErrorPage />} />
               </Route>
             </Routes>
