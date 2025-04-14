@@ -148,6 +148,7 @@ export type Database = {
           isPremium: boolean | null
           name: string
           password_hash: string
+          showLink: boolean
         }
         Insert: {
           cash?: number
@@ -158,6 +159,7 @@ export type Database = {
           isPremium?: boolean | null
           name: string
           password_hash: string
+          showLink?: boolean
         }
         Update: {
           cash?: number
@@ -168,6 +170,7 @@ export type Database = {
           isPremium?: boolean | null
           name?: string
           password_hash?: string
+          showLink?: boolean
         }
         Relationships: []
       }

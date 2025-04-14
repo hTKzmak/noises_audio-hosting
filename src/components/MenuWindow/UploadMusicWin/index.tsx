@@ -20,11 +20,12 @@ interface musicData {
     artwork_url: string,
     music_url: string,
     isPaid: boolean,
-    artist_name?: string
+    artist_name?: string,
+    listening: number
 }
 
 export default function UploadMusicWin() {
-    const { data, setShowMenuWindow, localStorageData } = useContext(Context);
+    const { data, setShowUploadMusicWin, setShowMenuWindow, localStorageData } = useContext(Context);
 
     // useRef input'ов (для выбора файлов)
     const fileElem = useRef<HTMLInputElement | null>(null);
@@ -57,6 +58,7 @@ export default function UploadMusicWin() {
 
     // загрытие окна и удаление данных
     const closeContextMenu = () => {
+        setShowUploadMusicWin(false);
         setShowMenuWindow(false);
         setChoosenFile(null);
         setChoosenArtwork(null);
@@ -119,7 +121,8 @@ export default function UploadMusicWin() {
                     user_id: localStorageData.id,
                     artwork_url: 'https://evapkmvcgowyfwuogwbq.supabase.co/storage/v1/object/public/noises_bucket/artworks/default.png',
                     music_url: '',
-                    isPaid: isPaid
+                    isPaid: isPaid,
+                    listening: 0
                 };
 
                 if (choosenArtwork) {

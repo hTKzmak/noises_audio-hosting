@@ -5,23 +5,50 @@ import { createContext } from "react";
 type contextData = {
     data: any;
     localStorageData: any;
+
     currentSong: any;
     setCurrentSong: any;
+
     showPlayer: boolean; 
     setShowPlayer: any; 
     showMiniPlayer: boolean; 
     setShowMiniPlayer: any;
+
     songs: any;
     setSongs: any;
-    showMenuWindow: any;
-    setShowMenuWindow: any,
-    uploadMusic: boolean;
-    setUploadMusic: any;
+
+    showMenuWindow: boolean;
+    setShowMenuWindow: any;
+    showLibraryWin: boolean;
+    setShowLibraryWin: any;
+    showUploadMusicWin: boolean;
+    setShowUploadMusicWin: any;
+    showCustomAccWin: boolean; 
+    setShowCustomAccWin: any;
+
     latestMusic: any;
     setLatestMusic: any;
+
     sessionStorageData: any;
+
     searchResults: any;
     setSearchResults: any;
 }
 
-export const Context = createContext<contextData>({ data: [], localStorageData: {}, currentSong: {}, setCurrentSong: {}, showPlayer: false, setShowPlayer: {}, showMiniPlayer: false, setShowMiniPlayer: {}, songs: [], setSongs: {}, showMenuWindow: false, setShowMenuWindow: {}, uploadMusic: false, setUploadMusic: {}, latestMusic: [], setLatestMusic: {}, sessionStorageData: [], searchResults: '', setSearchResults: {}});
+export const Context = createContext<contextData>({ 
+    data: [], localStorageData: {}, 
+    
+    currentSong: {}, setCurrentSong: {}, 
+    
+    showPlayer: false, setShowPlayer: {}, showMiniPlayer: false, setShowMiniPlayer: {}, 
+    
+    songs: [], setSongs: {}, 
+    
+    showMenuWindow: false, setShowMenuWindow: {}, showLibraryWin: false, setShowLibraryWin: {}, showUploadMusicWin: false, setShowUploadMusicWin: {}, showCustomAccWin: false, setShowCustomAccWin: {}, 
+    
+    latestMusic: [], setLatestMusic: {}, 
+    
+    sessionStorageData: [], 
+    
+    searchResults: '', setSearchResults: {}
+});

@@ -13,13 +13,13 @@ import { RiHeartFill } from "react-icons/ri";
 export default function LibraryNavWin() {
 
     // получение состояний с app.tsx
-    const { showMenuWindow, setShowMenuWindow, uploadMusic } = useContext(Context)
+    const { showLibraryWin, setShowLibraryWin, setShowMenuWindow, showUploadMusicWin } = useContext(Context)
 
     // Отслеживание отображения основного плеера
     useEffect(() => {
         const handleResize = () => {
-            if (window.innerWidth > 1024 && !uploadMusic) {
-                setShowMenuWindow(false);
+            if (window.innerWidth > 1024 && !showUploadMusicWin) {
+                setShowLibraryWin(false);
             }
         };
 
@@ -29,19 +29,23 @@ export default function LibraryNavWin() {
         return () => {
             window.removeEventListener('resize', handleResize);
         };
-    }, [showMenuWindow, uploadMusic]);
+    }, [showLibraryWin, showUploadMusicWin]);
 
+    const closeWindow = () => {
+        setShowMenuWindow(false);
+        setShowLibraryWin(!showLibraryWin);
+    }
 
     return (
         <div className={style.winMenu}>
             <div className={style.winHeader}>
                 <h3>Library</h3>
-                <button onClick={() => setShowMenuWindow(!showMenuWindow)}><IoCloseOutline /></button>
+                <button onClick={() => closeWindow()}><IoCloseOutline /></button>
             </div>
             <div className={style.libraryNavigation}>
-                <Link onClick={() => setShowMenuWindow(!showMenuWindow)} to={'/musics/favorite'}><RiHeartFill/> <span>Favorite music</span></Link>
-                <Link onClick={() => setShowMenuWindow(!showMenuWindow)} to={'/artists/favorite'}><FaUser/> <span>Favorite artists</span></Link>
-                <Link onClick={() => setShowMenuWindow(!showMenuWindow)} to={'/musics/listened'}><FaArrowRotateLeft/> <span>Listened</span></Link>
+                <Link onClick={() => closeWindow()} to={'/musics/favorite'}><RiHeartFill/> <span>Favorite music</span></Link>
+                <Link onClick={() => closeWindow()} to={'/artists/favorite'}><FaUser/> <span>Favorite artists</span></Link>
+                <Link onClick={() => closeWindow()} to={'/musics/listened'}><FaArrowRotateLeft/> <span>Listened</span></Link>
             </div>
         </div>
     )

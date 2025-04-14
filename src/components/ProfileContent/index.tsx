@@ -19,12 +19,13 @@ type ArtistData = {
     id: number;
     isPerformer: boolean | null;
     cash: number;
+    showLink: boolean;
 };
 
 export default function ProfileContent() {
 
     // получение дпнных с app.tsx
-    const { data, localStorageData, setCurrentSong, setShowMiniPlayer, setSongs, showMenuWindow, setShowMenuWindow, setUploadMusic } = useContext(Context)
+    const { data, localStorageData, setCurrentSong, setShowMiniPlayer, setSongs, setShowMenuWindow, setShowUploadMusicWin } = useContext(Context)
 
     const dispatch = useDispatch();
 
@@ -69,8 +70,8 @@ export default function ProfileContent() {
     }
 
     const showUploadMusic = () => {
-        setUploadMusic(true)
-        setShowMenuWindow(!showMenuWindow)
+        setShowUploadMusicWin(true)
+        setShowMenuWindow(true)
     }
 
     // добавление и удаление музыки в списке отслеживаемых
@@ -141,10 +142,7 @@ export default function ProfileContent() {
                             <FiUpload />
                         </button>
                     )}
-                    {localStorageData.id != id && artistData?.isPerformer && (
-                        // <a href="https://donate.stripe.com/test_28oeUZcYvgwS0246oo" target='_blank'>
-                        //     <HiCurrencyDollar />
-                        // </a>
+                    {(localStorageData.id != id && artistData?.isPerformer && artistData?.showLink) && (
                         <button onClick={openPaymentLink}>
                             <HiCurrencyDollar />
                         </button>

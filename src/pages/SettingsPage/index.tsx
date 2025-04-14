@@ -6,7 +6,7 @@ import supabase from "../../config/supabaseClient";
 
 export default function SettingsPage() {
 
-    const { localStorageData } = useContext(Context)
+    const { localStorageData, setShowCustomAccWin, setShowMenuWindow, showMenuWindow } = useContext(Context)
 
     const navigate = useNavigate();
 
@@ -38,6 +38,11 @@ export default function SettingsPage() {
         console.log('premium is activated')
     }
 
+    const showCustomAccWin = () => {
+        setShowCustomAccWin(true)
+        setShowMenuWindow(true)
+    }
+
     return (
         <div className="content">
             <div className="settingsHeader">
@@ -49,11 +54,11 @@ export default function SettingsPage() {
 
             <ul className="settings">
                 <li onClick={activatePremium}><a href="https://buy.stripe.com/test_4gw6otcYvbcyg12aEH" target="_blank">Buy premium</a></li>
-                <li><Link to=''>Customise account</Link></li>
+                <li><button onClick={showCustomAccWin}>Customise account</button></li>
                 <li><Link to='/settings/statistic'>Show statistic</Link></li>
                 <li><a href="https://github.com/hTKzmak/noises_audio-hosting" target="_blank">Project info</a></li>
-                <li><button onClick={logoutFunc}>Log out</button></li>
-                <li><button onClick={deleteAccFunc}>Delete account</button></li>
+                <li><button className="danger" onClick={logoutFunc}>Log out</button></li>
+                <li><button className="danger" onClick={deleteAccFunc}>Delete account</button></li>
             </ul>
         </div>
     )

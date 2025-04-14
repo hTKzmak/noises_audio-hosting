@@ -94,6 +94,10 @@ $error-color: #f62828;
           background: transparent;
           border: none;
           padding: 0;
+          color: $main-font-color;
+        }
+
+        .danger {
           color: $error-color;
         }
 
@@ -119,7 +123,7 @@ $error-color: #f62828;
         }
       }
 
-      li{
+      li {
         font-size: 18px;
       }
     }
@@ -229,5 +233,11 @@ $error-color: #f62828;
       width: calc(100% - 5rem);
       padding: 30px 25px 100px 25px;
     }
+  }
+
+  input[type="checkbox"] {
+    accent-color: $dark-white-color;
+    width: 20px;
+    height: 20px;
   }
 }

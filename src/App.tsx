@@ -75,9 +75,13 @@ function App() {
   sessionStorage.setItem('latestMusic', JSON.stringify(latestMusic))
   const sessionStorageData: any | [] = JSON.parse(sessionStorage.getItem('latestMusic') || '[]');
 
-  // отображение контекстного меню
+  // для отображения меню
   const [showMenuWindow, setShowMenuWindow] = useState(false)
-  const [uploadMusic, setUploadMusic] = useState(false)
+  
+  // отображение различного контекстного меню
+  const [showLibraryWin, setShowLibraryWin] = useState(false)
+  const [showUploadMusicWin, setShowUploadMusicWin] = useState(false)
+  const [showCustomAccWin, setShowCustomAccWin] = useState(false)
 
   // Получение всех данных с таблиц базы данных Supabase
   useEffect(() => {
@@ -170,7 +174,7 @@ function App() {
   }, [showMenuWindow]); // Зависимость от showMenuWindow
 
   return (
-    <Context.Provider value={{ data, localStorageData, currentSong, setCurrentSong, showPlayer, setShowPlayer, showMiniPlayer, setShowMiniPlayer, songs, setSongs, showMenuWindow, setShowMenuWindow, uploadMusic, setUploadMusic, latestMusic, setLatestMusic, sessionStorageData, searchResults, setSearchResults }}>
+    <Context.Provider value={{ data, localStorageData, currentSong, setCurrentSong, showPlayer, setShowPlayer, showMiniPlayer, setShowMiniPlayer, songs, setSongs, showMenuWindow, setShowMenuWindow, showLibraryWin, setShowLibraryWin, showUploadMusicWin, setShowUploadMusicWin, showCustomAccWin, setShowCustomAccWin, latestMusic, setLatestMusic, sessionStorageData, searchResults, setSearchResults }}>
       <div className="app">
         <MenuWindow />
         {!isAuthPage && <NavMenu />}

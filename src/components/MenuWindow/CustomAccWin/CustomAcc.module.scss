@@ -2,7 +2,7 @@ $dark-white-color: #ffffff80;
 $white-color: #fff;
 $error-color: #f62828;
 
-.uploadMenu {
+.customMenu {
     position: fixed;
     z-index: 2000;
     right: 0;
@@ -20,7 +20,7 @@ $error-color: #f62828;
 
     overflow-y: auto;
 
-    .uploadHeader {
+    .winHeader {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -39,7 +39,7 @@ $error-color: #f62828;
         }
     }
 
-    .uploadContent {
+    .winContent {
         height: 85vh;
         align-content: center;
 
@@ -55,8 +55,8 @@ $error-color: #f62828;
             margin-top: 50px;
         }
 
-        .uploadFormContent {
-            .musicImage {
+        .formContent {
+            .userImage {
                 margin: 0 auto;
 
                 width: 283px;

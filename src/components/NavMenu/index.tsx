@@ -17,11 +17,11 @@ import { Context } from "../../context/Context";
 export default function NavMenu() {
 
     // получение данных с app.tsx
-    const { localStorageData, showMenuWindow, setShowMenuWindow, setUploadMusic } = useContext(Context)
+    const { localStorageData, setShowMenuWindow, setShowLibraryWin } = useContext(Context)
 
     const showLibrary = () => {
-        setUploadMusic(false)
-        setShowMenuWindow(!showMenuWindow)
+        setShowLibraryWin(true)
+        setShowMenuWindow(true)
     }
 
     return (
