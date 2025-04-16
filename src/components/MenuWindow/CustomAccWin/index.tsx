@@ -9,9 +9,13 @@ import ButtonElem from "../../UI/ButtonElem";
 import classNames from "classnames";
 import Loading from "../../Loading";
 import supabase from "../../../config/supabaseClient";
+import { useDispatch } from "react-redux";
+import { updateProfile } from "../../../features/musicdata";
 
 export default function CustomAccWin() {
     const { data, setShowCustomAccWin, setShowMenuWindow, localStorageData } = useContext(Context);
+
+    const dispatch = useDispatch();
 
     // useRef input'ов (для выбора файлов)
     const imageElem = useRef<HTMLInputElement | null>(null);
@@ -30,10 +34,10 @@ export default function CustomAccWin() {
     const [imagePreview, setImagePreview] = useState<string | null>(null);
 
     // значение input (имя пользователя)
-    const [newName, setNewName] = useState('')
+    const [newName, setNewName] = useState(localStorageData.name)
 
     // Отображать ссылку на донат
-    const [showLink, setShowLink] = useState(false)
+    const [showLink, setShowLink] = useState(localStorageData.showLink)
 
     // выбор изображения
     const chooseImage = () => imageElem.current?.click();
@@ -60,22 +64,22 @@ export default function CustomAccWin() {
             setFormError('Please fill all the fields');
             return;
         }
-    
+
         setIsUpdating(true);
         setShowError(false);
         setFormError('');
         setError(false);
-    
+
         try {
             let imageUrl = localStorageData.image_url; // Используем текущий URL по умолчанию
-    
+
             // Загрузка изображения, если оно выбрано
             if (choosenImage) {
                 // Генерируем уникальное имя файла
                 const fileExt = choosenImage.name.split('.').pop();
                 const fileName = `user_${localStorageData.id}-${Date.now()}.${fileExt}`;
                 const filePath = `user_profile_images/${fileName}`;
-    
+
                 // Загружаем файл в хранилище
                 const { error: uploadError } = await supabase.storage
                     .from('noises_bucket')
@@ -83,17 +87,17 @@ export default function CustomAccWin() {
                         cacheControl: '3600',
                         upsert: true
                     });
-    
+
                 if (uploadError) throw uploadError;
-    
+
                 // Получаем публичный URL загруженного изображения
                 const { data: { publicUrl } } = supabase.storage
                     .from('noises_bucket')
                     .getPublicUrl(filePath);
-    
+
                 imageUrl = publicUrl;
             }
-    
+
             // Обновляем пользователя в базе данных
             const { error: updateError } = await supabase
                 .from('users')
@@ -103,9 +107,9 @@ export default function CustomAccWin() {
                     showLink: showLink
                 })
                 .eq('id', localStorageData.id);
-    
+
             if (updateError) throw updateError;
-    
+
             // Обновляем localStorage
             const updatedUserData = {
                 ...localStorageData,
@@ -114,7 +118,17 @@ export default function CustomAccWin() {
                 showLink: showLink
             };
             localStorage.setItem('userData', JSON.stringify(updatedUserData));
-    
+
+            // Обновляем данные в musicdata
+            dispatch(updateProfile({
+                userId: localStorageData.id,
+                updates: {
+                    name: newName,
+                    image_url: imageUrl,
+                    showLink: showLink
+                }
+            }));
+
             // Флаг успешного обновления
             setIsUpdated(true);
         } catch (err) {

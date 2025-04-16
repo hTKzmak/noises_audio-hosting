@@ -17,6 +17,9 @@ type contextData = {
     songs: any;
     setSongs: any;
 
+    isplaying: boolean;
+    setIsPlaying: any;
+
     showMenuWindow: boolean;
     setShowMenuWindow: any;
     showLibraryWin: boolean;
@@ -43,6 +46,8 @@ export const Context = createContext<contextData>({
     showPlayer: false, setShowPlayer: {}, showMiniPlayer: false, setShowMiniPlayer: {}, 
     
     songs: [], setSongs: {}, 
+
+    isplaying: false, setIsPlaying: {},
     
     showMenuWindow: false, setShowMenuWindow: {}, showLibraryWin: false, setShowLibraryWin: {}, showUploadMusicWin: false, setShowUploadMusicWin: {}, showCustomAccWin: false, setShowCustomAccWin: {}, 
     

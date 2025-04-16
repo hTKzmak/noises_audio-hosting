@@ -2,9 +2,10 @@ import classNames from 'classnames';
 import style from './MiniPlayer.module.scss';
 import { BsFillPlayCircleFill, BsFillPauseCircleFill } from 'react-icons/bs';
 import { IoClose } from "react-icons/io5";
+import Loading from '../../Loading';
 
 
-export default function MiniPlayer({ isplaying, setIsPlaying, currentSong, setShowPlayer, showMiniPlayer, setShowMiniPlayer }: any) {
+export default function MiniPlayer({ isplaying, setIsPlaying, currentSong, setShowPlayer, showMiniPlayer, setShowMiniPlayer, isLoadingMusic }: any) {
 
     // функция паузы и воспроизведения
     const PlayPause = () => {
@@ -31,8 +32,15 @@ export default function MiniPlayer({ isplaying, setIsPlaying, currentSong, setSh
             }
 
             <div className={style.music_info_text}>
-                <p className={style.title}>{currentSong.title}</p>
-                <p className={style.artist}>{currentSong.artist_name}</p>
+                {isLoadingMusic ? (
+                    <Loading inPlayer={true} />
+                ) : (
+                    <>
+                        <p className={style.title}>{currentSong.title}</p>
+                        <p className={style.artist}>{currentSong.artist_name}</p>
+                    </>
+                )}
+
             </div>
 
             <button onClick={(e) => { e.stopPropagation(); removePlayer(); }}>

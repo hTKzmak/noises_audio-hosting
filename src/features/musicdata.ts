@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface ProductsState {
     data: any[],
-    latest_music: any[]
+    latest_music: any[],
     latest_artists: any[],
     popular_music: any[],
     popular_artists: any[]
@@ -20,51 +20,55 @@ export const productsSlice = createSlice({
     name: 'music',
     initialState,
     reducers: {
-        // отображение данных в консоле
+        // Вывод текущих данных в консоль
         getData(state) {
-            console.log(state.data)
+            console.log(state.data);
         },
-        // добавление данных
-        addingData(state, action: PayloadAction<any[]>) {
-            state.data = action.payload;
-            
-            // Обновляем популярную и последнюю музыку/артистов
-            const allMusic = action.payload.flatMap(user => user.music_tracks);
-            
-            // Последняя музыка (сортировка по ID в обратном порядке)
+
+        // Обновление всех списков на основе текущего состояния
+        updateAllLists(state) {
+            const allMusic = state.data.flatMap(user => user.music_tracks);
+
             state.latest_music = [...allMusic]
                 .sort((a, b) => b.id - a.id)
                 .slice(0, 24);
-            
-            // Популярная музыка (сортировка по количеству лайков)
+
             state.popular_music = [...allMusic]
                 .sort((a, b) => (b.favorite_count || 0) - (a.favorite_count || 0))
                 .slice(0, 24);
-            
-            // Последние артисты (сортировка по ID в обратном порядке)
-            state.latest_artists = [...action.payload]
-                .sort((a, b) => b.id - a.id)
-                .slice(0, 24);
-            
-            // Популярные артисты (сортировка по количеству подписчиков)
-            state.popular_artists = [...action.payload]
-                .filter(user => (user.favorite_count || 0) > 0)
-                .sort((a, b) => (b.favorite_count || 0) - (a.favorite_count || 0))
-                .slice(0, 24);
 
-            console.log(state.data)
+            state.latest_artists = [...state.data]
+                .filter(user => user.music_tracks?.length)
+                .sort((a, b) => b.id - a.id)
+                .slice(0, 10);
+
+            state.popular_artists = [...state.data]
+                .filter(user =>
+                    user.music_tracks?.length &&
+                    (user.favorite_count || 0) > 0
+                )
+                .sort((a, b) => (b.favorite_count || 0) - (a.favorite_count || 0))
+                .slice(0, 10);
         },
-        // загрузка своей музыки
+
+        // Добавление всех пользователей и обновление музыки/исполнителей
+        addingData(state, action: PayloadAction<any[]>) {
+            state.data = action.payload;
+            productsSlice.caseReducers.updateAllLists(state);
+            console.log(state.data);
+        },
+
+        // Загрузка новой музыки для конкретного пользователя
         uploadMusic(state, action) {
             const userIndex = state.data.findIndex((user: any) => user.id === action.payload.user_id);
-
             if (userIndex !== -1) {
                 state.data[userIndex].music_tracks.push(action.payload);
+                productsSlice.caseReducers.updateAllLists(state);
             }
-
             console.log('Данные после добавления музыки:', state.data);
         },
-        // Удаление музыки пользователя по id, чтобы не отображался на разметке
+
+        // Удаление музыки по ID пользователя и ID трека
         deleteMusic(state, action: PayloadAction<{ userId: number, musicId: number }>) {
             const { userId, musicId } = action.payload;
 
@@ -78,57 +82,85 @@ export const productsSlice = createSlice({
                 return user;
             });
 
-            console.log("Музыка удалена:", state.data);
+            productsSlice.caseReducers.updateAllLists(state);
+            console.log("Музыка удалена. Обновлённые данные:", state.data);
         },
-        // добавление и удаление музыки из списка отслеживаемых
+
+        // Добавление/удаление трека из избранного у пользователя
         musicToFavorControl(state, action: PayloadAction<{ musicData: any, userID: number }>) {
             const { musicData, userID } = action.payload;
 
-            const userIndex = state.data.findIndex((user: any) => user.id === userID);
-            if (userIndex === -1) return;
-
-            const isMusicInFavorites = state.data[userIndex].favorite_music.some(
-                (music: any) => music.id === musicData.id
-            );
-
             state.data = state.data.map(user => {
-                if (user.id === userID) {
-                    return {
-                        ...user,
-                        favorite_music: isMusicInFavorites
-                            ? user.favorite_music.filter((track: any) => track.id !== musicData.id) // Удаляем
-                            : [...user.favorite_music, musicData] // Добавляем
-                    };
-                }
-                return user;
+                if (user.id !== userID) return user;
+
+                const isInFavorites = user.favorite_music?.some((track: any) => track.id === musicData.id);
+                return {
+                    ...user,
+                    favorite_music: isInFavorites
+                        ? user.favorite_music.filter((track: any) => track.id !== musicData.id)
+                        : [...(user.favorite_music || []), musicData]
+                };
             });
         },
+
+        // Добавление/удаление артиста из избранного у пользователя
         artistToFavorControl(state, action: PayloadAction<{ artistData: any, userID: number }>) {
             const { artistData, userID } = action.payload;
 
-            const userIndex = state.data.findIndex((user: any) => user.id === userID);
-            if (userIndex === -1) return;
-
-            const isArtistInFavorites = state.data[userIndex].favorite_artists.some(
-                (user: any) => user.id === artistData.id
-            );
-
             state.data = state.data.map(user => {
-                if (user.id === userID) {
-                    return {
-                        ...user,
-                        favorite_artists: isArtistInFavorites
-                            ? user.favorite_artists.filter((track: any) => track.id !== artistData.id) // Удаляем
-                            : [...user.favorite_artists, artistData] // Добавляем
-                    };
-                }
-                return user;
+                if (user.id !== userID) return user;
+
+                const isInFavorites = user.favorite_artists?.some((artist: any) => artist.id === artistData.id);
+                return {
+                    ...user,
+                    favorite_artists: isInFavorites
+                        ? user.favorite_artists.filter((artist: any) => artist.id !== artistData.id)
+                        : [...(user.favorite_artists || []), artistData]
+                };
             });
         },
-    },
-})
 
-// Action creators are generated for each case reducer function
+        // Обновление профиля пользователя
+        updateProfile(state, action: PayloadAction<{
+            userId: number,
+            updates: {
+                name?: string,
+                image_url?: string,
+                showLink?: boolean,
+                isPerformer?: boolean,
+                favorite_count?: number
+            }
+        }>) {
+            const { userId, updates } = action.payload;
+
+            state.data = state.data.map(user => {
+                if (user.id !== userId) return user;
+
+                const updatedTracks = updates.name
+                    ? user.music_tracks.map((track: any) => ({
+                        ...track,
+                        artist_name: updates.name
+                    }))
+                    : user.music_tracks;
+
+                return {
+                    ...user,
+                    ...updates,
+                    music_tracks: updatedTracks
+                };
+            });
+
+            // Обновляем списки, если изменилось что-то важное
+            if (updates.name || updates.image_url || updates.isPerformer !== undefined || updates.favorite_count !== undefined) {
+                productsSlice.caseReducers.updateAllLists(state);
+            }
+
+            console.log("Профиль обновлён. Новые данные:", state.data);
+        }
+    },
+});
+
+// Экспорт экшенов
 export const {
     getData,
     addingData,
@@ -136,6 +168,8 @@ export const {
     deleteMusic,
     musicToFavorControl,
     artistToFavorControl,
-} = productsSlice.actions
+    updateProfile,
+    updateAllLists, // экспорт, если нужно вызывать извне
+} = productsSlice.actions;
 
-export default productsSlice.reducer
+export default productsSlice.reducer;

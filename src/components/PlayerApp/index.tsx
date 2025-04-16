@@ -13,7 +13,7 @@ interface Song {
 export default function PlayerApp({ data }: any) {
 
     // получение дпнных с app.tsx
-    const { currentSong, setCurrentSong, showPlayer, setShowPlayer, showMiniPlayer, setShowMiniPlayer, songs, setSongs } = useContext(Context)
+    const { currentSong, setCurrentSong, showPlayer, setShowPlayer, showMiniPlayer, setShowMiniPlayer, songs, setSongs, isplaying, setIsPlaying } = useContext(Context)
 
     // фильтрация данных, чтобы оставались только треки для их отображения
     useEffect(() => {
@@ -22,9 +22,6 @@ export default function PlayerApp({ data }: any) {
             setSongs(newData);
         }
     }, [data]);
-
-    // играет ли музыка
-    const [isplaying, setIsPlaying] = useState<boolean>(false);
 
     // перемешивать список музыки (true - да; false - нет)
     const [mixMusic, setMixMusic] = useState<boolean>(false);
@@ -197,6 +194,7 @@ export default function PlayerApp({ data }: any) {
                 setShowPlayer={setShowPlayer}
                 showMiniPlayer={showMiniPlayer}
                 setShowMiniPlayer={setShowMiniPlayer}
+                isLoadingMusic={isLoadingMusic}
             />
 
             <Player

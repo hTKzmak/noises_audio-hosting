@@ -6,12 +6,14 @@ import supabase from "../../config/supabaseClient";
 
 export default function SettingsPage() {
 
-    const { localStorageData, setShowCustomAccWin, setShowMenuWindow } = useContext(Context)
+    const { localStorageData, setShowCustomAccWin, setShowMenuWindow, setShowMiniPlayer, setIsPlaying } = useContext(Context)
 
     const navigate = useNavigate();
 
     const logoutFunc = () => {
-        localStorage.clear()
+        localStorage.clear();
+        setShowMiniPlayer(false);
+        setIsPlaying(false);
         navigate('/login');
     }
 
@@ -22,18 +24,20 @@ export default function SettingsPage() {
             console.error(error)
         }
         if (data) {
-            localStorage.clear()
+            localStorage.clear();
+            setShowMiniPlayer(false);
+            setIsPlaying(false);
             navigate('/login');
         }
     }
 
     const activatePremium = async () => {
-        const { error } = await supabase  
+        const { error } = await supabase
             .from('users')
             .update({ isPremium: true })
             .eq('id', localStorageData.id)
-        
-        if(error){console.error(error)}
+
+        if (error) { console.error(error) }
 
         console.log('premium is activated')
     }

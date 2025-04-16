@@ -136,7 +136,7 @@ export default function ProfileContent() {
                 <h2>{artistData ? artistData.name : ''}</h2>
 
                 <div className={style.options}>
-                    <ButtonElem title='Play' func={startPlayMusic} />
+                    <ButtonElem title='Play' func={startPlayMusic} disabled={artistData?.music_tracks.length === 0}/>
                     {localStorageData.id == id && (
                         <button onClick={showUploadMusic}>
                             <FiUpload />
