@@ -51,10 +51,6 @@ function App() {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    localStorage.setItem('language', JSON.stringify(navigator.language || 'en').split('-')[0]);
-  }, [navigator.language])
-
   // текущая музыка (стоит первая музыка по index)
   const [currentSong, setCurrentSong] = useState<any>({});
 
