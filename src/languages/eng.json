@@ -1,0 +1,33 @@
+{
+    "header": {
+        "search": "Search"
+    },
+    "navMenu": {
+        "home": "Home",
+        "explore": "Explore",
+        "library": "Library",
+        "favMusic": "Fav. music",
+        "favArtists": "Fav. artists",
+        "listened": "Listened"
+    },
+    "content": {
+        "latestMusic": "Latest music",
+        "latestArtists": "Latest artists",
+        "popularMusic": "Popular music",
+        "popularArtists": "Popular artists"
+    },
+    "profile": {
+        "you": "You",
+        "user": "User",
+        "artist": "Performer"
+    },
+    "settings": {
+        "title": "Settings",
+        "premium": "Buy premium",
+        "custom": "Customise profile",
+        "statistic": "Show statistic",
+        "info": "Project info",
+        "logout": "Log out",
+        "delete": "Delete account"
+    }
+}

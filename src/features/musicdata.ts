@@ -31,16 +31,13 @@ export const productsSlice = createSlice({
 
             state.latest_music = [...allMusic]
                 .sort((a, b) => b.id - a.id)
-                .slice(0, 24);
 
             state.popular_music = [...allMusic]
                 .sort((a, b) => (b.favorite_count || 0) - (a.favorite_count || 0))
-                .slice(0, 24);
 
             state.latest_artists = [...state.data]
                 .filter(user => user.music_tracks?.length)
                 .sort((a, b) => b.id - a.id)
-                .slice(0, 10);
 
             state.popular_artists = [...state.data]
                 .filter(user =>
@@ -48,7 +45,6 @@ export const productsSlice = createSlice({
                     (user.favorite_count || 0) > 0
                 )
                 .sort((a, b) => (b.favorite_count || 0) - (a.favorite_count || 0))
-                .slice(0, 10);
         },
 
         // Добавление всех пользователей и обновление музыки/исполнителей

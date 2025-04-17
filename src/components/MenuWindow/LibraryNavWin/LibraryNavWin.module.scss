@@ -5,7 +5,7 @@ $white-color: #fff;
     position: fixed;
     z-index: 2000;
     left: 0;
-    
+
     top: unset;
     right: 0;
     bottom: 0;
@@ -60,7 +60,8 @@ $white-color: #fff;
             height: 100%;
             padding: 16px;
 
-            svg{
+            svg {
+                color: #727272;
                 font-size: 24px;
             }
         }

@@ -44,7 +44,7 @@ export default function ContentPage({ type }: PageType) {
                         <MiniButton sign='forward' func={() => handleScroll('left', scrollMusicsRef)} />
                     </div>
                 </div>
-                <MusicList scrollMusicsRef={scrollMusicsRef} onList={true} sortedData={type === 'home' ? latest_music : popular_music} />
+                <MusicList scrollMusicsRef={scrollMusicsRef} onList={true} sortedData={type === 'home' ? latest_music.slice(0, 24) : popular_music.slice(0, 24)} />
             </div>
             <div className="performersContent">
                 <div className="contentHeader">
@@ -54,7 +54,7 @@ export default function ContentPage({ type }: PageType) {
                         <MiniButton sign='forward' func={() => handleScroll('left', scrollArtistsRef)} />
                     </div>
                 </div>
-                <PerformerList sortedData={type === 'home' ? latest_artists : popular_artists} onList={true} scrollArtistsRef={scrollArtistsRef} />
+                <PerformerList sortedData={type === 'home' ? latest_artists.slice(0, 10) : popular_artists.slice(0, 10)} onList={true} scrollArtistsRef={scrollArtistsRef} />
             </div>
         </div>
     )
