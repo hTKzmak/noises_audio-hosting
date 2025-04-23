@@ -87,7 +87,7 @@ export default function PlayerApp({ data }: any) {
             audioElem.current?.removeEventListener('waiting', handleWaiting);
         };
     }, [isplaying, currentSong]);
-    
+
 
     // функция по обновлению времени музыки
     const onPlaying = () => {
@@ -118,7 +118,7 @@ export default function PlayerApp({ data }: any) {
                 setCurrentSong(songs[index - 1])
             }
         }
-        
+
         if (audioElem.current) {
             audioElem.current.currentTime = 0;
         }
@@ -149,7 +149,6 @@ export default function PlayerApp({ data }: any) {
         }
     };
 
-
     // функционал повторения музыки
     const repeatMusicFunc = () => {
         const index = songs.findIndex((x: Song) => x.title === currentSong.title);
@@ -165,10 +164,12 @@ export default function PlayerApp({ data }: any) {
                 skiptoNext();
                 break;
 
-            // третья опция: будет заново воспроизводиться только конкретная музыка
-            case 3:
-                setCurrentSong(songs[index]);
-                break;
+            // // третья опция: будет заново воспроизводиться только конкретная музыка
+            // она не нужна, так как в качестве повторения музыки работает оператор loop в audio и если значение repeatValue равен 3, то музыка будет повторяться, иначе будут выполняться другие операции.
+            // очень тупо, но оно работает ┐(￣～￣)┌
+            // case 3:
+            //     // setCurrentSong(songs[index]);
+            //     break;
             default:
                 skiptoNext();
                 break;
@@ -185,6 +186,7 @@ export default function PlayerApp({ data }: any) {
                     if (mixMusic) skiptoNext();
                     repeatMusicFunc();
                 }}
+                loop={repeatValue === 3}
             />
 
             <MiniPlayer
