@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { BsFillPlayCircleFill, BsFillPauseCircleFill, BsFillSkipStartCircleFill, BsFillSkipEndCircleFill } from 'react-icons/bs';
 import style from './Player.module.scss'
 
@@ -16,6 +16,7 @@ import MiniButton from '../../UI/MiniButton';
 import Loading from '../../Loading';
 import { HiCurrencyDollar } from "react-icons/hi2";
 import supabase from '../../../config/supabaseClient';
+import { Context } from '../../../context/Context';
 
 interface PlayerProps {
     audioElem: any;
@@ -37,6 +38,10 @@ interface PlayerProps {
 }
 
 export default function Player({ audioElem, isplaying, setIsPlaying, currentSong, setCurrentSong, mixMusic, setMixMusic, skipBack, skiptoNext, repeatValue, setRepeatValue, showPlayer, setShowPlayer, showMiniPlayer, mixSongsFunc, isLoadingMusic }: PlayerProps) {
+
+    // получение дпнных с app.tsx
+    const { localStorageData } = useContext(Context)
+
     // место события на разметке (input range)
     const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -261,7 +266,7 @@ export default function Player({ audioElem, isplaying, setIsPlaying, currentSong
                             <button onClick={() => { mixMusicList() }}>
                                 {mixMusic === false ? <img src={mixOff} alt="mix off" /> : <img src={mixOn} alt="mix on" />}
                             </button>
-                            {currentSong.isPaid ? (
+                            {currentSong.isPaid && !localStorageData.isPremium ? (
                                 <button onClick={openPaymentLink}>
                                     {isLoading ? (
                                         <Loading inPlayer={true} />

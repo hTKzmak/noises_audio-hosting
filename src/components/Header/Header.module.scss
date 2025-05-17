@@ -9,10 +9,6 @@ header {
     button {
         display: none;
 
-        svg{
-            font-size: 20px;
-        }
-
         @media screen and (max-width: 1024px) {
             display: flex;
         }

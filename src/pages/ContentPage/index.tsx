@@ -44,7 +44,7 @@ export default function ContentPage({ type }: PageType) {
                         <MiniButton sign='forward' func={() => handleScroll('left', scrollMusicsRef)} />
                     </div>
                 </div>
-                <MusicList scrollMusicsRef={scrollMusicsRef} onList={true} sortedData={type === 'home' ? latest_music.slice(0, 24) : popular_music.slice(0, 24)} />
+                <MusicList scrollMusicsRef={scrollMusicsRef} onList={true} sortedData={type === 'home' ? latest_music.slice(0, 16) : popular_music.slice(0, 16)} />
             </div>
             <div className="performersContent">
                 <div className="contentHeader">

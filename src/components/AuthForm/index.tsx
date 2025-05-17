@@ -37,6 +37,7 @@ export default function AuthForm() {
                     email: values.email,
                     password_hash: values.password,
                     image_url: 'https://evapkmvcgowyfwuogwbq.supabase.co/storage/v1/object/public/noises_bucket/user_profile_images/default.png',
+                    isPremium: false
                 };
 
                 const { data, error } = await supabase.from('users')
@@ -68,7 +69,7 @@ export default function AuthForm() {
             if (values.email && values.password) {
                 const { data, error } = await supabase
                     .from('users')
-                    .select('id, name, email, password_hash, image_url')
+                    .select('id, name, email, password_hash, image_url, isPremium')
                     .eq('email', values.email)
                     .eq('password_hash', values.password)
                     .single();

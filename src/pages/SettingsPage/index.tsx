@@ -38,6 +38,14 @@ export default function SettingsPage() {
             .eq('id', localStorageData.id)
 
         if (error) { console.error(error) }
+        else {
+            // Обновляем localStorage
+            const updatedUserData = {
+                ...localStorageData,
+                isPremium: true
+            };
+            localStorage.setItem('userData', JSON.stringify(updatedUserData));
+        }
 
         console.log('premium is activated')
     }
