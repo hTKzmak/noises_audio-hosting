@@ -52,70 +52,41 @@ export default function PlayerApp({ data }: any) {
     useEffect(() => {
         if (!audioElem.current) return;
 
-        const audio = audioElem.current;
-
         const handleCanPlay = () => {
             setIsLoadingMusic(false);
             if (isplaying) {
-                audio.play().catch(e => {
+                audioElem.current?.play().catch(e => {
                     console.error("Playback failed:", e);
                     setIsPlaying(false);
                 });
             }
         };
 
-        const handleWaiting = () => setIsLoadingMusic(true);
-        const handleError = () => {
-            setIsLoadingMusic(false);
-            setIsPlaying(false);
+        const handleWaiting = () => {
+            setIsLoadingMusic(true);
         };
 
-        audio.addEventListener('canplay', handleCanPlay);
-        audio.addEventListener('waiting', handleWaiting);
-        audio.addEventListener('error', handleError);
+        audioElem.current.addEventListener('canplay', handleCanPlay);
+        audioElem.current.addEventListener('waiting', handleWaiting);
 
-        // iOS требует явного взаимодействия пользователя для первого воспроизведения
         if (isplaying) {
-            if (audio.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA) {
-                audio.play().catch(e => console.error("Initial play failed:", e));
+            if (audioElem.current.readyState > 2) {
+                audioElem.current.play().catch(e => {
+                    console.error("Playback failed:", e);
+                    setIsPlaying(false);
+                });
             } else {
                 setIsLoadingMusic(true);
-                audio.load(); // Принудительно запускаем загрузку для iOS
             }
         } else {
-            audio.pause();
+            audioElem.current.pause();
         }
 
         return () => {
-            audio.removeEventListener('canplay', handleCanPlay);
-            audio.removeEventListener('waiting', handleWaiting);
-            audio.removeEventListener('error', handleError);
+            audioElem.current?.removeEventListener('canplay', handleCanPlay);
+            audioElem.current?.removeEventListener('waiting', handleWaiting);
         };
     }, [isplaying, currentSong]);
-
-    // // Измените пропуск треков для iOS
-    // const changeTrack = async (newSong: Song) => {
-    //     setIsPlaying(false);
-    //     setIsLoadingMusic(true);
-
-    //     // Даем время на обновление DOM
-    //     await new Promise(resolve => setTimeout(resolve, 50));
-
-    //     setCurrentSong(newSong);
-
-    //     // iOS требует небольшой задержки перед воспроизведением
-    //     setTimeout(() => {
-    //         if (audioElem.current) {
-    //             audioElem.current.play()
-    //                 .then(() => setIsPlaying(true))
-    //                 .catch(e => {
-    //                     console.error("Play error:", e);
-    //                     setIsPlaying(false);
-    //                 })
-    //                 .finally(() => setIsLoadingMusic(false));
-    //         }
-    //     }, 100);
-    // };
 
 
     // функция по обновлению времени музыки
@@ -204,6 +175,7 @@ export default function PlayerApp({ data }: any) {
                 break;
         }
     };
+
 
     return (
         <div>
