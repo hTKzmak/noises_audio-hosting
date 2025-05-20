@@ -33,7 +33,7 @@ export const productsSlice = createSlice({
                 .sort((a, b) => b.id - a.id)
 
             state.popular_music = [...allMusic]
-                .sort((a, b) => (b.favorite_count || 0) - (a.favorite_count || 0))
+                .sort((a, b) => (b.listening || 0) - (a.listening || 0))
 
             state.latest_artists = [...state.data]
                 .filter(user => user.music_tracks?.length)
