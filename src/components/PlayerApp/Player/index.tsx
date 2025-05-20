@@ -23,7 +23,7 @@ interface PlayerProps {
     isplaying: boolean;
     setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>;
     currentSong: any;
-    setCurrentSong: React.Dispatch<React.SetStateAction<any>>; // Здесь можно уточнить тип
+    setCurrentSong: React.Dispatch<React.SetStateAction<any>>;
     mixMusic: boolean;
     setMixMusic: React.Dispatch<React.SetStateAction<boolean>>;
     skipBack: () => void;

@@ -48,46 +48,52 @@ export default function PlayerApp({ data }: any) {
         console.log(arrayCopy)
     }
 
-    // воспроизведение и остановка музыки с проверкой на готовкность к запуску музыки
+    // // воспроизведение и остановка музыки с проверкой на готовкность к запуску музыки
+    // useEffect(() => {
+    //     if (!audioElem.current) return;
+
+    //     const handleCanPlay = () => {
+    //         setIsLoadingMusic(false);
+    //         if (isplaying) {
+    //             audioElem.current?.play().catch(e => {
+    //                 console.error("Playback failed:", e);
+    //                 setIsPlaying(false);
+    //             });
+    //         }
+    //     };
+
+    //     const handleWaiting = () => {
+    //         setIsLoadingMusic(true);
+    //     };
+
+    //     audioElem.current.addEventListener('canplay', handleCanPlay);
+    //     audioElem.current.addEventListener('waiting', handleWaiting);
+
+    //     if (isplaying) {
+    //         if (audioElem.current.readyState > 2) {
+    //             audioElem.current.play().catch(e => {
+    //                 console.error("Playback failed:", e);
+    //                 setIsPlaying(false);
+    //             });
+    //         } else {
+    //             setIsLoadingMusic(true);
+    //         }
+    //     } else {
+    //         audioElem.current.pause();
+    //     }
+
+    //     return () => {
+    //         audioElem.current?.removeEventListener('canplay', handleCanPlay);
+    //         audioElem.current?.removeEventListener('waiting', handleWaiting);
+    //     };
+    // }, [isplaying, currentSong]);
+    // воспроизведение и остановка музыки
+
     useEffect(() => {
-        if (!audioElem.current) return;
-
-        const handleCanPlay = () => {
-            setIsLoadingMusic(false);
-            if (isplaying) {
-                audioElem.current?.play().catch(e => {
-                    console.error("Playback failed:", e);
-                    setIsPlaying(false);
-                });
-            }
-        };
-
-        const handleWaiting = () => {
-            setIsLoadingMusic(true);
-        };
-
-        audioElem.current.addEventListener('canplay', handleCanPlay);
-        audioElem.current.addEventListener('waiting', handleWaiting);
-
-        if (isplaying) {
-            if (audioElem.current.readyState > 2) {
-                audioElem.current.play().catch(e => {
-                    console.error("Playback failed:", e);
-                    setIsPlaying(false);
-                });
-            } else {
-                setIsLoadingMusic(true);
-            }
-        } else {
-            audioElem.current.pause();
+        if (audioElem.current) {
+            isplaying ? audioElem.current.play() : audioElem.current.pause();
         }
-
-        return () => {
-            audioElem.current?.removeEventListener('canplay', handleCanPlay);
-            audioElem.current?.removeEventListener('waiting', handleWaiting);
-        };
     }, [isplaying, currentSong]);
-
 
     // функция по обновлению времени музыки
     const onPlaying = () => {
