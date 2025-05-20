@@ -14,16 +14,22 @@
 .performersList {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    place-items: center;
-    column-gap: 25px;
-    row-gap: 25px;
-    
+    place-items: start;
+    max-width: 100%;
+    gap: 10px;
+
     @media screen and (max-width: 1024px) {
-        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 20px;
     }
-    
+
     @media screen and (max-width: 768px) {
-        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-        column-gap: 20px;
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 15px;
+    }
+
+    @media screen and (max-width: 480px) {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 12px;
     }
 }

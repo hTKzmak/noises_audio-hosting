@@ -1,37 +1,36 @@
 $image-background-color: #212121;
 
-.performerItem_container{
-    width: fit-content;
+@mixin performerItemStyles {
+    border-radius: 8px;
+    background-color: $image-background-color;
+    margin-bottom: 15px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    width: 100%;
+    aspect-ratio: 1/1;
+}
+
+.performerItem_container {
+    width: 100%;
+    aspect-ratio: 1/1;
 
     .performerItem {
         color: #ffffff80;
         text-align: left;
-        font-size: 18px;
-        width: fit-content;
-    
         cursor: pointer;
-    
+        width: 100%;
+        aspect-ratio: 1/1;
+
         .performerImage {
-            width: 15vw;
-            height: 15vw;
-    
-            max-width: 280px;
-            max-height: 280px;
-    
-            border-radius: 8px;
-            background-color: $image-background-color;
-            margin-bottom: 15px;
-    
-            background-repeat: no-repeat;
-            background-position: center;
-            background-size: cover;
-    
-            @media screen and (max-width: 1280px) {
-                width: 150px;
-                height: 150px;
-            }
+            @include performerItemStyles;
         }
-    
+
+        .performerImageLimited {
+            @include performerItemStyles;
+            min-width: 180px;
+        }
+
         @media screen and (max-width: 1280px) {
             font-size: 16px;
         }

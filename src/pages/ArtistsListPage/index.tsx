@@ -9,20 +9,20 @@ interface IContent {
 }
 
 export default function ArtistsListPage({ showContent }: IContent) {
-    const { 
-        latest_artists, 
-        popular_artists, 
-        data 
+    const {
+        latest_artists,
+        popular_artists,
+        data
     } = useSelector((state: RootState) => state.musicdata);
-    
+
     const { localStorageData } = useContext(Context);
 
-   // Получаем избранных артистов пользователя
-   const userFavArtists = data.find(user => user.id === Number(localStorageData.id))?.favorite_artists || [];
+    // Получаем избранных артистов пользователя
+    const userFavArtists = data.find(user => user.id === Number(localStorageData.id))?.favorite_artists || [];
 
     // какие данные мы должны отображать
     const getDataToShow = () => {
-        switch(showContent) {
+        switch (showContent) {
             case 'favorite': return userFavArtists;
             case 'popular': return popular_artists;
             case 'latest': return latest_artists;
@@ -38,8 +38,8 @@ export default function ArtistsListPage({ showContent }: IContent) {
             {hasData && (
                 <h3 className="headerText">
                     {showContent === "favorite" ? "Favorite artists" :
-                     showContent === "popular" ? "Popular artists" :
-                     showContent === "latest" ? "Latest artists" : ""}
+                        showContent === "popular" ? "Popular artists" :
+                            showContent === "latest" ? "Latest artists" : ""}
                 </h3>
             )}
             <div className="listContent">

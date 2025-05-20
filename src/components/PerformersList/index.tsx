@@ -12,7 +12,7 @@ export default function PerformerList({ sortedData, onList, scrollArtistsRef }: 
     return (
         <div className={onList ? style.scrolledPerformersList : style.performersList} ref={scrollArtistsRef}>
             {sortedData.map((elem: any) => (
-                <PerformerItem key={elem.id} id={elem.id} name={elem.name} image_url={elem.image_url}/>
+                <PerformerItem key={elem.id} id={elem.id} name={elem.name} image_url={elem.image_url} onList={onList}/>
             ))}
         </div>
     )

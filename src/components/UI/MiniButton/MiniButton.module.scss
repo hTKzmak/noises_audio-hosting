@@ -15,9 +15,9 @@
         padding: 5px;
         font-size: 30px;
         color: #adadad;
-    }
 
-    &.inHeader svg {
-        font-size: 20px; // теперь уменьшится, если добавлен inHeader
+        @media screen and (max-width: 1024px) {
+            font-size: 20px;
+        }
     }
 }
