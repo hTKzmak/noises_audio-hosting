@@ -90,6 +90,7 @@ export default function PlayerApp({ data }: any) {
     // воспроизведение и остановка музыки
 
     useEffect(() => {
+        setIsLoadingMusic(false);
         if (audioElem.current) {
             isplaying ? audioElem.current.play() : audioElem.current.pause();
         }
